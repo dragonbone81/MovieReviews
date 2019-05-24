@@ -1,0 +1,21 @@
+{
+  "name": "MovieReviews",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/dragonbone81/MovieReviews.git",
+  "author": "dragonbone81",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.6",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
