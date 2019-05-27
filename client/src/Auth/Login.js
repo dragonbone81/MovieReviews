@@ -2,9 +2,8 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
 
-class Register extends Component {
+class Login extends Component {
     state = {
-        email: "",
         username: "",
         password: "",
         error: {on: false, message: ""},
@@ -12,17 +11,19 @@ class Register extends Component {
     };
 
     componentDidMount() {
-        document.title = "Sign Up";
+        document.title = "Login";
     }
 
     submit = async (e) => {
         e.preventDefault();
         this.setState({error: {on: false, message: ""}, submitting: true});
-        const response = await this.props.store.userSignUp({
-            email: this.state.email,
+        const response = await this.props.store.userLogin({
             username: this.state.username,
             password: this.state.password
         });
+        if ('error' in response) {
+            this.setState({error: {on: true, message: response.error}});
+        }
         this.setState({
             email: "",
             username: "",
@@ -39,19 +40,13 @@ class Register extends Component {
     render() {
         return (
             <div className="card card-body register-box">
-                <h3 className="text-center mb-4">Sign Up</h3>
+                <h3 className="text-center mb-4">Login</h3>
                 {this.state.error.on && (
                     <div className="alert alert-danger">
                         {this.state.error.message}
                     </div>
                 )}
                 <form onSubmit={this.submit}>
-                    <div className="form-group">
-                        <input onChange={({target}) => this.setState({email: target.value})} required
-                               className="form-control input-lg" name="email" placeholder="Email"
-                               value={this.state.email}
-                               type="email"/>
-                    </div>
                     <div className="form-group">
                         <input onChange={({target}) => this.setState({username: target.value})} required
                                className="form-control input-lg" name="username" placeholder="Username"
@@ -68,7 +63,7 @@ class Register extends Component {
                         (<button disabled className="btn btn-lg btn-primary btn-block"
                                  type="submit">Loading...</button>)
                         :
-                        (<button className="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>)
+                        (<button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>)
                     }
 
                 </form>
@@ -77,4 +72,4 @@ class Register extends Component {
     }
 }
 
-export default withRouter(inject("store")(observer(Register)));
+export default withRouter(inject("store")(observer(Login)));
