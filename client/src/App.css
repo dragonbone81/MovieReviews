@@ -6,8 +6,9 @@
 }
 
 .movie-backdrop {
+    overflow: hidden;
     opacity: 0.9;
-    width: 1200px;
+    max-width: 1200px;
     height: 675px;
     background-position: 50% 50%;
     background-size: 1920px 1080px;
@@ -22,6 +23,7 @@
 }
 
 .movie-backdrop::before {
+    overflow-x: hidden;
     content: "";
     display: block;
     position: absolute;
@@ -43,6 +45,7 @@
 }
 .movie-poster{
     z-index: inherit;
+    color: darkgrey;
     /*width: 100%;*/
     /*width: 200px;*/
     /*width: 200px;*/
@@ -52,6 +55,9 @@
     /*background-repeat: no-repeat;*/
     /*border-radius: 5px;*/
     /*border: 1px solid whitesmoke;*/
+}
+.ratings{
+    font-size: 18px;
 }
 .movie-info{
     z-index: inherit;

@@ -3,7 +3,9 @@ import {decorate, configure, observable, action, computed, runInAction} from 'mo
 configure({enforceActions: "observed"});
 const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : 'http://localhost:3001';
 const THE_MOVIE_DB_API_KEY = "fcc3ab2f52e7f8a50a7091103280a7fe";
+const OM_DB_API_KEY = "54fbdc06";
 const THE_MOVIE_DB_URL = "//api.themoviedb.org/3";
+const OM_DB_URL = "//www.omdbapi.com";
 const THE_MOVIE_DB_IMAGE_URL = "//image.tmdb.org/t/p";
 
 class Store {
@@ -84,6 +86,29 @@ class Store {
             .then(response => response.json())
             .then(response => response)
             .catch(e => console.log(e));
+    };
+    getMovieInfoOMDB = (movie_id) => {
+        return fetch(`${OM_DB_URL}/?i=${movie_id}&apikey=${OM_DB_API_KEY}`, {
+            method: "GET",
+            headers: {
+                // "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => console.log(e));
+    };
+    getRatings = (data) => {
+        const ratings = {};
+        data.Ratings.forEach(rating => {
+            if (rating.Source === "Internet Movie Database") {
+                ratings.imdb = rating.Value;
+            }
+            if (rating.Source === "Rotten Tomatoes") {
+                ratings.rt = rating.Value;
+            }
+        });
+        return ratings;
     };
 }
 
