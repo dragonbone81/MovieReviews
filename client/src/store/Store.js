@@ -2,6 +2,9 @@ import {decorate, configure, observable, action, computed, runInAction} from 'mo
 
 configure({enforceActions: "observed"});
 const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : 'http://localhost:3001';
+const THE_MOVIE_DB_API_KEY = "fcc3ab2f52e7f8a50a7091103280a7fe";
+const THE_MOVIE_DB_URL = "//api.themoviedb.org/3";
+const THE_MOVIE_DB_IMAGE_URL = "//image.tmdb.org/t/p";
 
 class Store {
     constructor() {
@@ -62,6 +65,25 @@ class Store {
                 return response
             })
             .catch(e => console.log(e))
+    };
+    getDirectors = (credits) => {
+        if (!credits)
+            return [];
+        return credits.crew.filter(option => option.department === "Directing");
+    };
+    getImageURL = (image_path, size = "original") => {
+        return `${THE_MOVIE_DB_IMAGE_URL}/${size}/${image_path}`
+    };
+    getMovieInfo = (movie_id) => {
+        return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => console.log(e));
     };
 }
 
