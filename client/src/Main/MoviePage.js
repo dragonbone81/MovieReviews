@@ -7,7 +7,22 @@ class MoviePage extends Component {
         imageData: {}
     };
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.match.params.movie_id !== this.props.match.params.movie_id) {
+            console.log("updating");
+            const {movie_id} = this.props.match.params;
+            document.title = movie_id;
+            const data = await this.props.store.getMovieInfo(movie_id);
+            const OMDB_data = await this.props.store.getMovieInfoOMDB(data.imdb_id);
+            data.ratings = this.props.store.getRatings(OMDB_data);
+            this.setState({imageData: data});
+            document.title = data.title;
+            console.log(data);
+        }
+    }
+
     async componentDidMount() {
+        console.log("here");
         const {movie_id} = this.props.match.params;
         document.title = movie_id;
         const data = await this.props.store.getMovieInfo(movie_id);
