@@ -5,6 +5,51 @@
     border-radius: 10px;
 }
 
+.search {
+    border-radius: 1rem;
+}
+
+.pagination-nav-button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.pagination {
+    color: white;
+    min-width: 400px;
+    /*width: 400px;*/
+}
+
+.seperator-pagination {
+    padding: 0 5px 0 5px;
+}
+
+.pagination-page {
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+}
+
+.pagination-page:hover {
+    background-color: #42484e;
+}
+
+.dark-button:hover {
+    background-color: #42484e;
+}
+
+.nav-item {
+    z-index: 500;
+}
+
+.white {
+    z-index: 500;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.0);
+}
+
 .nav-bar-form {
     position: relative;
     z-index: 500;
@@ -31,6 +76,7 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    top: 0;
     /*left: 50%;*/
     /*object-fit: scale-down;*/
 }

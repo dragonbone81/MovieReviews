@@ -49,17 +49,20 @@ class MoviePage extends Component {
                                 <div className="d-flex flex-row mr-1">
                                     <img className="mr-1" height={25}
                                          src="//i.imgur.com/2Sle5QI.png"/>
-                                    <span>{this.state.imageData.ratings.imdb}</span>
+                                    <span>{this.state.imageData.ratings.imdb || "N/A"}</span>
                                 </div>
                                 <div className="d-flex flex-row">
-                                    {parseInt(this.state.imageData.ratings.rt.slice(0, -1)) < 60 ?
-                                        <img className="mr-1" height={25}
-                                             src="//i.imgur.com/6oR2eKa.png"/>
-                                        :
-                                        <img className="mr-1" height={25}
-                                             src="//i.imgur.com/FugNdUf.png"/>
+                                    {this.state.imageData.ratings.rt ?
+                                        parseInt(this.state.imageData.ratings.rt.slice(0, -1)) < 60 ?
+                                            <img className="mr-1" height={25}
+                                                 src="//i.imgur.com/6oR2eKa.png"/>
+                                            :
+                                            <img className="mr-1" height={25}
+                                                 src="//i.imgur.com/FugNdUf.png"/>
+                                        : <img className="mr-1" height={25}
+                                               src="//i.imgur.com/FugNdUf.png"/>
                                     }
-                                    <span>{this.state.imageData.ratings.rt}</span>
+                                    <span>{this.state.imageData.ratings.rt || "N/A"}</span>
                                 </div>
                             </div>
                         </div>

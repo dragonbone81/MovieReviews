@@ -6,6 +6,7 @@ import Login from './Auth/Login';
 import NavBar from './Nav/NavBar';
 import Home from './Main/Home';
 import MoviePage from './Main/MoviePage';
+import MovieSearchResultPage from './Main/MovieSearchResultPage';
 
 const RedirectHome = () => {
     return (
@@ -24,6 +25,7 @@ class App extends Component {
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/home" component={Home}/>
                     <Route exact path="/movie/:movie_id" component={MoviePage}/>
+                    <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
             </div>

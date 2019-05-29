@@ -6,7 +6,7 @@ import MovieSearch from './MovieSearch';
 class NavBar extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-md navbar-dark color-primary">
+            <nav className="navbar navbar-expand-md navbar-dark">
                 {/*<button className="navbar-toggler" type="button" data-toggle="collapse"*/}
                 {/*data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"*/}
                 {/*aria-label="Toggle navigation">*/}
@@ -28,12 +28,12 @@ class NavBar extends Component {
                 <ul className="navbar-nav ml-auto mr-1 mt-0">
                     {!this.props.store.userLoggedIn && (
                         <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
+                            <Link className="nav-link white" to="/login">Login</Link>
                         </li>
                     )}
                     {this.props.store.userLoggedIn && (
                         <li className="nav-item">
-                            <Link className="nav-link" to="/logout">Logout</Link>
+                            <Link className="nav-link white" to="/logout">Logout</Link>
                         </li>
                     )}
                     {/*<li className="nav-item">*/}
@@ -41,7 +41,7 @@ class NavBar extends Component {
                     {/*</li>*/}
                 </ul>
                 {this.props.store.userLoggedIn && (
-                    <span className="navbar-text">User: {this.props.store.user.username}</span>
+                    <span className="navbar-text white">User: {this.props.store.user.username}</span>
                 )}
                 <MovieSearch/>
                 {/*</div>*/}

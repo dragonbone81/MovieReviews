@@ -87,8 +87,8 @@ class Store {
             .then(response => response)
             .catch(e => console.log(e));
     };
-    searchForMovies = (search_q) => {
-        return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURI(search_q)}&page=1&include_adult=false`, {
+    searchForMovies = (search_q, page = 1) => {
+        return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURI(search_q)}&page=${page}&include_adult=false`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
