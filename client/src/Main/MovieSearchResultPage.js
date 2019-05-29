@@ -8,6 +8,7 @@ class MovieSearchResultPage extends Component {
         totalPages: 0,
         term: "",
         page: 1,
+        searchResults: [],
     };
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -17,7 +18,11 @@ class MovieSearchResultPage extends Component {
             if (term) {
                 const results = await this.props.store.searchForMovies(term, page);
                 console.log(results)
-                this.setState({totalResults: results.total_results, totalPages: results.total_pages});
+                this.setState({
+                    totalResults: results.total_results,
+                    totalPages: results.total_pages,
+                    searchResults: results.results
+                });
             }
         }
     }
@@ -28,7 +33,11 @@ class MovieSearchResultPage extends Component {
         if (term) {
             const results = await this.props.store.searchForMovies(term, page);
             console.log(results)
-            this.setState({totalResults: results.total_results, totalPages: results.total_pages});
+            this.setState({
+                totalResults: results.total_results,
+                totalPages: results.total_pages,
+                searchResults: results.results
+            });
         }
     }
 
@@ -40,6 +49,11 @@ class MovieSearchResultPage extends Component {
         }
         return (
             <div className="d-flex flex-column align-items-center">
+                <div className="movie-results d-flex flex-column">
+                    {this.state.searchResults.map(movie => {
+                        return <div>{movie.title}</div>
+                    })}
+                </div>
                 {this.state.totalPages && (
                     <div className="d-flex flex-row pagination justify-content-between">
                         <button className="btn btn-dark btn-sm dark-button pagination-nav-button">Previous</button>
@@ -53,7 +67,8 @@ class MovieSearchResultPage extends Component {
                             )}
                             {middle_pages.map((value, i) => {
                                 return (
-                                    <Link style={{textDecoration: 'none', color: 'white'}} className="pagination-page"
+                                    <Link key={i} style={{textDecoration: 'none', color: 'white'}}
+                                          className="pagination-page"
                                           to={`/search/${this.props.match.params.term}/${value}`}><span>{value}</span></Link>
                                 )
                             })}

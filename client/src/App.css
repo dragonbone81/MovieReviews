@@ -13,7 +13,9 @@
     margin-left: 10px;
     margin-right: 10px;
 }
-
+.movie-results{
+    color: white;
+}
 .pagination {
     color: white;
     min-width: 400px;
