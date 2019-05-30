@@ -21,6 +21,7 @@ router.post('/signUp', async (req, res) => {
     const token = auth.signJWT(user.username);
     await (await dbClient).insertOne({
         user,
+        movies: {}
     });
     res.json({success: true, user: {username: user.username, email: user.email, token}});
 });

@@ -202,8 +202,33 @@
     /*border: 1px solid whitesmoke;*/
 }
 
+.movie-actions-icons {
+    font-size: 40px;
+    color: #9badbb;
+}
+
 .ratings {
     font-size: 18px;
+    color: #9badbb;
+}
+
+.action-icon-text {
+    padding-top: 5px;
+    font-size: 15px;
+}
+
+.movie-actions {
+    border-radius: 10px;
+    background-color: #425467;
+    min-width: 200px;
+    max-width: 200px;
+    /*padding-left: 5px;*/
+    /*margin-left: 5px;*/
+    /*margin-right: 5px;*/
+    /*padding: 10px;*/
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
 }
 
 .movie-info {
@@ -213,7 +238,7 @@
 }
 
 .movie-director-year {
-    color: darkgrey;
+    color: #9badbb;
     font-size: 20px;
     margin-left: 20px;
     margin-top: 10px;
@@ -232,13 +257,14 @@
     font-family: 'Rubik', sans-serif;
 
     font-size: 20px;
-    color: darkgray;
+    color: #9badbb;
 }
-.move-description-detail{
+
+.move-description-detail {
     font-family: 'Rubik', sans-serif;
 
-    font-size: 17px;
-    color: darkgray;
+    font-size: 16px;
+    color: #9badbb;
 }
 
 .color-secondary {

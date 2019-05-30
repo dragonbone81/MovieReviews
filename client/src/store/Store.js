@@ -109,6 +109,32 @@ class Store {
             .then(response => response)
             .catch(e => console.log(e));
     };
+    getUsersMovieDetail = (movie_id) => {
+        return fetch(`${SERVER_URL}/movie`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "token": this.user.token,
+            },
+            body: JSON.stringify({movie_id: movie_id}),
+        })
+            .then(response => response.json())
+            .then(response => response.movie)
+            .catch(e => console.log(e))
+    };
+    updateMovieLike = (movie_id, like) => {
+        return fetch(`${SERVER_URL}/movie/like`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "token": this.user.token,
+            },
+            body: JSON.stringify({movie_id: movie_id, like}),
+        })
+            .then(response => response.json())
+            .then(response => response.movie)
+            .catch(e => console.log(e))
+    };
     getRatings = (data) => {
         const ratings = {};
         data.Ratings.forEach(rating => {
