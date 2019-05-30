@@ -44,6 +44,7 @@
 .pagination-page.selected {
     color: #9badbb;
 }
+
 .pagination-page.selected:hover {
     background-color: transparent;
 }
@@ -59,21 +60,26 @@
 .nav-item {
     z-index: 500;
 }
-.nav-bar-right{
+
+.nav-bar-right {
 
 }
+
 .white {
     z-index: 500;
     color: rgba(255, 255, 255, 1) !important;
 }
-.nav-bar-content{
+
+.nav-bar-content {
     z-index: 500;
     width: 100%;
     max-width: 800px;
 }
-.username{
+
+.username {
     margin-right: 10px;
 }
+
 .trans-nav {
     font-weight: bold;
     font-size: 25px;
@@ -82,7 +88,8 @@
     z-index: 500;
     background: #121619;
 }
-.trans{
+
+.trans {
     background: rgba(0, 0, 0, 0.0);
 }
 
@@ -138,6 +145,9 @@
 .movie-content {
     z-index: 20;
     padding-top: 400px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .movie-results-list-item {
@@ -197,12 +207,16 @@
 }
 
 .movie-info {
+    /*min-width: max-content;*/
+    margin-left: 20px;
     z-index: inherit;
 }
 
 .movie-director-year {
     color: darkgrey;
     font-size: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .movie-title {
@@ -213,6 +227,20 @@
     color: white;
 }
 
+.tag-line {
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+
+    font-size: 20px;
+    color: darkgray;
+}
+.move-description-detail{
+    font-family: 'Rubik', sans-serif;
+
+    font-size: 17px;
+    color: darkgray;
+}
+
 .color-secondary {
     background-color: #2C3441;
 }
@@ -220,9 +248,11 @@
 .color-primary {
     background-color: #14181d;
 }
-.movie-page{
+
+.movie-page {
     background-image: linear-gradient(#2a3640, #13181c 15%);
 }
+
 body {
     min-width: 450px;
     background-color: #14181d;
