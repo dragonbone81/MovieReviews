@@ -6,19 +6,29 @@
 }
 
 .search {
+    color: #9badbb;
+    border: 0;
     border-radius: 1rem;
+    background-color: #2a3640;
 }
 
 .pagination-nav-button {
     margin-left: 10px;
     margin-right: 10px;
 }
-.movie-results{
-    color: white;
+
+.movie-results {
+    color: #9badbb;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-top: 20px;
 }
+
 .pagination {
     color: white;
     min-width: 400px;
+    padding-bottom: 20px;
     /*width: 400px;*/
 }
 
@@ -29,6 +39,13 @@
 .pagination-page {
     padding: 5px 10px 5px 10px;
     border-radius: 10px;
+}
+
+.pagination-page.selected {
+    color: #9badbb;
+}
+.pagination-page.selected:hover {
+    background-color: transparent;
 }
 
 .pagination-page:hover {
@@ -42,13 +59,29 @@
 .nav-item {
     z-index: 500;
 }
+.nav-bar-right{
 
+}
 .white {
     z-index: 500;
     color: rgba(255, 255, 255, 1) !important;
 }
-
-.navbar {
+.nav-bar-content{
+    z-index: 500;
+    width: 100%;
+    max-width: 800px;
+}
+.username{
+    margin-right: 10px;
+}
+.trans-nav {
+    font-size: 25px;
+    padding: 15px;
+    color: whitesmoke;
+    z-index: 500;
+    background: #121619;
+}
+.trans{
     background: rgba(0, 0, 0, 0.0);
 }
 
@@ -106,6 +139,44 @@
     padding-top: 400px;
 }
 
+.movie-results-list-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2c3440;
+    width: 100%;
+    max-width: 800px;
+}
+
+.movie-poster-image-list {
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+}
+
+.movie-list-content {
+    margin-left: 20px;
+}
+
+.movie-list-description {
+    color: #9badbb;
+}
+
+.movie-title-list {
+    font-family: 'Bree Serif', serif;
+    font-size: 25px;
+    color: #ebedfa;
+    margin-right: 20px;
+}
+
+.movie-list-title-link:hover {
+    color: #3b99cf;
+}
+
+.movie-release-year-list {
+    font-family: 'Bree Serif', serif;
+    font-size: 25px;
+    color: #8495a6;
+}
+
 .movie-poster {
     z-index: inherit;
     color: darkgrey;
@@ -148,7 +219,11 @@
 .color-primary {
     background-color: #14181d;
 }
-
+.movie-page{
+    background-image: linear-gradient(#2a3640, #13181c 15%);
+}
 body {
+    min-width: 450px;
     background-color: #14181d;
+    /*background-image: linear-gradient(#2a3640, #13181c 15%);*/
 }

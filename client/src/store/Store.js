@@ -71,7 +71,7 @@ class Store {
     getDirectors = (credits) => {
         if (!credits)
             return [];
-        return credits.crew.filter(option => option.department === "Directing");
+        return credits.crew.filter(option => option.job === "Director");
     };
     getImageURL = (image_path, size = "original") => {
         return `${THE_MOVIE_DB_IMAGE_URL}/${size}/${image_path}`
@@ -88,7 +88,7 @@ class Store {
             .catch(e => console.log(e));
     };
     searchForMovies = (search_q, page = 1) => {
-        return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURI(search_q)}&page=${page}&include_adult=false`, {
+        return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

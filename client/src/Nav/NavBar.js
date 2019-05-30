@@ -1,53 +1,37 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {observer, inject} from 'mobx-react';
 import MovieSearch from './MovieSearch';
 
 class NavBar extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-md navbar-dark">
-                {/*<button className="navbar-toggler" type="button" data-toggle="collapse"*/}
-                {/*data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"*/}
-                {/*aria-label="Toggle navigation">*/}
-                {/*<span className="navbar-toggler-icon"></span>*/}
-                {/*</button>*/}
-                {/*<div className="collapse navbar-collapse" id="navbarTogglerDemo01">*/}
-                {/*<a className="navbar-brand" href="#">Hidden brand</a>*/}
-                <ul className="navbar-nav mr-auto mt-0">
-                    {/*<li className="nav-item active">*/}
-                    {/*<a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>*/}
-                    {/*</li>*/}
-                    {/*<li className="nav-item">*/}
-                    {/*<a className="nav-link" href="#">Link</a>*/}
-                    {/*</li>*/}
-                    {/*<li className="nav-item">*/}
-                    {/*<a className="nav-link disabled" href="#">Disabled</a>*/}
-                    {/*</li>*/}
-                </ul>
-                <ul className="navbar-nav ml-auto mr-1 mt-0">
-                    {!this.props.store.userLoggedIn && (
-                        <li className="nav-item">
-                            <Link className="nav-link white" to="/login">Login</Link>
-                        </li>
-                    )}
-                    {this.props.store.userLoggedIn && (
-                        <li className="nav-item">
-                            <Link className="nav-link white" to="/logout">Logout</Link>
-                        </li>
-                    )}
-                    {/*<li className="nav-item">*/}
-                    {/*<span className="navbar-text">User: {this.props.store.user.username}</span>*/}
-                    {/*</li>*/}
-                </ul>
-                {this.props.store.userLoggedIn && (
-                    <span className="navbar-text white">User: {this.props.store.user.username}</span>
-                )}
-                <MovieSearch/>
-                {/*</div>*/}
-            </nav>
+            <div
+                className={`trans-nav d-flex flex-row align-items-center`}>
+                <div className="ml-auto mr-auto d-flex flex-row align-items-center nav-bar-content justify-content-between">
+                    <span>C-Views</span>
+                    <div className="d-flex flex-row ml-auto align-items-center">
+                        {this.props.store.userLoggedIn && (
+                            <span className="username">{this.props.store.user.username}</span>
+                        )}
+
+                        {!this.props.store.userLoggedIn && (
+                            <Link className="" to="/login">Login</Link>
+                        )}
+                        {/*{this.props.store.userLoggedIn && (*/}
+                        {/*<Link className="" to="/logout">Logout</Link>*/}
+                        {/*)}*/}
+                        {/*<li className="nav-item">*/}
+                        {/*<span className="navbar-text">User: {this.props.store.user.username}</span>*/}
+                        {/*</li>*/}
+
+                        {/*</div>*/}
+                        <MovieSearch/>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
 
-export default inject("store")(observer(NavBar));
+export default withRouter(inject("store")(observer(NavBar)));

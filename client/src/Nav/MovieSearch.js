@@ -8,19 +8,20 @@ class MovieSearch extends Component {
     };
     search = (e) => {
         e.preventDefault();
-        this.setState({searchValue: ""});
+        this.props.history.push(`/search/${encodeURIComponent(this.state.searchValue)}`);
+        this.textInput.blur();
     };
 
     render() {
         return (
-            <div className="nav-bar-form">
-                <form className="form-inline ml-2" onSubmit={this.search}>
-                    <input value={this.state.searchValue}
-                           onChange={({target}) => this.setState({searchValue: target.value})}
-                           className="form-control form-control-sm search"
-                           type="text" placeholder="Search" aria-label="Search"/>
-                </form>
-            </div>
+            <form className="align-self-center" onSubmit={this.search}>
+                <input ref={el => {
+                    this.textInput = el;
+                }} value={this.state.searchValue}
+                       onChange={({target}) => this.setState({searchValue: target.value})}
+                       className="form-control form-control-sm search"
+                       type="text" placeholder="Search" aria-label="Search"/>
+            </form>
         )
     }
 }
