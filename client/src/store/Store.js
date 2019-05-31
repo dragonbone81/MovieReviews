@@ -110,7 +110,7 @@ class Store {
             .catch(e => console.log(e));
     };
     getUsersMovieDetail = (movie_id) => {
-        return fetch(`${SERVER_URL}/movie`, {
+        return fetch(`${SERVER_URL}/user/movie`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -122,14 +122,14 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieLike = (movie_id, like) => {
-        return fetch(`${SERVER_URL}/movie/like`, {
+    updateMovieBoolean = (movie_id, type, value) => {
+        return fetch(`${SERVER_URL}/user/movie/update_bool`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id: movie_id, like}),
+            body: JSON.stringify({movie_id: movie_id, type, value}),
         })
             .then(response => response.json())
             .then(response => response.movie)

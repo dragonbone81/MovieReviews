@@ -5,21 +5,25 @@ import {withRouter} from 'react-router-dom';
 class MoviePage extends Component {
     state = {
         movieData: {},
-        userData: {}
+        userData: {},
     };
 
     updateWithNewMovie = async () => {
         const {movie_id} = this.props.match.params;
         document.title = movie_id;
-        const data = await this.props.store.getMovieInfo(movie_id);
-        const OMDB_data = await this.props.store.getMovieInfoOMDB(data.imdb_id);
-        if (OMDB_data.Response === "False") {
-            data.ratings = [];
-        } else {
-            data.ratings = this.props.store.getRatings(OMDB_data);
-        }
-        this.setState({movieData: data});
-        document.title = data.title;
+        this.props.store.getMovieInfo(movie_id).then(async (data) => {
+            this.props.store.getUsersMovieDetail(movie_id).then(userData => {
+                this.setState({userData});
+            });
+            const OMDB_data = await this.props.store.getMovieInfoOMDB(data.imdb_id);
+            if (OMDB_data.Response === "False") {
+                data.ratings = [];
+            } else {
+                data.ratings = this.props.store.getRatings(OMDB_data);
+            }
+            this.setState({movieData: data});
+            document.title = data.title;
+        });
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,10 +34,15 @@ class MoviePage extends Component {
 
     async componentDidMount() {
         this.updateWithNewMovie();
-        // const movie = await this.props.store.getUsersMovieDetail("abc");
         // console.log(movie)
     }
 
+    updateMovieBoolean = (type) => {
+        this.props.store.updateMovieBoolean(this.state.movieData.id, type, !this.state.userData[type]);
+        const updatedState = {...this.state.userData};
+        updatedState[type] = !this.state.userData[type];
+        this.setState({userData: updatedState})
+    };
 
     render() {
         if (Object.entries(this.state.movieData).length > 0)
@@ -89,20 +98,25 @@ class MoviePage extends Component {
                                 <div className="movie-actions d-flex flex-column">
                                     <div className="d-flex flex-row movie-actions-icons justify-content-between">
                                         {/*<i className="fas fa-eye"/>*/}
-                                        <div className="d-flex flex-column align-items-center">
+                                        <div className="d-flex flex-column align-items-center"
+                                             onClick={() => this.updateMovieBoolean("viewed")}>
                                             <i className="far fa-eye"/>
-                                            <span className="action-icon-text">Watch</span>
+                                            <span
+                                                className="action-icon-text">{this.state.userData.viewed ? "Viewed" : "View"}</span>
                                         </div>
                                         <div className="d-flex flex-column align-items-center"
-                                             onClick={() => this.props.store.updateMovieLike(this.state.movieData.id, true)}>
+                                             onClick={() => this.updateMovieBoolean("liked")}>
                                             <i className="far fa-laugh-beam"/>
-                                            <span className="action-icon-text">Like</span>
+                                            <span
+                                                className="action-icon-text">{this.state.userData.liked ? "Liked" : "Like"}</span>
                                         </div>
                                         {/*<i className="fas fa-laugh-beam"/>*/}
                                         {/*<i className="fas fa-save"/>*/}
-                                        <div className="d-flex flex-column align-items-center">
+                                        <div className="d-flex flex-column align-items-center"
+                                             onClick={() => this.updateMovieBoolean("saved")}>
                                             <i className="far fa-save"/>
-                                            <span className="action-icon-text">Save</span>
+                                            <span
+                                                className="action-icon-text">{this.state.userData.saved ? "Saved" : "Save"}</span>
                                         </div>
                                     </div>
                                 </div>

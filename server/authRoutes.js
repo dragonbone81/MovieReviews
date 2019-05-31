@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwtCheck = require('./middleware/checkJWT');
-const dbClient = require('./db_connection');
 const auth = require('./auth');
+const User = require('./models');
 
 router.post('/signUp', async (req, res) => {
     const user = req.body.user;
@@ -10,20 +9,24 @@ router.post('/signUp', async (req, res) => {
         res.json({error: 'bad_request'});
         return;
     }
-    const duplicateUser = await (await dbClient).findOne(
-        {"user.username": user.username}
-    );
-    if (duplicateUser) {
-        res.json({error: 'duplicate_user'});
-        return;
-    }
     user.password = await auth.hashPassword(user.password);
     const token = auth.signJWT(user.username);
-    await (await dbClient).insertOne({
-        user,
-        movies: {}
+    const newUser = new User({
+        username: user.username,
+        email: user.email,
+        password: user.password,
     });
-    res.json({success: true, user: {username: user.username, email: user.email, token}});
+    try {
+        await newUser.save();
+        res.json({success: true, user: {username: user.username, email: user.email, token}});
+    } catch (e) {
+        if (e.code === 11000) {
+            res.json({error: 'duplicate_user'})
+        }
+        else {
+            res.json({error: 'unknown'})
+        }
+    }
 });
 
 router.post('/login', async (req, res) => {
@@ -32,21 +35,20 @@ router.post('/login', async (req, res) => {
         res.json({error: 'bad_request'});
         return;
     }
-    const foundUser = await (await dbClient).findOne(
-        {"user.username": user.username}
-    );
+    const foundUser = await User.findOne({username: user.username});
+    console.log(foundUser);
     if (!foundUser) {
         res.json({error: 'User not Found.'});
         return;
     }
-    if (await auth.comparePassword(user.password, foundUser.user.password)) {
+    if (await auth.comparePassword(user.password, foundUser.password)) {
         const token = auth.signJWT(user.username);
         res.json({
             success: true,
             user: {
                 token,
-                username: foundUser.user.username,
-                email: foundUser.user.email,
+                username: foundUser.username,
+                email: foundUser.email,
             }
         });
     } else {

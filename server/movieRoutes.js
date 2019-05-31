@@ -1,59 +1,78 @@
 const express = require('express');
 const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
-const dbClient = require('./db_connection');
-const auth = require('./auth');
+const User = require('./models');
 
-router.post('/movie', jwtCheck, async (req, res) => {
+router.post('/user/movie', jwtCheck, async (req, res) => {
     const {movie_id} = req.body;
-    const data = await check_if_movie_exists(movie_id, req.username);
-    if (movie_id in data.movies) {
-        res.json({movie: data.movies[movie_id]});
+    const movie = await User.findOne({username: req.username, "movies.movie_id": movie_id}, {'movies.$': 1});
+    if (movie) {
+        res.json({movie: movie.movies[0]});
     } else {
-        res.json({movie: {}})
+        res.json({movie: {}});
     }
 });
-router.post('/movie/like', jwtCheck, async (req, res) => {
-    const {movie_id, like} = req.body;
-    const data = await check_if_movie_exists(movie_id, req.username);
-    console.log(data);
-    if (movie_id in data.movies) {
-        const movies_proj = {};
-        movies_proj[`movies.${movie_id}`] = 1;
-        const returnd = await (await dbClient).updateOne(
-            {
-                $and:
-                    [
-                        {"user.username": req.username},
-                    ]
+router.post('/user/movie/update_bool', jwtCheck, async (req, res) => {
+    const {movie_id, type, value} = req.body;
+    const updateQuery = {movie_id};
+    updateQuery[type] = value;
+    // console.log(updateQuery);
+    const result = await User.updateOne({username: req.username, "movies.movie_id": {$ne: movie_id}}, {
+            $push: {'movies': updateQuery}
+        },
+    );
+    if (result.nModified === 0) { //means that one already exists
+        const updateQ = {};
+        updateQ[`movies.$.${type}`] = value;
+        console.log(updateQ)
+        const update = await User.updateOne({username: req.username, "movies.movie_id": movie_id}, {
+                $set: updateQ,
             },
-            {
-                $set: {
-                    [`movies.${movie_id}.like`]: like
-                }
-            }
         );
-        res.json({movie: {}});
-    } else {
-        const movies_proj = {};
-        movies_proj[`movies.${movie_id}`] = 1;
-        const returnd = await (await dbClient).updateOne(
-            {
-                $and:
-                    [
-                        {"user.username": req.username},
-                    ]
-            },
-            {
-                $set: {
-                    [`movies.${movie_id}.like`]: like,
-                    [`movies.${movie_id}.view`]: false,
-                    [`movies.${movie_id}.save`]: false,
-                }
-            }
-        );
-        res.json({movie: {}})
+        // console.log(update)
     }
+    // console.log(user);
+    // console.log(user, "here");
+    // const foundUser = await User.findOne({username: req.username});
+    // console.log(foundUser)
+    res.json({movie: {}})
+    // if (movie_id in data.movies) {
+    //     const movies_proj = {};
+    //     movies_proj[`movies.${movie_id}`] = 1;
+    //     const returnd = await (await dbClient).updateOne(
+    //         {
+    //             $and:
+    //                 [
+    //                     {"user.username": req.username},
+    //                 ]
+    //         },
+    //         {
+    //             $set: {
+    //                 [`movies.${movie_id}.like`]: like
+    //             }
+    //         }
+    //     );
+    //     res.json({movie: {}});
+    // } else {
+    //     const movies_proj = {};
+    //     movies_proj[`movies.${movie_id}`] = 1;
+    //     const returnd = await (await dbClient).updateOne(
+    //         {
+    //             $and:
+    //                 [
+    //                     {"user.username": req.username},
+    //                 ]
+    //         },
+    //         {
+    //             $set: {
+    //                 [`movies.${movie_id}.like`]: like,
+    //                 [`movies.${movie_id}.view`]: false,
+    //                 [`movies.${movie_id}.save`]: false,
+    //             }
+    //         }
+    //     );
+    //     res.json({movie: {}})
+    // }
 });
 const check_if_movie_exists = async (movie_id, username) => {
     const movies_proj = {};
