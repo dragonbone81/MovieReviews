@@ -26,7 +26,7 @@ class MoviePage extends Component {
         } else {
             movieData.ratings = this.props.store.getRatings(OMDB_data);
         }
-        this.setState({movieData, userMovieData}, () => {
+        this.setState({movieData: movieData || {}, userMovieData: userMovieData || {}}, () => {
             this.setState({loadingData: false});
         });
     };
