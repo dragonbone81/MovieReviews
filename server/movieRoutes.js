@@ -7,7 +7,7 @@ router.post('/user/movie', jwtCheck, async (req, res) => {
     const {movie_id} = req.body;
     const movie = await MovieInteraction.query().findById([req.username, movie_id]);
     console.log(movie);
-    res.json({movie});
+    res.json({movie: {...movie}});
 });
 router.post('/user/movie/update_bool', jwtCheck, async (req, res) => {
     const {movie_id, type, value} = req.body;

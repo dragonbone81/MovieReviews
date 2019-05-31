@@ -1,32 +1,37 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
+import Loader from '../Misc/Loader';
 
 class MoviePage extends Component {
     state = {
         movieData: {},
-        userData: {},
+        userMovieData: {},
+        loadingData: false,
     };
 
     updateWithNewMovie = async () => {
+        this.setState({loadingData: true});
         const {movie_id} = this.props.match.params;
         document.title = movie_id;
-        this.props.store.getMovieInfo(movie_id).then(async (data) => {
-            this.props.store.getUsersMovieDetail(movie_id).then(userData => {
-                this.setState({userData});
-            });
-            const OMDB_data = await this.props.store.getMovieInfoOMDB(data.imdb_id);
-            if (OMDB_data.Response === "False") {
-                data.ratings = [];
-            } else {
-                data.ratings = this.props.store.getRatings(OMDB_data);
-            }
-            this.setState({movieData: data});
-            document.title = data.title;
+        let movieData = this.props.store.getMovieInfo(movie_id);
+        let userMovieData = this.props.store.getUsersMovieDetail(movie_id);
+        const result = await Promise.all([movieData, userMovieData]);
+        movieData = result[0];
+        userMovieData = result[1];
+        document.title = movieData.title;
+        const OMDB_data = await this.props.store.getMovieInfoOMDB(movieData.imdb_id);
+        if (OMDB_data.Response === "False") {
+            movieData.ratings = [];
+        } else {
+            movieData.ratings = this.props.store.getRatings(OMDB_data);
+        }
+        this.setState({movieData, userMovieData}, () => {
+            this.setState({loadingData: false});
         });
     };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.match.params.movie_id !== this.props.match.params.movie_id) {
             this.updateWithNewMovie();
         }
@@ -34,17 +39,21 @@ class MoviePage extends Component {
 
     async componentDidMount() {
         this.updateWithNewMovie();
-        // console.log(movie)
     }
 
     updateMovieBoolean = (type) => {
-        this.props.store.updateMovieBoolean(this.state.movieData.id, type, !this.state.userData[type]);
-        const updatedState = {...this.state.userData};
-        updatedState[type] = !this.state.userData[type];
-        this.setState({userData: updatedState})
+        this.props.store.updateMovieBoolean(this.state.movieData.id, type, !this.state.userMovieData[type]);
+        const updatedState = {...this.state.userMovieData};
+        updatedState[type] = !this.state.userMovieData[type];
+        this.setState({userMovieData: updatedState})
     };
 
     render() {
+        if (this.state.loadingData) {
+            return (
+                <Loader/>
+            )
+        }
         if (Object.entries(this.state.movieData).length > 0)
             return (
                 <div>
@@ -97,26 +106,29 @@ class MoviePage extends Component {
                                 </div>
                                 <div className="movie-actions d-flex flex-column">
                                     <div className="d-flex flex-row movie-actions-icons justify-content-between">
-                                        {/*<i className="fas fa-eye"/>*/}
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("viewed")}>
-                                            <i className="far fa-eye"/>
+                                            {this.state.userMovieData.viewed ?
+                                                <i className="fas fa-eye"/> :
+                                                <i className="far fa-eye"/>}
                                             <span
-                                                className="action-icon-text">{this.state.userData.viewed ? "Viewed" : "View"}</span>
+                                                className="action-icon-text">{this.state.userMovieData.viewed ? "Viewed" : "View"}</span>
                                         </div>
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("liked")}>
-                                            <i className="far fa-laugh-beam"/>
+                                            {this.state.userMovieData.liked ?
+                                                <i className="fas fa-laugh-beam"/> :
+                                                <i className="far fa-laugh-beam"/>}
                                             <span
-                                                className="action-icon-text">{this.state.userData.liked ? "Liked" : "Like"}</span>
+                                                className="action-icon-text">{this.state.userMovieData.liked ? "Liked" : "Like"}</span>
                                         </div>
-                                        {/*<i className="fas fa-laugh-beam"/>*/}
-                                        {/*<i className="fas fa-save"/>*/}
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("saved")}>
-                                            <i className="far fa-save"/>
+                                            {this.state.userMovieData.saved ?
+                                                <i className="fas fa-save"/> :
+                                                <i className="far fa-save"/>}
                                             <span
-                                                className="action-icon-text">{this.state.userData.saved ? "Saved" : "Save"}</span>
+                                                className="action-icon-text">{this.state.userMovieData.saved ? "Saved" : "Save"}</span>
                                         </div>
                                     </div>
                                 </div>

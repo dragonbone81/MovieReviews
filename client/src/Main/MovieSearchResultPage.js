@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter, Link} from 'react-router-dom';
+import Loader from '../Misc/Loader';
 
 class MovieSearchResultPage extends Component {
     state = {
@@ -49,7 +50,7 @@ class MovieSearchResultPage extends Component {
 
     render() {
         if (this.state.searching) {
-            return (<div/>)
+            return (<Loader/>)
         }
         const middle_pages = [];
         for (let i = (Math.max(this.state.page - 3, 1)); i <= Math.min(this.state.page + 3, this.state.totalPages); i++) {
