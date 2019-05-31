@@ -19,7 +19,7 @@ class Store {
     };
     syncWithLocalStorage = () => {
         const user = localStorage.getItem("user");
-        if (user) {
+        if (user !== "undefined" && user) {
             this.user = JSON.parse(user);
         }
     };

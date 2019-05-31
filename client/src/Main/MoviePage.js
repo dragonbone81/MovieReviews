@@ -98,13 +98,13 @@ class MoviePage extends Component {
                                 <div className="movie-actions d-flex flex-column">
                                     <div className="d-flex flex-row movie-actions-icons justify-content-between">
                                         {/*<i className="fas fa-eye"/>*/}
-                                        <div className="d-flex flex-column align-items-center"
+                                        <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("viewed")}>
                                             <i className="far fa-eye"/>
                                             <span
                                                 className="action-icon-text">{this.state.userData.viewed ? "Viewed" : "View"}</span>
                                         </div>
-                                        <div className="d-flex flex-column align-items-center"
+                                        <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("liked")}>
                                             <i className="far fa-laugh-beam"/>
                                             <span
@@ -112,7 +112,7 @@ class MoviePage extends Component {
                                         </div>
                                         {/*<i className="fas fa-laugh-beam"/>*/}
                                         {/*<i className="fas fa-save"/>*/}
-                                        <div className="d-flex flex-column align-items-center"
+                                        <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("saved")}>
                                             <i className="far fa-save"/>
                                             <span

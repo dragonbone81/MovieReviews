@@ -201,7 +201,9 @@
     /*border-radius: 5px;*/
     /*border: 1px solid whitesmoke;*/
 }
-
+.movie-actions-icon{
+    width: 100%;
+}
 .movie-actions-icons {
     font-size: 40px;
     color: #9badbb;
@@ -226,8 +228,8 @@
     /*margin-left: 5px;*/
     /*margin-right: 5px;*/
     /*padding: 10px;*/
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 5px;
 }
 

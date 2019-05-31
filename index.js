@@ -8,7 +8,7 @@ const server = app.listen(port, () => console.log("Server Started!"));
 const client = require('./server/db_connection');
 const authRoutes = require('./server/authRoutes');
 const movieRoutes = require('./server/movieRoutes');
-const User = require('./server/models/User');
+// const {User, MovieInteraction} = require('./server/models');
 
 app.use(morgan('short'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,9 +19,15 @@ app.use(movieRoutes);
 
 
 app.get('/', async (req, res) => {
-    const user = await User.query()
-        .insert({username: "dragonbone81", password: "test", email: "test"});
+    // await User.query().insert({username: "dragonbone81", email: "test", password: "test"})
+    // const user = await User.query()
+    //     .eager('movies')
+    //     .where("username", "dragonbone81");
+    // const x = await user[0]
+    //     .$relatedQuery('movies')
+    //     .insert({movie_id: 125});
 
-    res.json(user);
-    // res.json({asd: "asd", db: "hi"});
+    // const user = await User.query().delete().where("username", "dragonbone81");
+    // res.json(user);
+    res.json({asd: "asd", db: "hi"});
 });
