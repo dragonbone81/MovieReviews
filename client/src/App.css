@@ -220,16 +220,25 @@
 .icon-blue {
     color: #3b99cf;
 }
+
 .icon-yellow {
     color: #dfd666;
 }
+
 .icon-green {
     color: #5eb354;
 }
 
 .movie-actions-icons {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
     font-size: 40px;
     color: #9badbb;
+}
+
+.empty-star {
+    color: #9badbb;
+    /*font-weight: lighter;*/
 }
 
 .ratings {
@@ -242,22 +251,43 @@
     font-size: 15px;
 }
 
-.test {
+.action-rating {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 35px;
+    color: #b8f5b5;
+
+    border-bottom: 1px solid black;
+    /*width: available;*/
+}
+
+.rating-text {
+    font-size: 14px;
+    color: #9badbb;
+}
+
+.movie-page-full {
     min-width: 700px;
 }
+
+/*.fa-star {*/
+/*padding-left: 5px;*/
+/*padding-right: 5px;*/
+/*}*/
 
 .movie-actions {
     border-radius: 10px;
     background-color: #425467;
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 250px;
+    max-width: 250px;
     max-height: 300px;
+    min-height: 300px;
     /*padding-left: 5px;*/
     margin-left: 5px;
     /*margin-right: 5px;*/
     /*padding: 10px;*/
-    padding-left: 10px;
-    padding-right: 10px;
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
     padding-top: 5px;
 }
 

@@ -122,8 +122,8 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieBoolean = (movie_id, type, value) => {
-        return fetch(`${SERVER_URL}/user/movie/update_bool`, {
+    updateMovieUserData = (movie_id, type, value) => {
+        return fetch(`${SERVER_URL}/user/movie/update`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

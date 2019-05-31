@@ -9,7 +9,7 @@ router.post('/user/movie', jwtCheck, async (req, res) => {
     console.log(movie);
     res.json({movie: {...movie}});
 });
-router.post('/user/movie/update_bool', jwtCheck, async (req, res) => {
+router.post('/user/movie/update', jwtCheck, async (req, res) => {
     const {movie_id, type, value} = req.body;
     const query = {username: req.username, movie_id};
     query[type] = value;
