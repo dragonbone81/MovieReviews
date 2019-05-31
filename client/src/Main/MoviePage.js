@@ -56,7 +56,7 @@ class MoviePage extends Component {
         }
         if (Object.entries(this.state.movieData).length > 0)
             return (
-                <div>
+                <div className="test">
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.movieData.backdrop_path)})`}}
                         className="movie-backdrop"/>
@@ -109,7 +109,7 @@ class MoviePage extends Component {
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("viewed")}>
                                             {this.state.userMovieData.viewed ?
-                                                <i className="fas fa-eye"/> :
+                                                <i className="fas fa-eye icon-blue"/> :
                                                 <i className="far fa-eye"/>}
                                             <span
                                                 className="action-icon-text">{this.state.userMovieData.viewed ? "Viewed" : "View"}</span>
@@ -117,7 +117,7 @@ class MoviePage extends Component {
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("liked")}>
                                             {this.state.userMovieData.liked ?
-                                                <i className="fas fa-laugh-beam"/> :
+                                                <i className="fas fa-laugh-beam icon-yellow"/> :
                                                 <i className="far fa-laugh-beam"/>}
                                             <span
                                                 className="action-icon-text">{this.state.userMovieData.liked ? "Liked" : "Like"}</span>
@@ -125,7 +125,7 @@ class MoviePage extends Component {
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieBoolean("saved")}>
                                             {this.state.userMovieData.saved ?
-                                                <i className="fas fa-save"/> :
+                                                <i className="fas fa-save icon-green"/> :
                                                 <i className="far fa-save"/>}
                                             <span
                                                 className="action-icon-text">{this.state.userMovieData.saved ? "Saved" : "Save"}</span>

@@ -201,14 +201,32 @@
     /*border-radius: 5px;*/
     /*border: 1px solid whitesmoke;*/
 }
-.loading-spinner{
+
+.loading-spinner {
     font-size: 100px;
     color: whitesmoke;
     margin-top: 40%;
 }
-.movie-actions-icon{
+
+.movie-actions-icon {
     width: 100%;
 }
+
+.movie-actions-icon:hover {
+    color: #bfd2e2;
+    cursor: pointer;
+}
+
+.icon-blue {
+    color: #3b99cf;
+}
+.icon-yellow {
+    color: #dfd666;
+}
+.icon-green {
+    color: #5eb354;
+}
+
 .movie-actions-icons {
     font-size: 40px;
     color: #9badbb;
@@ -224,6 +242,10 @@
     font-size: 15px;
 }
 
+.test {
+    min-width: 700px;
+}
+
 .movie-actions {
     border-radius: 10px;
     background-color: #425467;
@@ -231,7 +253,7 @@
     max-width: 200px;
     max-height: 300px;
     /*padding-left: 5px;*/
-    /*margin-left: 5px;*/
+    margin-left: 5px;
     /*margin-right: 5px;*/
     /*padding: 10px;*/
     padding-left: 10px;
