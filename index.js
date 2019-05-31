@@ -8,6 +8,7 @@ const server = app.listen(port, () => console.log("Server Started!"));
 const client = require('./server/db_connection');
 const authRoutes = require('./server/authRoutes');
 const movieRoutes = require('./server/movieRoutes');
+const User = require('./server/models/User');
 
 app.use(morgan('short'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -18,5 +19,9 @@ app.use(movieRoutes);
 
 
 app.get('/', async (req, res) => {
-    res.json({asd: "asd", db: "hi"});
+    const user = await User.query()
+        .insert({username: "dragonbone81", password: "test", email: "test"});
+
+    res.json(user);
+    // res.json({asd: "asd", db: "hi"});
 });
