@@ -1,3 +1,9 @@
+.user-page {
+    background-image: linear-gradient(#2a3640, #13181c 80%);
+    min-height: calc(100vh - 100px);
+    padding: 20px;
+}
+
 .register-box {
     max-width: 450px;
     margin: auto;
@@ -364,12 +370,14 @@ body {
     background-color: #14181d;
     /*background-image: linear-gradient(#2a3640, #13181c 15%);*/
 }
-.submit-review{
+
+.submit-review {
     margin-top: 20px;
 }
+
 /*.movie-title-d-y{*/
-    /*min-width: 500px;*/
-    /*max-width: 300px;*/
+/*min-width: 500px;*/
+/*max-width: 300px;*/
 /*}*/
 .modal-made-trans {
     position: absolute;
@@ -450,7 +458,7 @@ body {
 }
 
 .backdrop {
-    position:fixed;
+    position: fixed;
     top: 0;
     /*left: 0;*/
     bottom: 0;
@@ -462,6 +470,7 @@ body {
     opacity: 0.8;
     z-index: 600;
 }
+
 @-webkit-keyframes scale-up-center {
     0% {
         -webkit-transform: scale(.5);

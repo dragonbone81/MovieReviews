@@ -115,12 +115,18 @@ class MoviePage extends Component {
                                 <div className="movie-actions d-flex flex-column">
                                     <div className="d-flex flex-row movie-actions-icons justify-content-between">
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
-                                             onClick={() => this.updateMovieUserData("viewed", !this.state.userMovieData["viewed"])}>
-                                            {this.state.userMovieData.viewed ?
+                                             onClick={() => {
+                                                 if (this.state.userMovieData.review || this.state.userMovieData.date_watched) {
+                                                     this.setState({reviewModalOpen: true})
+                                                 } else {
+                                                     this.updateMovieUserData("viewed", !this.state.userMovieData["viewed"])
+                                                 }
+                                             }}>
+                                            {this.props.store.viewedOrReviewed(this.state.userMovieData) ?
                                                 <i className="fas fa-eye icon-blue"/> :
                                                 <i className="far fa-eye"/>}
                                             <span
-                                                className="action-icon-text">{this.state.userMovieData.viewed ? "Viewed" : "View"}</span>
+                                                className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userMovieData) ? this.state.userMovieData.review ? "Reviewed" : "Viewed" : "View"}</span>
                                         </div>
                                         <div className="d-flex flex-column align-items-center movie-actions-icon"
                                              onClick={() => this.updateMovieUserData("liked", !this.state.userMovieData["liked"])}>

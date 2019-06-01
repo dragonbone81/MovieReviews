@@ -76,6 +76,9 @@ class Store {
     getImageURL = (image_path, size = "original") => {
         return `${THE_MOVIE_DB_IMAGE_URL}/${size}/${image_path}`
     };
+    viewedOrReviewed = (userMovieData) => {
+        return userMovieData.viewed || userMovieData.review || userMovieData.date_watched;
+    };
     getMovieInfo = (movie_id) => {
         return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits`, {
             method: "GET",

@@ -12,7 +12,7 @@ class ReviewModal extends Component {
 
     componentDidMount() {
         this.setState({
-            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || new Date() : new Date(),
+            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || null : null,
             review: this.props.userMovieData.review || ""
         });
         document.addEventListener('mousedown', this.click, false);
@@ -37,6 +37,11 @@ class ReviewModal extends Component {
     save = () => {
         this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review);
         this.props.updateReviewDate(this.state.review, this.state.date);
+        this.props.close();
+    };
+    delete_review = () => {
+        this.props.store.updateMovieUserDataReview(this.props.movie.id, null, null);
+        this.props.updateReviewDate(null, null);
         this.props.close();
     };
 
@@ -84,8 +89,12 @@ class ReviewModal extends Component {
                                         className="btn btn-success submit-review">Save
                                 </button>
                                 <button onClick={this.cancel} type="button"
-                                        className="mr-2 btn btn-danger submit-review">Cancel
+                                        className="mr-2 btn btn-warning submit-review">Cancel
                                 </button>
+                                {(this.props.userMovieData.review || this.props.userMovieData.date_watched) &&
+                                <button onClick={this.delete_review} type="button"
+                                        className="mr-auto btn btn-danger submit-review">Delete Review
+                                </button>}
                             </div>
                         </div>
                     )}
