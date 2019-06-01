@@ -360,17 +360,21 @@ body {
     background-color: #14181d;
     /*background-image: linear-gradient(#2a3640, #13181c 15%);*/
 }
-
+.submit-review{
+    margin-top: 20px;
+}
 .modal-made-trans {
     position: absolute;
     left: 0;
     right: 0;
     margin: auto;
-    width: 500px;
-    background: white;
-    /*border: 1px solid #ccc;*/
-    /*box-shadow: -2rem 2rem 2rem rgba(0, 0, 0, 0.2);*/
-    height: 500px;
+    width: 700px;
+    /*background: linear-gradient(90deg, red, blue);*/
+    background: linear-gradient(180deg, #7c8d9e, #3b4854);;
+    /*background-color: #688396;*/
+    border-radius: 5px;
+    padding: 30px 30px 20px 30px;
+    /*height: 400px;*/
     z-index: 700;
 }
 
@@ -379,17 +383,130 @@ body {
     visibility: hidden;
 }
 
-.backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
+.mm-ty {
+    font-family: 'Rubik', sans-serif;
+}
+
+.movie-modal-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+.modal-date-on {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #2c3338;
+    font-weight: bold;
+}
+
+.date-choosing {
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
     width: 100%;
+    border: none;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.movie-modal-year {
+    font-size: 20px;
+    padding-top: 4px;
+    padding-left: 10px;
+    color: #2c3338;
+    /*line-height: 30px;*/
+}
+
+.modal-you-watched {
+    margin-top: -5px;
+    font-size: 16px;
+    color: #1c2229
+}
+
+.review-details {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.review-text {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-top: 20px;
+    resize: none;
+    /*width: 100%;*/
     height: 100%;
+    font-size: 17px;
+}
+
+.backdrop {
+    position:fixed;
+    top: 0;
+    /*left: 0;*/
+    bottom: 0;
+    min-height: 100%;
+    width: 100%;
+    /*width: 100%;*/
+    /*height: 100vh;*/
     background: #000;
     opacity: 0.8;
     z-index: 600;
 }
-@-webkit-keyframes scale-up-center{0%{-webkit-transform:scale(.5);transform:scale(.5)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes scale-up-center{0%{-webkit-transform:scale(.5);transform:scale(.5)}100%{-webkit-transform:scale(1);transform:scale(1)}}
-.scale-up-center{-webkit-animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both;animation:scale-up-center .4s cubic-bezier(.39,.575,.565,1.000) both}
-@-webkit-keyframes slide-in-fwd-top{0%{-webkit-transform:translateZ(-1400px) translateY(-800px);transform:translateZ(-1400px) translateY(-800px);opacity:0}100%{-webkit-transform:translateZ(0) translateY(0);transform:translateZ(0) translateY(0);opacity:1}}@keyframes slide-in-fwd-top{0%{-webkit-transform:translateZ(-1400px) translateY(-800px);transform:translateZ(-1400px) translateY(-800px);opacity:0}100%{-webkit-transform:translateZ(0) translateY(0);transform:translateZ(0) translateY(0);opacity:1}}
-.slide-in-fwd-top{-webkit-animation:slide-in-fwd-top .4s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-fwd-top .4s cubic-bezier(.25,.46,.45,.94) both}
+@-webkit-keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.scale-up-center {
+    -webkit-animation: scale-up-center .4s cubic-bezier(.39, .575, .565, 1.000) both;
+    animation: scale-up-center .4s cubic-bezier(.39, .575, .565, 1.000) both
+}
+
+@-webkit-keyframes slide-in-fwd-top {
+    0% {
+        -webkit-transform: translateZ(-1400px) translateY(-800px);
+        transform: translateZ(-1400px) translateY(-800px);
+        opacity: 0
+    }
+    100% {
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        opacity: 1
+    }
+}
+
+@keyframes slide-in-fwd-top {
+    0% {
+        -webkit-transform: translateZ(-1400px) translateY(-800px);
+        transform: translateZ(-1400px) translateY(-800px);
+        opacity: 0
+    }
+    100% {
+        -webkit-transform: translateZ(0) translateY(0);
+        transform: translateZ(0) translateY(0);
+        opacity: 1
+    }
+}
+
+.slide-in-fwd-top {
+    -webkit-animation: slide-in-fwd-top .4s cubic-bezier(.25, .46, .45, .94) both;
+    animation: slide-in-fwd-top .4s cubic-bezier(.25, .46, .45, .94) both
+}

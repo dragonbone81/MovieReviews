@@ -10,7 +10,7 @@ class MoviePage extends Component {
         movieData: {},
         userMovieData: {},
         loadingData: false,
-        reviewModalOpen: false,
+        reviewModalOpen: true,
     };
 
     updateWithNewMovie = async () => {
@@ -60,7 +60,7 @@ class MoviePage extends Component {
         if (Object.entries(this.state.movieData).length > 0)
             return (
                 <div className="movie-page-full">
-                    <ReviewModal open={this.state.reviewModalOpen} close={()=>this.setState({reviewModalOpen:false})}/>
+                    <ReviewModal movie={this.state.movieData} open={this.state.reviewModalOpen} close={()=>this.setState({reviewModalOpen:false})}/>
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.movieData.backdrop_path)})`}}
                         className="movie-backdrop"/>
