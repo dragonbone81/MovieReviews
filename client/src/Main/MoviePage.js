@@ -10,7 +10,7 @@ class MoviePage extends Component {
         movieData: {},
         userMovieData: {},
         loadingData: false,
-        reviewModalOpen: true,
+        reviewModalOpen: false,
     };
 
     updateWithNewMovie = async () => {
@@ -50,6 +50,9 @@ class MoviePage extends Component {
         updatedState[type] = val;
         this.setState({userMovieData: updatedState})
     };
+    updateReviewDate = (review, date_watched) => {
+        this.setState({userMovieData: {...this.state.userMovieData, review, date_watched}})
+    };
 
     render() {
         if (this.state.loadingData) {
@@ -60,7 +63,10 @@ class MoviePage extends Component {
         if (Object.entries(this.state.movieData).length > 0)
             return (
                 <div className="movie-page-full">
-                    <ReviewModal movie={this.state.movieData} open={this.state.reviewModalOpen} close={()=>this.setState({reviewModalOpen:false})}/>
+                    <ReviewModal updateReviewDate={this.updateReviewDate} userMovieData={this.state.userMovieData}
+                                 movie={this.state.movieData}
+                                 open={this.state.reviewModalOpen}
+                                 close={() => this.setState({reviewModalOpen: false})}/>
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.movieData.backdrop_path)})`}}
                         className="movie-backdrop"/>
@@ -91,7 +97,7 @@ class MoviePage extends Component {
                             </div>
                         </div>
                         <div className="movie-info d-flex flex-column">
-                            <div className="d-flex flex-row align-items-center">
+                            <div className="d-flex flex-row align-items-center movie-title-d-y">
                                 <div className="movie-title">{this.state.movieData.title}</div>
                                 <div className="movie-director-year">
                                     Directed
@@ -149,7 +155,7 @@ class MoviePage extends Component {
                                     </div>
                                     <div className="d-flex flex-column align-items-center review"
                                          onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
-                                        <span>Review...</span>
+                                        <span>{(this.state.userMovieData.date_watched || this.state.userMovieData.review) ? "Edit Review..." : "Review..."}</span>
                                     </div>
                                     {/*<Rating />*/}
                                 </div>

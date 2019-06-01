@@ -7,9 +7,14 @@ import "react-datepicker/dist/react-datepicker.min.css"
 class ReviewModal extends Component {
     state = {
         date: new Date(),
+        review: "",
     };
 
     componentDidMount() {
+        this.setState({
+            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || new Date() : new Date(),
+            review: this.props.userMovieData.review || ""
+        });
         document.addEventListener('mousedown', this.click, false);
     }
 
@@ -21,6 +26,18 @@ class ReviewModal extends Component {
         if (!this.modal.contains(e.target)) {
             this.props.close();
         }
+    };
+    cancel = () => {
+        this.setState({
+            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || new Date() : new Date(),
+            review: this.props.userMovieData.review || ""
+        });
+        this.props.close();
+    };
+    save = () => {
+        this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review);
+        this.props.updateReviewDate(this.state.review, this.state.date);
+        this.props.close();
     };
 
     render() {
@@ -57,11 +74,18 @@ class ReviewModal extends Component {
                                             maxDate={new Date()}
                                         />
                                     </div>
-                                    <textarea className="review-text" rows="3" placeholder="Your review..."/>
+                                    <textarea value={this.state.review}
+                                              onChange={({target}) => this.setState({review: target.value})}
+                                              className="review-text" rows="3" placeholder="Your review..."/>
                                 </div>
                             </div>
                             <div className="d-flex flex-row-reverse">
-                                <button type="button" className="btn btn-success submit-review">Save</button>
+                                <button onClick={this.save} type="button"
+                                        className="btn btn-success submit-review">Save
+                                </button>
+                                <button onClick={this.cancel} type="button"
+                                        className="mr-2 btn btn-danger submit-review">Cancel
+                                </button>
                             </div>
                         </div>
                     )}

@@ -129,7 +129,20 @@ class Store {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id: movie_id, type, value}),
+            body: JSON.stringify({movie_id, type, value}),
+        })
+            .then(response => response.json())
+            .then(response => response.movie)
+            .catch(e => console.log(e))
+    };
+    updateMovieUserDataReview = (movie_id, date_watched, review) => {
+        return fetch(`${SERVER_URL}/user/movie/update/date_content`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "token": this.user.token,
+            },
+            body: JSON.stringify({movie_id, date_watched, review}),
         })
             .then(response => response.json())
             .then(response => response.movie)
