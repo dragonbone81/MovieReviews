@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
 import Loader from '../Misc/Loader';
+import ReviewModal from './ReviewModal';
 import Rating from 'react-rating'
 
 class MoviePage extends Component {
@@ -9,6 +10,7 @@ class MoviePage extends Component {
         movieData: {},
         userMovieData: {},
         loadingData: false,
+        reviewModalOpen: false,
     };
 
     updateWithNewMovie = async () => {
@@ -58,6 +60,7 @@ class MoviePage extends Component {
         if (Object.entries(this.state.movieData).length > 0)
             return (
                 <div className="movie-page-full">
+                    <ReviewModal open={this.state.reviewModalOpen} close={()=>this.setState({reviewModalOpen:false})}/>
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.movieData.backdrop_path)})`}}
                         className="movie-backdrop"/>
@@ -130,7 +133,8 @@ class MoviePage extends Component {
                                                 className="action-icon-text">{this.state.userMovieData.saved ? "Saved" : "Save"}</span>
                                         </div>
                                     </div>
-                                    <div className="d-flex flex-column align-items-center action-rating">
+                                    <div
+                                        className="d-flex flex-column align-items-center justify-content-center action-rating">
                                         <span className="rating-text">Your Rating</span>
                                         <Rating
                                             className=""
@@ -142,6 +146,10 @@ class MoviePage extends Component {
                                             initialRating={this.state.userMovieData.rating}
                                             onChange={(val) => this.updateMovieUserData("rating", val)}
                                         />
+                                    </div>
+                                    <div className="d-flex flex-column align-items-center review"
+                                         onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
+                                        <span>Review...</span>
                                     </div>
                                     {/*<Rating />*/}
                                 </div>
