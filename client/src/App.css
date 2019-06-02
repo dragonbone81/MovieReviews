@@ -50,9 +50,6 @@
 }
 
 .movie-ratings-watched {
-    /*position: absolute;*/
-    /*bottom: 10px;*/
-    /*left: 28%;*/
     padding-bottom: 5px;
     color: #b8f5b5;
 }
@@ -68,6 +65,62 @@
     padding-bottom: 20px;
     margin: auto;
 
+}
+
+.img-history {
+    cursor: pointer;
+    width: 80px;
+    margin: 5px;
+    border: 2px solid #bdbdbd;
+    border-radius: 5px;
+}
+
+.cal-month {
+    font-size: 26px;
+}
+
+.cal-day {
+    margin-left: auto;
+    font-size: 26px;
+}
+
+.cal-month-day {
+    font-weight: bold;
+    color: #24313d;
+    top: 60px;
+    padding-right: 10px;
+    left: 5px;
+    width: 100px;
+    position: absolute;
+}
+
+.history-col {
+    /*min-width: 670px;*/
+    /*max-width: 1050px;*/
+    width: 100%;
+}
+
+.history-row {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    width: 100%;
+}
+
+.cal-year {
+    top: 100px;
+    left: 25px;
+    position: absolute;
+    color: #2d3a47;
+    font-size: 26px;
+}
+
+.calendar {
+    font-family: 'Rubik', sans-serif;
+    line-height: 0;
+    position: relative;
+    font-size: 120px;
+    color: #778898;
+    margin-left: 20px;
 }
 
 .img-watched {

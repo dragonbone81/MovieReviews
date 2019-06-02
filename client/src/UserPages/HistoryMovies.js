@@ -19,7 +19,7 @@ class HistoryMovies extends Component {
     updatePage = async () => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
-        const movie_data = await this.props.store.getViewedMoviesForUser(username, this.state.page - 1);
+        const movie_data = await this.props.store.getHistoryMoviesForUser(username, this.state.page - 1);
         const movies = await this.props.store.getMultipleMovies(movie_data.results);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false});
     };
@@ -27,6 +27,15 @@ class HistoryMovies extends Component {
         this.setState({page: page}, () => {
             this.updatePage()
         });
+    };
+    getMonth = (date) => {
+        return new Date(date).toLocaleString("default", {month: 'short'});
+    };
+    getDay = (date) => {
+        return new Date(date).toLocaleString("default", {day: '2-digit'});
+    };
+    getYear = (date) => {
+        return new Date(date).toLocaleString("default", {year: 'numeric'});
     };
 
     render() {
@@ -36,27 +45,27 @@ class HistoryMovies extends Component {
             )
         }
         return (
-            <div className="d-flex flex-column align-items-center">
-                <div className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch">
+            <div className="d-flex flex-column justify-content-center align-items-center">
+                <div className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map(movie => {
                         return (
-                            <div key={movie.movie_id}
-                                 onClick={() => this.props.history.push(`/movie/${movie.movie_id}`)}
-                                 className="watched-movie d-flex flex-column justify-content-center align-items-center">
-                                <img
-                                    src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                    className="img-watched" alt="Movie poster"/>
-                                <div className="movie-ratings-watched">
-                                    <Rating
-                                        className=""
-                                        emptySymbol="far fa-star empty-star"
-                                        fullSymbol="fas fa-star"
-                                        stop={10}
-                                        step={2}
-                                        fractions={4}
-                                        initialRating={movie.rating}
-                                        readonly={true}
-                                    />
+                            <div className="d-flex flex-row align-content-stretch justify-content-center align-items-center border-bottom history-row">
+                                <div key={movie.movie_id}
+                                     onClick={() => this.props.history.push(`/movie/${movie.movie_id}`)}
+                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
+                                    <img
+                                        src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
+                                        className="img-history" alt="Movie poster"/>
+                                </div>
+                                <div className="calendar flex-fill">
+                                    <i className="fas fa-calendar"/>
+                                    <div className="cal-month-day">
+                                        <div className="cal-month-day-inner d-flex flex-row">
+                                            <span className="cal-month">{this.getMonth(movie.date_watched)}</span>
+                                            <span className="cal-day">{this.getDay(movie.date_watched)}</span>
+                                        </div>
+                                    </div>
+                                    <span className="cal-year">{this.getYear(movie.date_watched)}</span>
                                 </div>
                             </div>
                         )

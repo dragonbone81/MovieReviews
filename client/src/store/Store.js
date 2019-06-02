@@ -106,7 +106,7 @@ class Store {
     // };
     getMultipleMovies = (movies) => {
         return Promise.all(movies.map(movie => this.getMovieInfo(movie.movie_id, false).then(api_movie => {
-            return {poster_path: api_movie.poster_path, rating: movie.rating, movie_id: movie.movie_id}
+            return {poster_path: api_movie.poster_path, ...movie}
         })));
     };
     searchForMovies = (search_q, page = 1) => {
@@ -172,6 +172,18 @@ class Store {
     };
     getViewedMoviesForUser = (username, page = 0) => {
         return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({movie_id, date_watched, review}),
+        })
+            .then(response => response.json())
+            .then(response => response.movies)
+            .catch(e => console.log(e))
+    };
+    getHistoryMoviesForUser = (username, page = 0) => {
+        return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

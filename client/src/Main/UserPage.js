@@ -6,7 +6,7 @@ import HistoryMovies from '../UserPages/HistoryMovies'
 
 class UserPage extends Component {
     state = {
-        page: "watched"
+        page: "history"
     };
 
     async componentDidMount() {
