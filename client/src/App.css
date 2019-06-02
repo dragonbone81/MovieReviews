@@ -14,6 +14,40 @@
     position: relative;
 }
 
+.user-page-nav-username {
+    padding: 8px 30px 8px 10px;
+}
+
+.user-page-nav-nib {
+    cursor: pointer;
+    padding: 8px 10px 8px 10px;
+}
+.user-page-nav-nib:hover{
+    color: #d4edff !important;
+}
+
+.user-page-nav-nib.border-right {
+    border-color: black !important;
+}
+
+.user-page-nav-nib.active {
+    background: #6e8bab;
+    color: #d4edff !important;
+}
+
+.user-page-nav {
+    user-select: none;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #425467;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #9badbb;
+}
+
 .movie-ratings-watched {
     /*position: absolute;*/
     /*bottom: 10px;*/
@@ -27,11 +61,6 @@
     margin: auto;
     margin-top: 50px;
     border-radius: 10px;
-}
-
-.user-page-nav {
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .watched-movies-page {

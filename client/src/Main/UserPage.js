@@ -19,20 +19,14 @@ class UserPage extends Component {
         return (
             <div className="user-page">
                 <div className="user-page-content">
-                    <ul className="nav nav-tabs user-page-nav">
-                        <li className="nav-item">
-                            <a className="nav-link active">Watched</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link">Link</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link">Link</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link">Disabled</a>
-                        </li>
-                    </ul>
+                    <div className="d-flex flex-row user-page-nav">
+                        <div className="user-page-nav-username">{this.props.match.params.username}</div>
+                        <div className="user-page-nav-nib border-right active">Watched</div>
+                        <div className="user-page-nav-nib border-right">History</div>
+                        <div className="user-page-nav-nib border-right">Reviews</div>
+                        <div className="user-page-nav-nib border-right">Saved</div>
+                        <div className="user-page-nav-nib">Liked</div>
+                    </div>
                     <div>
                         {this.state.page === "watched" && <WatchedMovies/>}
                     </div>
