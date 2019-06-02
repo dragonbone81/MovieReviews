@@ -104,9 +104,9 @@ class Store {
     //         return fn(...args);
     //     }
     // };
-    getMultipleMovies = (movies) => {
+    getMultipleMovies = (movies, all = false) => {
         return Promise.all(movies.map(movie => this.getMovieInfo(movie.movie_id, false).then(api_movie => {
-            return {poster_path: api_movie.poster_path, ...movie}
+            return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
         })));
     };
     searchForMovies = (search_q, page = 1) => {

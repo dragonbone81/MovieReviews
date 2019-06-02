@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
 import Loader from '../Misc/Loader';
+import RatingComponent from '../Misc/Rating';
 import ReviewModal from './ReviewModal';
-import Rating from 'react-rating'
 import {
     BarChart, Bar, YAxis
 } from 'recharts';
@@ -166,16 +166,17 @@ class MoviePage extends Component {
                                         <div
                                             className="d-flex flex-column align-items-center justify-content-center action-rating">
                                             <span className="rating-text">Your Rating</span>
-                                            <Rating
-                                                className=""
-                                                emptySymbol="far fa-star empty-star"
-                                                fullSymbol="fas fa-star"
-                                                stop={10}
-                                                step={2}
-                                                fractions={2}
-                                                initialRating={this.state.userMovieData.rating}
-                                                onChange={(val) => this.updateMovieUserData("rating", val)}
-                                            />
+                                            <RatingComponent initialRating={this.state.userMovieData.rating} onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                            {/*<Rating*/}
+                                                {/*className=""*/}
+                                                {/*emptySymbol="far fa-star empty-star"*/}
+                                                {/*fullSymbol="fas fa-star"*/}
+                                                {/*stop={10}*/}
+                                                {/*step={2}*/}
+                                                {/*fractions={2}*/}
+                                                {/*initialRating={this.state.userMovieData.rating}*/}
+                                                {/*onChange={(val) => this.updateMovieUserData("rating", val)}*/}
+                                            {/*/>*/}
                                         </div>
                                         <div className="d-flex flex-column align-items-center review"
                                              onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>

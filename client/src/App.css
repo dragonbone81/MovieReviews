@@ -10,8 +10,20 @@
     margin: auto;
 }
 
+.movie-title.smaller {
+    margin-right: auto;
+    font-size: 25px;
+}
+
+.movie-history-year {
+    padding-right: 20px;
+    color: #9badbb;
+    font-size: 18px;
+}
+
 .watched-movie {
     position: relative;
+    padding-right: 20px;
 }
 
 .user-page-nav-username {
@@ -49,6 +61,11 @@
     color: #9badbb;
 }
 
+.movie-ratings-history {
+    white-space:nowrap;
+    color: #b8f5b5;
+}
+
 .movie-ratings-watched {
     padding-bottom: 5px;
     color: #b8f5b5;
@@ -69,7 +86,7 @@
 
 .img-history {
     cursor: pointer;
-    width: 80px;
+    width: 100px;
     margin: 5px;
     border: 2px solid #bdbdbd;
     border-radius: 5px;
@@ -97,6 +114,8 @@
 .history-col {
     /*min-width: 670px;*/
     /*max-width: 1050px;*/
+    padding-bottom: 20px;
+    font-family: 'Rubik', sans-serif;
     width: 100%;
 }
 
@@ -115,12 +134,12 @@
 }
 
 .calendar {
-    font-family: 'Rubik', sans-serif;
     line-height: 0;
     position: relative;
     font-size: 120px;
     color: #778898;
     margin-left: 20px;
+    padding-right: 20px;
 }
 
 .img-watched {
@@ -430,7 +449,7 @@
 .average-rating {
     margin-right: 5px;
     padding-top: 10px;
-    margin-bottom: -10px;
+    margin-bottom: -5px;
     float: right;
     color: #9ab;
     font-size: 18px;

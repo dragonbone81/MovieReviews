@@ -1,18 +1,32 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 import WatchedMovies from '../UserPages/WatchedMovies'
 import HistoryMovies from '../UserPages/HistoryMovies'
+import Login from "../Auth/Login";
+import MoviePage from "./MoviePage";
+import SignUp from "../Auth/SignUp";
+import Home from "./Home";
+import MovieSearchResultPage from "./MovieSearchResultPage";
 
 class UserPage extends Component {
     state = {
-        page: "history"
+        page: ""
     };
 
-    async componentDidMount() {
-        const {username} = this.props.match.params
-        // console.log(username)
+    componentDidMount() {
+        this.updatePage();
+    }
 
+    updatePage = () => {
+        const page = this.props.location.pathname.split("/").slice(-1)[0];
+        this.setState({page});
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.location.pathname !== prevProps.location.pathname) {
+            this.updatePage();
+        }
     }
 
 
@@ -22,21 +36,26 @@ class UserPage extends Component {
                 <div className="user-page-content">
                     <div className="d-flex flex-row user-page-nav">
                         <div className="user-page-nav-username">{this.props.match.params.username}</div>
-                        <div
-                            onClick={() => this.setState({page: "watched"})}
-                            className={`user-page-nav-nib border-right ${this.state.page === "watched" ? "active" : ""}`}>Watched
-                        </div>
-                        <div
-                            onClick={() => this.setState({page: "history"})}
+                        <Link
+                            to={`/user/${this.props.match.params.username}/movies`}
+                            style={{textDecoration: 'none', color: '#9badbb'}}
+                            className={`user-page-nav-nib border-right ${this.state.page === "movies" ? "active" : ""}`}>Movies
+                        </Link>
+                        <Link
+                            to={`/user/${this.props.match.params.username}/history`}
+                            style={{textDecoration: 'none', color: '#9badbb'}}
                             className={`user-page-nav-nib border-right ${this.state.page === "history" ? "active" : ""}`}>History
-                        </div>
+                        </Link>
                         <div className="user-page-nav-nib border-right">Reviews</div>
                         <div className="user-page-nav-nib border-right">Saved</div>
                         <div className="user-page-nav-nib">Liked</div>
                     </div>
                     <div>
-                        {this.state.page === "watched" && <WatchedMovies/>}
-                        {this.state.page === "history" && <HistoryMovies/>}
+                        <Switch>
+                            <Redirect exact from="/user/:username" to="/user/:username/movies"/>
+                            <Route exact path="/user/:username/movies" component={WatchedMovies}/>
+                            <Route exact path="/user/:username/history" component={HistoryMovies}/>
+                        </Switch>
                     </div>
                 </div>
             </div>
