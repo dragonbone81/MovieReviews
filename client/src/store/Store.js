@@ -93,17 +93,17 @@ class Store {
                 return {};
             });
     };
-    throttled = (delay, fn) => {
-        let lastCall = 0;
-        return function (...args) {
-            const now = (new Date).getTime();
-            if (now - lastCall < delay) {
-                return;
-            }
-            lastCall = now;
-            return fn(...args);
-        }
-    };
+    // throttled = (delay, fn) => {
+    //     let lastCall = 0;
+    //     return function (...args) {
+    //         const now = (new Date).getTime();
+    //         if (now - lastCall < delay) {
+    //             return;
+    //         }
+    //         lastCall = now;
+    //         return fn(...args);
+    //     }
+    // };
     getMultipleMovies = (movies) => {
         return Promise.all(movies.map(movie => this.getMovieInfo(movie.movie_id, false).then(api_movie => {
             return {poster_path: api_movie.poster_path, rating: movie.rating, movie_id: movie.movie_id}

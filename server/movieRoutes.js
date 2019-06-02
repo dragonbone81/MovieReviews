@@ -40,7 +40,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.orWhereNotNull("date_watched");
             table.orWhereNotNull("review");
         })
-        .page(page, 15)
+        .page(page, 10)
         .orderBy("updated_at", "desc");
     res.json({success: true, movies})
 });
