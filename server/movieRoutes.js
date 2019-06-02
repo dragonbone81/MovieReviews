@@ -3,10 +3,14 @@ const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
 const {User, MovieInteraction} = require('./models');
 
-router.post('/user/movie', jwtCheck, async (req, res) => {
-    const {movie_id} = req.body;
-    const movie = await MovieInteraction.query().findById([req.username, movie_id]);
-    console.log(movie);
+router.get('/user/movie/:movie_id', jwtCheck, async (req, res) => {
+    const {movie_id} = req.params;
+    const movie = await MovieInteraction.query()
+        .findById([req.username, movie_id])
+        .columns(MovieInteraction.knexQuery()
+                .where({movie_id}).avg("rating")
+                .as('average_rating')
+            , "*");
     res.json({movie: {...movie}});
 });
 router.post('/user/movie/update/date_content', jwtCheck, async (req, res) => {

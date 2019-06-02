@@ -41,6 +41,7 @@ class WatchedMovies extends Component {
                     {this.state.movies.map(movie => {
                         return (
                             <div key={movie.movie_id}
+                                 onClick={() => this.props.history.push(`/movie/${movie.movie_id}`)}
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                 <img
                                     src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
