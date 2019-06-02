@@ -5,13 +5,25 @@ const {User, MovieInteraction} = require('./models');
 
 router.get('/user/movie/:movie_id', jwtCheck, async (req, res) => {
     const {movie_id} = req.params;
-    const movie = await MovieInteraction.query()
-        .findById([req.username, movie_id])
-        .columns(MovieInteraction.knexQuery()
-                .where({movie_id}).avg("rating")
-                .as('average_rating')
-            , "*");
-    res.json({movie: {...movie}});
+    const allQueries = await Promise.all([
+        MovieInteraction.query()
+            .findById([req.username, movie_id])
+            .columns(MovieInteraction.query()
+                    .where({movie_id}).avg("rating")
+                    .as('average_rating'),
+                MovieInteraction.query()
+                    .where({movie_id})
+                    .whereNotNull("rating")
+                    .count()
+                    .as('total_ratings'),
+                "*"),
+        MovieInteraction.query()
+            .columns("rating")
+            .count()
+            .havingNotNull("rating")
+            .where({movie_id}).groupBy("rating"),
+    ]);
+    res.json({movie: {...allQueries[0], rating_groups: allQueries[1]}});
 });
 router.post('/user/movie/update/date_content', jwtCheck, async (req, res) => {
     const {movie_id, date_watched, review} = req.body;

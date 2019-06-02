@@ -110,6 +110,7 @@
 }
 
 .pagination-page {
+    cursor: pointer;
     padding: 5px 10px 5px 10px;
     border-radius: 10px;
 }
@@ -150,6 +151,7 @@
 }
 
 .username {
+    cursor: pointer;
     margin-right: 10px;
 }
 
@@ -366,6 +368,42 @@
 /*padding-left: 5px;*/
 /*padding-right: 5px;*/
 /*}*/
+.ratings-chart {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 5px;
+}
+
+.average-rating {
+    margin-right: 5px;
+    padding-top: 10px;
+    margin-bottom: -10px;
+    float: right;
+    color: #9ab;
+    font-size: 18px;
+}
+
+.no-ratings-yet {
+    margin: auto;
+    padding-top: 20px;
+    color: #9ab;
+    font-size: 25px;
+}
+
+.ratings-rating-text {
+    font-size: 25px;
+    color: #9ab;
+}
+
+.ratings-rating-total {
+    color: #678;
+}
+
+.ratings-label {
+    border-bottom: 1px solid #678;
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
 .movie-actions {
     border-radius: 5px;

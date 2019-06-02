@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
 import WatchedMovies from '../UserPages/WatchedMovies'
+import HistoryMovies from '../UserPages/HistoryMovies'
 
 class UserPage extends Component {
     state = {
@@ -21,14 +22,21 @@ class UserPage extends Component {
                 <div className="user-page-content">
                     <div className="d-flex flex-row user-page-nav">
                         <div className="user-page-nav-username">{this.props.match.params.username}</div>
-                        <div className="user-page-nav-nib border-right active">Watched</div>
-                        <div className="user-page-nav-nib border-right">History</div>
+                        <div
+                            onClick={() => this.setState({page: "watched"})}
+                            className={`user-page-nav-nib border-right ${this.state.page === "watched" ? "active" : ""}`}>Watched
+                        </div>
+                        <div
+                            onClick={() => this.setState({page: "history"})}
+                            className={`user-page-nav-nib border-right ${this.state.page === "history" ? "active" : ""}`}>History
+                        </div>
                         <div className="user-page-nav-nib border-right">Reviews</div>
                         <div className="user-page-nav-nib border-right">Saved</div>
                         <div className="user-page-nav-nib">Liked</div>
                     </div>
                     <div>
                         {this.state.page === "watched" && <WatchedMovies/>}
+                        {this.state.page === "history" && <HistoryMovies/>}
                     </div>
                 </div>
             </div>

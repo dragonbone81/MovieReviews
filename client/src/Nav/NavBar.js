@@ -8,11 +8,13 @@ class NavBar extends Component {
         return (
             <div
                 className={`trans-nav d-flex flex-row align-items-center`}>
-                <div className="ml-auto mr-auto d-flex flex-row align-items-center nav-bar-content justify-content-between">
+                <div
+                    className="ml-auto mr-auto d-flex flex-row align-items-center nav-bar-content justify-content-between">
                     <span>C-Views</span>
                     <div className="d-flex flex-row ml-auto align-items-center">
                         {this.props.store.userLoggedIn && (
-                            <span className="username">{this.props.store.user.username}</span>
+                            <span onClick={() => this.props.history.push(`/user/${this.props.store.user.username}`)}
+                                  className="username">{this.props.store.user.username}</span>
                         )}
 
                         {!this.props.store.userLoggedIn && (
