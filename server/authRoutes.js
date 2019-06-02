@@ -19,7 +19,7 @@ router.post('/signUp', async (req, res) => {
         });
         res.json({success: true, user: {username: newUser.username, email: newUser.email, token}});
     } catch (e) {
-        if (e.constraint === 'user_username_unique') {
+        if (e.constraint === 'user_username_unique' || e.constraint === 'user_pkey') {
             res.json({error: 'duplicate_user'})
         } else {
             res.json({error: 'unknown'})

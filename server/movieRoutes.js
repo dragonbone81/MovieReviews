@@ -30,4 +30,18 @@ router.post('/user/movie/update', jwtCheck, async (req, res) => {
     }, {insertMissing: true, noDelete: true});
     res.json({success: true})
 });
+router.get('/user/movies/watched/:username', async (req, res) => {
+    const {username} = req.params;
+    const page = req.query.page || 0;
+    const movies = await MovieInteraction.query()
+        .where({username})
+        .andWhere((table) => {
+            table.where({viewed: true});
+            table.orWhereNotNull("date_watched");
+            table.orWhereNotNull("review");
+        })
+        .page(page, 15)
+        .orderBy("updated_at", "desc");
+    res.json({success: true, movies})
+});
 module.exports = router;

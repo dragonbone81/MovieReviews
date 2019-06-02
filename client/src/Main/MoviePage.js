@@ -163,7 +163,6 @@ class MoviePage extends Component {
                                          onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
                                         <span>{(this.state.userMovieData.date_watched || this.state.userMovieData.review) ? "Edit Review..." : "Review..."}</span>
                                     </div>
-                                    {/*<Rating />*/}
                                 </div>
                             </div>
                         </div>

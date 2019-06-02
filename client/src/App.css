@@ -4,11 +4,46 @@
     padding: 20px;
 }
 
+.user-page-content {
+    min-width: 670px;
+    max-width: 1050px;
+    margin: auto;
+}
+
+.watched-movie {
+    position: relative;
+}
+
+.movie-ratings-watched {
+    /*position: absolute;*/
+    /*bottom: 10px;*/
+    /*left: 28%;*/
+    padding-bottom: 5px;
+    color: #b8f5b5;
+}
+
 .register-box {
     max-width: 450px;
     margin: auto;
     margin-top: 50px;
     border-radius: 10px;
+}
+
+.user-page-nav {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.watched-movies-page {
+    margin: auto;
+
+}
+
+.img-watched {
+    width: 200px;
+    margin: 5px;
+    border: 2px solid #bdbdbd;
+    border-radius: 5px;
 }
 
 .search {
@@ -119,9 +154,9 @@
     height: 675px;
     margin-top: -20px;
     background-position: 50% 50%;
-    /*background-size: 1920px 1080px;*/
+    background-size: 1920px 1080px;
     background-repeat: no-repeat;
-    background-size: contain;
+    /*background-size: contain;*/
     position: absolute;
     margin-left: auto;
     margin-right: auto;

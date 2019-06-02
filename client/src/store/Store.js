@@ -79,8 +79,8 @@ class Store {
     viewedOrReviewed = (userMovieData) => {
         return userMovieData.viewed || userMovieData.review || userMovieData.date_watched;
     };
-    getMovieInfo = (movie_id) => {
-        return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=credits`, {
+    getMovieInfo = (movie_id, credits = true) => {
+        return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -88,7 +88,26 @@ class Store {
         })
             .then(response => response.json())
             .then(response => response)
-            .catch(e => console.log(e));
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
+    throttled = (delay, fn) => {
+        let lastCall = 0;
+        return function (...args) {
+            const now = (new Date).getTime();
+            if (now - lastCall < delay) {
+                return;
+            }
+            lastCall = now;
+            return fn(...args);
+        }
+    };
+    getMultipleMovies = (movies) => {
+        return Promise.all(movies.map(movie => this.getMovieInfo(movie.movie_id, false).then(api_movie => {
+            return {poster_path: api_movie.poster_path, rating: movie.rating, movie_id: movie.movie_id}
+        })));
     };
     searchForMovies = (search_q, page = 1) => {
         return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
@@ -149,6 +168,18 @@ class Store {
         })
             .then(response => response.json())
             .then(response => response.movie)
+            .catch(e => console.log(e))
+    };
+    getViewedMoviesForUser = (username, page = 0) => {
+        return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({movie_id, date_watched, review}),
+        })
+            .then(response => response.json())
+            .then(response => response.movies)
             .catch(e => console.log(e))
     };
     getRatings = (data) => {

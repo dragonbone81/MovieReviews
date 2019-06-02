@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
+import Pagination from '../Misc/Pagination';
 
 class MovieSearchResultPage extends Component {
     state = {
@@ -83,39 +84,8 @@ class MovieSearchResultPage extends Component {
                         )
                     })}
                 </div>
-                {this.state.totalPages && (
-                    <div className="d-flex flex-row pagination justify-content-between">
-                        <button className="btn btn-dark btn-sm dark-button pagination-nav-button">Previous</button>
-                        <div className="d-flex flex-row align-items-center">
-                            {this.state.page >= 5 && (
-                                <Link style={{textDecoration: 'none', color: 'white'}} className="pagination-page"
-                                      to={`/search/${this.props.match.params.term}/${1}`}><span>{1}</span></Link>
-                            )}
-                            {this.state.page > 5 && (
-                                <span className="seperator-pagination">...</span>
-                            )}
-                            {middle_pages.map((value, i) => {
-                                if (value === this.state.page) {
-                                    return (
-                                        <span key={i} className="pagination-page selected">{value}</span>
-                                    )
-                                } else {
-                                    return (
-                                        <Link key={i} style={{textDecoration: 'none', color: 'white'}}
-                                              className="pagination-page"
-                                              to={`/search/${this.props.match.params.term}/${value}`}><span>{value}</span></Link>
-                                    )
-                                }
-                            })}
-                            {this.state.page + 3 < this.state.totalPages && (
-                                <span className="seperator-pagination">...</span>)}
-                            {this.state.page + 3 < this.state.totalPages && (
-                                <Link style={{textDecoration: 'none', color: 'white'}} className="pagination-page"
-                                      to={`/search/${this.props.match.params.term}/${this.state.totalPages}`}><span>{this.state.totalPages}</span></Link>)}
-                        </div>
-                        <button className="btn btn-dark btn-sm dark-button pagination-nav-button">Next</button>
-                    </div>
-                )}
+                <Pagination url={`/search/${this.props.match.params.term}`} page={this.state.page}
+                            totalPages={this.state.totalPages}/>
             </div>
         );
     }
