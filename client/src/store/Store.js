@@ -206,6 +206,18 @@ class Store {
             .then(response => response.movies)
             .catch(e => console.log(e))
     };
+    getReviewMoviesForUser = (username, page = 0) => {
+        return fetch(`${SERVER_URL}/user/movies/reviews/${encodeURIComponent(username)}?page=${page}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({movie_id, date_watched, review}),
+        })
+            .then(response => response.json())
+            .then(response => response.movies)
+            .catch(e => console.log(e))
+    };
     getRatings = (data) => {
         const ratings = {};
         data.Ratings.forEach(rating => {

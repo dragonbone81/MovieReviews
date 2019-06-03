@@ -80,6 +80,19 @@ router.get('/user/movies/history/:username', async (req, res) => {
         .orderBy("date_watched", "desc");
     res.json({success: true, movies})
 });
+router.get('/user/movies/reviews/:username', async (req, res) => {
+    const {username} = req.params;
+    const page = req.query.page || 0;
+    const movies = await MovieInteraction.query()
+        .where({username})
+        .andWhere((table) => {
+            table.whereNotNull("review");
+            table.orWhereNotNull("rating");
+        })
+        .page(page, 10)
+        .orderBy("created_at", "desc");
+    res.json({success: true, movies})
+});
 router.get('/user/movies/ratings/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
