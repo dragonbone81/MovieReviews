@@ -20,6 +20,12 @@
     font-size: 25px;
 }
 
+.movie-reviews-all-year {
+    padding-left: 10px;
+    color: #9badbb;
+    font-size: 18px;
+}
+
 .movie-history-year {
     padding-right: 20px;
     color: #9badbb;
@@ -67,6 +73,11 @@
 }
 
 .movie-ratings-history {
+    white-space: nowrap;
+    color: #b8f5b5;
+}
+
+.movie-ratings-review-all {
     white-space: nowrap;
     color: #b8f5b5;
 }
@@ -542,10 +553,16 @@
     font-size: 18px;
 }
 
+.movie-review-preview-review {
+    padding-top: 10px;
+    color: #bfc9d6;
+    font-size: 16px;
+}
+
 .movie-review-wo-date {
     color: #6e7a84;
     font-size: 17px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .movie-review-user-title {

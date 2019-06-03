@@ -9,19 +9,27 @@ class HistoryMovies extends Component {
     state = {
         movies: [],
         page: 1,
-        loadingData: false,
+        loadingData: true,
+        totalPages: 0,
     };
 
     async componentDidMount() {
         this.updatePage();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
+            this.updatePage();
+        }
+    }
+
     updatePage = async () => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
-        const movie_data = await this.props.store.getHistoryMoviesForUser(username, this.state.page - 1);
+        const page = parseInt(this.props.match.params.page) || 1;
+        const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
-        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false});
+        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
     changePage = (page) => {
         this.setState({page: page}, () => {
@@ -94,8 +102,8 @@ class HistoryMovies extends Component {
                         )
                     })}
                 </div>
-                <Pagination url={`/search/${this.props.match.params.term}`} page={this.state.page}
-                            totalPages={this.state.totalPages} link={false} callback={this.changePage}/>
+                <Pagination url={`/user/history/${this.props.match.params.username}`} page={this.state.page}
+                            totalPages={this.state.totalPages}/>
             </div>
         );
     }

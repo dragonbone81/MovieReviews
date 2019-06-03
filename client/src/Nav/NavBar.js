@@ -13,8 +13,9 @@ class NavBar extends Component {
                     <span>C-Views</span>
                     <div className="d-flex flex-row ml-auto align-items-center">
                         {this.props.store.userLoggedIn && (
-                            <span onClick={() => this.props.history.push(`/user/${this.props.store.user.username}`)}
-                                  className="username">{this.props.store.user.username}</span>
+                            <span
+                                onClick={() => this.props.history.push(`/user/movies/${this.props.store.user.username}`)}
+                                className="username">{this.props.store.user.username}</span>
                         )}
 
                         {!this.props.store.userLoggedIn && (

@@ -60,13 +60,13 @@ class UserPage extends Component {
                     </div>
                     <div>
                         <Switch>
-                            <Route exact path="/user/movies/:username"
+                            <Route exact path="/user/movies/:username/:page?"
                                    render={(props) => <WatchedMovies {...props} readOnly={this.state.readOnly}/>}/>
-                            <Route exact path="/user/history/:username"
+                            <Route exact path="/user/history/:username/:page?"
                                    render={(props) => <HistoryMovies {...props} readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/review/:username/:movie_id"
                                    render={(props) => <MovieReviewPage {...props} readOnly={this.state.readOnly}/>}/>
-                            <Route exact path="/user/reviews/:username"
+                            <Route exact path="/user/reviews/:username/:page?"
                                    render={(props) => <ReviewMovies {...props} readOnly={this.state.readOnly}/>}/>
                         </Switch>
                     </div>

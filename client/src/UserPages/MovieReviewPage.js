@@ -80,7 +80,7 @@ class WatchedMovies extends Component {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric'
-                        })}` : `Reviewed on ${new Date(this.state.movieData.date_watched).toLocaleDateString('default', {
+                        })}` : `Reviewed on ${new Date(this.state.movieData.created_at).toLocaleDateString('default', {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric'

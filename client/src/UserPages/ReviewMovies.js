@@ -10,32 +10,26 @@ class HistoryMovies extends Component {
         movies: [],
         page: 1,
         loadingData: true,
+        totalPages: 0,
     };
 
     async componentDidMount() {
         this.updatePage();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
+            this.updatePage();
+        }
+    }
+
     updatePage = async () => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
-        const movie_data = await this.props.store.getReviewMoviesForUser(username, this.state.page - 1);
+        const page = parseInt(this.props.match.params.page) || 1;
+        const movie_data = await this.props.store.getReviewMoviesForUser(username, page - 1);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
-        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false});
-    };
-    changePage = (page) => {
-        this.setState({page: page}, () => {
-            this.updatePage()
-        });
-    };
-    getMonth = (date) => {
-        return new Date(date).toLocaleString("default", {month: 'short'});
-    };
-    getDay = (date) => {
-        return new Date(date).toLocaleString("default", {day: '2-digit'});
-    };
-    getYear = (date) => {
-        return new Date(date).toLocaleString("default", {year: 'numeric'});
+        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
     updateMovieUserData = (type, val, movie_id) => {
         this.props.store.updateMovieUserData(movie_id, type, val);
@@ -66,16 +60,6 @@ class HistoryMovies extends Component {
                         return (
                             <div key={movie.movie_id}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
-                                <div className="calendar">
-                                    <i className="fas fa-calendar"/>
-                                    <div className="cal-month-day">
-                                        <div className="cal-month-day-inner d-flex flex-row">
-                                            <span className="cal-month">{this.getMonth(movie.date_watched)}</span>
-                                            <span className="cal-day">{this.getDay(movie.date_watched)}</span>
-                                        </div>
-                                    </div>
-                                    <span className="cal-year">{this.getYear(movie.date_watched)}</span>
-                                </div>
                                 <div
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                     <Link to={`/movie/${movie.movie_id}`}>
@@ -84,18 +68,38 @@ class HistoryMovies extends Component {
                                             className="img-history" alt="Movie poster"/>
                                     </Link>
                                 </div>
-                                <div className="movie-title smaller">{movie.title}</div>
-                                <div className="movie-history-year">{movie.release_date.substring(0, 4)}</div>
-                                <div className="movie-ratings-history">
-                                    <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
-                                                     onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
+                                <div className="d-flex flex-column align-self-start">
+                                    <div className="movie-title smaller">
+                                        <Link to={`/user/review/${movie.username}/${movie.movie_id}`}
+                                              style={{color: 'inherit'}}>
+                                            <span>{movie.title}</span>
+                                        </Link>
+                                        <span
+                                            className="movie-reviews-all-year">{movie.release_date.substring(0, 4)}</span>
+                                    </div>
+
+                                    <span
+                                        className="movie-review-wo-date">{movie.date_watched ? `Watched on ${new Date(movie.date_watched).toLocaleDateString('default', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric'
+                                    })}` : `Reviewed on ${new Date(movie.created_at).toLocaleDateString('default', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric'
+                                    })}`}</span>
+                                    <div className="movie-ratings-review-all">
+                                        <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
+                                                         onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
+                                    </div>
+                                    <p className="movie-review-preview-review">{movie.review ? `${movie.review.substring(0, 50)}...` : "No Review..."}</p>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
-                <Pagination url={`/search/${this.props.match.params.term}`} page={this.state.page}
-                            totalPages={this.state.totalPages} link={false} callback={this.changePage}/>
+                <Pagination url={`/user/reviews/${this.props.match.params.username}`} page={this.state.page}
+                            totalPages={this.state.totalPages}/>
             </div>
         );
     }
