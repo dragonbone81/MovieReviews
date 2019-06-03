@@ -26,6 +26,7 @@ class HistoryMovies extends Component {
     updatePage = async () => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
+        document.title = `${username}'s History`;
         const page = parseInt(this.props.match.params.page) || 1;
         const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
@@ -92,7 +93,10 @@ class HistoryMovies extends Component {
                                             className="img-history" alt="Movie poster"/>
                                     </Link>
                                 </div>
-                                <div className="movie-title smaller">{movie.title}</div>
+                                <div className="movie-title smaller">
+                                    <Link style={{color: 'inherit'}}
+                                          to={`/movie/${movie.movie_id}`}>{movie.title}</Link>
+                                </div>
                                 <div className="movie-history-year">{movie.release_date.substring(0, 4)}</div>
                                 <div className="movie-ratings-history">
                                     <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}

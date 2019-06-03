@@ -25,6 +25,7 @@ class WatchedMovies extends Component {
     updatePage = async () => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
+        document.title = `${username}'s Watched Movies`;
         const page = parseInt(this.props.match.params.page) || 1;
         const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1);
         const movies = await this.props.store.getMultipleMovies(movie_data.results);

@@ -14,31 +14,19 @@ class MovieSearchResultPage extends Component {
         searching: false
     };
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.match.params.term !== prevProps.match.params.term || this.props.match.params.page !== prevProps.match.params.page) {
-            const {term, page} = this.props.match.params;
-            this.setState({term: term, page: parseInt(page) || 1});
-            if (term) {
-                this.setState({searching: true});
-                const results = await this.props.store.searchForMovies(term, page);
-                console.log(results)
-                this.setState({
-                    totalResults: results.total_results,
-                    totalPages: Math.min(results.total_pages, 1000),
-                    searchResults: results.results,
-                    searching: false,
-                });
-            }
+            this.updatePage();
         }
     }
 
-    async componentDidMount() {
+    updatePage = async () => {
         const {term, page} = this.props.match.params;
+        document.title = `Search results for ${term}`;
         this.setState({term: term, page: parseInt(page) || 1});
         if (term) {
             this.setState({searching: true});
             const results = await this.props.store.searchForMovies(term, page);
-            console.log(results)
             this.setState({
                 totalResults: results.total_results,
                 totalPages: Math.min(results.total_pages, 1000),
@@ -46,6 +34,10 @@ class MovieSearchResultPage extends Component {
                 searching: false,
             });
         }
+    };
+
+    componentDidMount() {
+        this.updatePage();
     }
 
 

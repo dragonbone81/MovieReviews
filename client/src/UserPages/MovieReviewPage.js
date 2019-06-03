@@ -22,7 +22,9 @@ class WatchedMovies extends Component {
         const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username), this.props.store.getMovieInfo(movie_id)])
         if (promiseData[0] === undefined) {
             this.setState({movieReviewDoesNotExist: true});
+            return;
         }
+        document.title = `${promiseData[1].title} reviewed by ${username}`;
         this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
     };
     // changePage = (page) => {

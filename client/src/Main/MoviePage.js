@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import RatingComponent from '../Misc/Rating';
 import ReviewModal from './ReviewModal';
@@ -30,15 +30,15 @@ class MoviePage extends Component {
     updateWithNewMovie = async () => {
         this.setState({loadingData: true});
         const {movie_id} = this.props.match.params;
-        document.title = movie_id;
         let movieData = this.props.store.getMovieInfo(movie_id);
         let userMovieData = this.props.store.getUsersMovieDetail(movie_id);
         const result = await Promise.all([movieData, userMovieData]);
         movieData = result[0];
         userMovieData = result[1];
-        userMovieData.rating_groups = this.normalizeRatings(userMovieData.rating_groups);
-        userMovieData.max_one_rating = Math.max.apply(Math, userMovieData.rating_groups.map(e => e.count));
-        console.log(userMovieData.rating_groups)
+        if (userMovieData) {
+            userMovieData.rating_groups = this.normalizeRatings(userMovieData.rating_groups);
+            userMovieData.max_one_rating = Math.max.apply(Math, userMovieData.rating_groups.map(e => e.count));
+        }
         document.title = movieData.title;
         const OMDB_data = await this.props.store.getMovieInfoOMDB(movieData.imdb_id);
         if (OMDB_data.Response === "False") {
@@ -130,59 +130,64 @@ class MoviePage extends Component {
                                     <div className="move-description-detail">{this.state.movieData.overview}</div>
                                 </div>
                                 <div className="d-flex flex-column">
-                                    <div className="movie-actions d-flex flex-column">
-                                        <div className="d-flex flex-row movie-actions-icons justify-content-between">
-                                            <div className="d-flex flex-column align-items-center movie-actions-icon"
-                                                 onClick={() => {
-                                                     if (this.state.userMovieData.review || this.state.userMovieData.date_watched) {
-                                                         this.setState({reviewModalOpen: true})
-                                                     } else {
-                                                         this.updateMovieUserData("viewed", !this.state.userMovieData["viewed"])
-                                                     }
-                                                 }}>
-                                                {this.props.store.viewedOrReviewed(this.state.userMovieData) ?
-                                                    <i className="fas fa-eye icon-blue"/> :
-                                                    <i className="far fa-eye"/>}
-                                                <span
-                                                    className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userMovieData) ? this.state.userMovieData.review ? "Reviewed" : "Viewed" : "View"}</span>
+                                    {this.props.store.user.token ?
+                                        <div className="movie-actions d-flex flex-column">
+
+                                            <div
+                                                className="d-flex flex-row movie-actions-icons justify-content-between">
+                                                <div
+                                                    className="d-flex flex-column align-items-center movie-actions-icon"
+                                                    onClick={() => {
+                                                        if (this.state.userMovieData.review || this.state.userMovieData.date_watched) {
+                                                            this.setState({reviewModalOpen: true})
+                                                        } else {
+                                                            this.updateMovieUserData("viewed", !this.state.userMovieData["viewed"])
+                                                        }
+                                                    }}>
+                                                    {this.props.store.viewedOrReviewed(this.state.userMovieData) ?
+                                                        <i className="fas fa-eye icon-blue"/> :
+                                                        <i className="far fa-eye"/>}
+                                                    <span
+                                                        className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userMovieData) ? this.state.userMovieData.review ? "Reviewed" : "Viewed" : "View"}</span>
+                                                </div>
+                                                <div
+                                                    className="d-flex flex-column align-items-center movie-actions-icon"
+                                                    onClick={() => this.updateMovieUserData("liked", !this.state.userMovieData["liked"])}>
+                                                    {this.state.userMovieData.liked ?
+                                                        <i className="fas fa-laugh-beam icon-yellow"/> :
+                                                        <i className="far fa-laugh-beam"/>}
+                                                    <span
+                                                        className="action-icon-text">{this.state.userMovieData.liked ? "Liked" : "Like"}</span>
+                                                </div>
+                                                <div
+                                                    className="d-flex flex-column align-items-center movie-actions-icon"
+                                                    onClick={() => this.updateMovieUserData("saved", !this.state.userMovieData["saved"])}>
+                                                    {this.state.userMovieData.saved ?
+                                                        <i className="fas fa-save icon-green"/> :
+                                                        <i className="far fa-save"/>}
+                                                    <span
+                                                        className="action-icon-text">{this.state.userMovieData.saved ? "Saved" : "Save"}</span>
+                                                </div>
                                             </div>
-                                            <div className="d-flex flex-column align-items-center movie-actions-icon"
-                                                 onClick={() => this.updateMovieUserData("liked", !this.state.userMovieData["liked"])}>
-                                                {this.state.userMovieData.liked ?
-                                                    <i className="fas fa-laugh-beam icon-yellow"/> :
-                                                    <i className="far fa-laugh-beam"/>}
-                                                <span
-                                                    className="action-icon-text">{this.state.userMovieData.liked ? "Liked" : "Like"}</span>
+
+                                            <div
+                                                className="d-flex flex-column align-items-center justify-content-center action-rating">
+                                                <span className="rating-text">Your Rating</span>
+                                                <RatingComponent initialRating={this.state.userMovieData.rating}
+                                                                 onChange={(val) => this.updateMovieUserData("rating", val)}/>
                                             </div>
-                                            <div className="d-flex flex-column align-items-center movie-actions-icon"
-                                                 onClick={() => this.updateMovieUserData("saved", !this.state.userMovieData["saved"])}>
-                                                {this.state.userMovieData.saved ?
-                                                    <i className="fas fa-save icon-green"/> :
-                                                    <i className="far fa-save"/>}
-                                                <span
-                                                    className="action-icon-text">{this.state.userMovieData.saved ? "Saved" : "Save"}</span>
+                                            <div className="d-flex flex-column align-items-center review"
+                                                 onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
+                                                <span>{(this.state.userMovieData.date_watched || this.state.userMovieData.review) ? "Edit Review..." : "Review..."}</span>
                                             </div>
                                         </div>
+                                        :
                                         <div
-                                            className="d-flex flex-column align-items-center justify-content-center action-rating">
-                                            <span className="rating-text">Your Rating</span>
-                                            <RatingComponent initialRating={this.state.userMovieData.rating} onChange={(val) => this.updateMovieUserData("rating", val)}/>
-                                            {/*<Rating*/}
-                                                {/*className=""*/}
-                                                {/*emptySymbol="far fa-star empty-star"*/}
-                                                {/*fullSymbol="fas fa-star"*/}
-                                                {/*stop={10}*/}
-                                                {/*step={2}*/}
-                                                {/*fractions={2}*/}
-                                                {/*initialRating={this.state.userMovieData.rating}*/}
-                                                {/*onChange={(val) => this.updateMovieUserData("rating", val)}*/}
-                                            {/*/>*/}
+                                            className="movie-actions-not-logged-in d-flex flex-column justify-content-center align-items-center">
+                                            <span><Link to='/login'
+                                                        style={{color: 'inherit'}}>Please login to review...</Link></span>
                                         </div>
-                                        <div className="d-flex flex-column align-items-center review"
-                                             onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
-                                            <span>{(this.state.userMovieData.date_watched || this.state.userMovieData.review) ? "Edit Review..." : "Review..."}</span>
-                                        </div>
-                                    </div>
+                                    }
                                     {parseInt(this.state.userMovieData.total_ratings) > 0 ? (
                                             <div className="ratings-chart">
                                                 <div

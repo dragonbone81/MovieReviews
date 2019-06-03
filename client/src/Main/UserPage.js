@@ -54,7 +54,6 @@ class UserPage extends Component {
                             style={{textDecoration: 'none', color: '#9badbb'}}
                             className={`user-page-nav-nib border-right ${this.state.page === "reviews" ? "active" : ""}`}>Reviews
                         </Link>
-                        <div className="user-page-nav-nib border-right">Reviews</div>
                         <div className="user-page-nav-nib border-right">Saved</div>
                         <div className="user-page-nav-nib">Liked</div>
                     </div>
