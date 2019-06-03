@@ -87,7 +87,7 @@ class HistoryMovies extends Component {
                                 <div className="movie-title smaller">{movie.title}</div>
                                 <div className="movie-history-year">{movie.release_date.substring(0, 4)}</div>
                                 <div className="movie-ratings-history">
-                                    <RatingComponent initialRating={movie.rating}
+                                    <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
                                                      onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
                                 </div>
                             </div>

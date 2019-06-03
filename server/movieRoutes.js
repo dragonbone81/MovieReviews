@@ -25,6 +25,16 @@ router.get('/user/movie/:movie_id', jwtCheck, async (req, res) => {
     ]);
     res.json({movie: {...allQueries[0], rating_groups: allQueries[1]}});
 });
+router.get('/user/review/:movie_id/:username', async (req, res) => {
+    const {movie_id, username} = req.params;
+    const movie = await MovieInteraction.query()
+        .findById([username, movie_id])
+        .andWhere((table) => {
+            table.whereNotNull("review");
+            table.orWhereNotNull("rating");
+        });
+    res.json({movie});
+});
 router.post('/user/movie/update/date_content', jwtCheck, async (req, res) => {
     const {movie_id, date_watched, review} = req.body;
     try {
@@ -57,7 +67,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.orWhereNotNull("review");
         })
         .page(page, 10)
-        .orderBy("updated_at", "desc");
+        .orderBy("created_at", "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/history/:username', async (req, res) => {
@@ -66,12 +76,18 @@ router.get('/user/movies/history/:username', async (req, res) => {
     const movies = await MovieInteraction.query()
         .where({username})
         .whereNotNull("date_watched")
-        // .andWhere(table => {
-        //     table.whereNotNull("review");
-        //     table.orWhereNotNull("date_watched");
-        // })
         .page(page, 10)
-        .orderBy("updated_at", "desc");
+        .orderBy("date_watched", "desc");
+    res.json({success: true, movies})
+});
+router.get('/user/movies/ratings/:username', async (req, res) => {
+    const {username} = req.params;
+    const page = req.query.page || 0;
+    const movies = await MovieInteraction.query()
+        .where({username})
+        .whereNotNull("review")
+        .page(page, 10)
+        .orderBy("created_at", "desc");
     res.json({success: true, movies})
 });
 module.exports = router;

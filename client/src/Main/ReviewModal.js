@@ -73,6 +73,7 @@ class ReviewModal extends Component {
                                     <div>
                                         <span className="modal-date-on">On:</span>
                                         <DatePicker
+                                            placeholderText="Click to select a date"
                                             className="date-choosing"
                                             selected={this.state.date}
                                             onChange={(date) => this.setState({date})}

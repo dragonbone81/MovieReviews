@@ -1,9 +1,10 @@
 import React from "react";
 import Rating from 'react-rating'
 
-const RatingComponent = ({initialRating, onChange}) => {
+const RatingComponent = ({initialRating, onChange, readOnly = false}) => {
     return (
         <Rating
+            readonly={readOnly}
             className=""
             emptySymbol="far fa-star empty-star"
             fullSymbol="fas fa-star"

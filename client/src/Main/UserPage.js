@@ -3,15 +3,12 @@ import {observer, inject} from 'mobx-react';
 import {withRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 import WatchedMovies from '../UserPages/WatchedMovies'
 import HistoryMovies from '../UserPages/HistoryMovies'
-import Login from "../Auth/Login";
-import MoviePage from "./MoviePage";
-import SignUp from "../Auth/SignUp";
-import Home from "./Home";
-import MovieSearchResultPage from "./MovieSearchResultPage";
+import MovieReviewPage from '../UserPages/MovieReviewPage'
 
 class UserPage extends Component {
     state = {
-        page: ""
+        page: "",
+        readOnly: true,
     };
 
     componentDidMount() {
@@ -20,8 +17,12 @@ class UserPage extends Component {
 
     updatePage = () => {
         const page = this.props.location.pathname.split("/").slice(-1)[0];
-        this.setState({page});
-    }
+        let readOnly = true;
+        if (this.props.store.user.username === this.props.match.params.username) {
+            readOnly = false;
+        }
+        this.setState({page, readOnly});
+    };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.location.pathname !== prevProps.location.pathname) {
@@ -53,8 +54,12 @@ class UserPage extends Component {
                     <div>
                         <Switch>
                             <Redirect exact from="/user/:username" to="/user/:username/movies"/>
-                            <Route exact path="/user/:username/movies" component={WatchedMovies}/>
-                            <Route exact path="/user/:username/history" component={HistoryMovies}/>
+                            <Route exact path="/user/:username/movies"
+                                   render={(props) => <WatchedMovies {...props} readOnly={this.state.readOnly}/>}/>
+                            <Route exact path="/user/:username/history"
+                                   render={(props) => <HistoryMovies {...props} readOnly={this.state.readOnly}/>}/>
+                            <Route exact path="/user/:username/:movie_id"
+                                   render={(props) => <MovieReviewPage {...props} readOnly={this.state.readOnly}/>}/>
                         </Switch>
                     </div>
                 </div>

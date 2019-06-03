@@ -1,3 +1,8 @@
+.review-by-text-page {
+    font-size: 20px;
+    color: #9badbb;
+}
+
 .user-page {
     background-image: linear-gradient(#2a3640, #13181c 80%);
     min-height: calc(100vh - 100px);
@@ -62,12 +67,19 @@
 }
 
 .movie-ratings-history {
-    white-space:nowrap;
+    white-space: nowrap;
     color: #b8f5b5;
 }
 
 .movie-ratings-watched {
     padding-bottom: 5px;
+    color: #b8f5b5;
+}
+
+.user-review-ratings {
+    /*padding-bottom: 5px;*/
+    padding-left: 10px;
+    padding-top: 7px;
     color: #b8f5b5;
 }
 
@@ -82,6 +94,18 @@
     padding-bottom: 20px;
     margin: auto;
 
+}
+
+.movie-img-review-page-div {
+    padding-right: 30px;
+}
+
+.img-review-page {
+    cursor: pointer;
+    width: 200px;
+    margin: 5px;
+    border: 2px solid #bdbdbd;
+    border-radius: 5px;
 }
 
 .img-history {
@@ -506,6 +530,37 @@
     font-size: 20px;
     margin-left: 20px;
     margin-top: 10px;
+}
+
+.movie-review-user-title-year {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.movie-review-actual-review {
+    color: #bfc9d6;
+    font-size: 18px;
+}
+
+.movie-review-wo-date {
+    color: #6e7a84;
+    font-size: 17px;
+    padding-bottom: 20px;
+}
+
+.movie-review-user-title {
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+
+    font-size: 25px;
+    color: #e3efff;
+}
+
+.movie-review-user-year {
+    color: #9badbb;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-top: 7px;
 }
 
 .movie-title {
