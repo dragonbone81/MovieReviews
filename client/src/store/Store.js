@@ -1,7 +1,7 @@
 import {decorate, configure, observable, action, computed, runInAction} from 'mobx'
 
 configure({enforceActions: "observed"});
-const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : 'http://localhost:3001';
+const SERVER_URL = process.env.REACT_APP_SERVER_URL ? process.env.REACT_APP_SERVER_URL : 'http://localhost:3001';
 const THE_MOVIE_DB_API_KEY = "fcc3ab2f52e7f8a50a7091103280a7fe";
 const OM_DB_API_KEY = "54fbdc06";
 const THE_MOVIE_DB_URL = "//api.themoviedb.org/3";
