@@ -7,6 +7,7 @@ import NavBar from './Nav/NavBar';
 import Home from './Main/Home';
 import MoviePage from './Main/MoviePage';
 import MovieSearchResultPage from './Main/MovieSearchResultPage';
+import MovieEntityPage from './Main/MovieEntityPage';
 import UserPage from './Main/UserPage';
 
 const RedirectHome = () => {
@@ -28,6 +29,7 @@ class App extends Component {
                     <Route exact path="/movie/:movie_id" component={MoviePage}/>
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/user/:term/:username" component={UserPage}/>
+                    <Route path="/actor/:actor_id/:page?" component={MovieEntityPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
             </div>

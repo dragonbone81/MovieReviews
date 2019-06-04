@@ -45,10 +45,6 @@ class MovieSearchResultPage extends Component {
         if (this.state.searching) {
             return (<Loader/>)
         }
-        const middle_pages = [];
-        for (let i = (Math.max(this.state.page - 3, 1)); i <= Math.min(this.state.page + 3, this.state.totalPages); i++) {
-            middle_pages.push(i);
-        }
         return (
             <div className="d-flex flex-column align-items-center movie-page">
                 <div className="movie-results d-flex flex-column align-items-start">

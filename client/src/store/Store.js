@@ -93,6 +93,20 @@ class Store {
                 return {};
             });
     };
+    getActorInfo = (actor_id) => {
+        return fetch(`${THE_MOVIE_DB_URL}/person/${actor_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=movie_credits`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
     // throttled = (delay, fn) => {
     //     let lastCall = 0;
     //     return function (...args) {

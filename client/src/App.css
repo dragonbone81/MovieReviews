@@ -205,6 +205,14 @@
     margin-top: 20px;
 }
 
+.actor-movie-results {
+    color: #9badbb;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+}
+
 .pagination {
     color: white;
     min-width: 400px;
