@@ -4,6 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import RatingComponent from '../Misc/Rating';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
+import ImageWithLoading from '../Misc/ImageWithLoading';
 
 class WatchedMovies extends Component {
     state = {
@@ -56,11 +57,10 @@ class WatchedMovies extends Component {
             <div className="d-flex flex-column">
                 <div className="d-flex flex-row justify-content-between">
                     <div className="movie-img-review-page-div">
-                        <Link to={`/movie/${this.state.movieData.movie_id}`}>
-                            <img
-                                src={this.state.movieData.poster_path ? this.props.store.getImageURL(this.state.movieData.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                className="img-review-page" alt="Movie poster"/>
-                        </Link>
+                        <ImageWithLoading width={200}
+                                          imgStyle="img-review-page"
+                                          makeLink={true} movie_id={this.state.movieData.movie_id}
+                                          src={this.props.store.getImageURL(this.state.movieData.poster_path, this.props.store.poster_sizes[3])}/>
                     </div>
                     <div className="d-flex flex-column flex-fill">
                         <span

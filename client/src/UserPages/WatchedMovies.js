@@ -4,6 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import RatingComponent from '../Misc/Rating';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
+import ImageWithLoading from '../Misc/ImageWithLoading';
 
 class WatchedMovies extends Component {
     state = {
@@ -65,11 +66,10 @@ class WatchedMovies extends Component {
                         return (
                             <div key={movie.movie_id}
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
-                                <Link to={`/movie/${movie.movie_id}`}>
-                                    <img
-                                        src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                        className="img-watched" alt="Movie poster"/>
-                                </Link>
+                                <ImageWithLoading width={200}
+                                                  imgStyle="img-watched"
+                                                  makeLink={true} movie_id={movie.movie_id}
+                                                  src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 <div className="movie-ratings-watched">
                                     <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
                                                      onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>

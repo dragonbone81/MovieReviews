@@ -4,6 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 import RatingComponent from '../Misc/Rating';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
+import ImageWithLoading from '../Misc/ImageWithLoading';
 
 class HistoryMovies extends Component {
     state = {
@@ -87,11 +88,10 @@ class HistoryMovies extends Component {
                                 </div>
                                 <div
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
-                                    <Link to={`/movie/${movie.movie_id}`}>
-                                        <img
-                                            src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                            className="img-history" alt="Movie poster"/>
-                                    </Link>
+                                    <ImageWithLoading width={100}
+                                                      imgStyle="img-history"
+                                                      makeLink={true} movie_id={movie.movie_id}
+                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 </div>
                                 <div className="movie-title smaller">
                                     <Link style={{color: 'inherit'}}
