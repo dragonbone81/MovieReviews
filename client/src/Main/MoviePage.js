@@ -4,6 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import RatingComponent from '../Misc/Rating';
 import ReviewModal from './ReviewModal';
+import ImageWithLoading from '../Misc/ImageWithLoading';
 import {
     BarChart, Bar, YAxis
 } from 'recharts';
@@ -47,6 +48,7 @@ class MoviePage extends Component {
             movieData.ratings = this.props.store.getRatings(OMDB_data);
         }
         this.setState({movieData: movieData || {}, userMovieData: userMovieData || {}}, () => {
+            console.log(this.state.movieData)
             this.setState({loadingData: false});
         });
     };
@@ -89,9 +91,9 @@ class MoviePage extends Component {
                         className="movie-backdrop"/>
                     <div className="mr-1 ml-1 movie-content d-flex flex-row justify-content-center">
                         <div className="movie-poster d-flex flex-column mr-2">
-                            <img width={250}
-                                 src={this.state.movieData.poster_path ? this.props.store.getImageURL(this.state.movieData.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                 className="img-thumbnail" alt="Movie poster"/>
+                            <ImageWithLoading width={250}
+                                              imgStyle="movie-page-poster"
+                                              src={this.props.store.getImageURL(this.state.movieData.poster_path, this.props.store.poster_sizes[3])}/>
                             <div className="d-flex flex-row justify-content-between ratings mt-2">
                                 <div className="d-flex flex-row mr-1">
                                     <img className="mr-1" height={25}

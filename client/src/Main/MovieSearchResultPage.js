@@ -3,6 +3,7 @@ import {observer, inject} from 'mobx-react';
 import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import Pagination from '../Misc/Pagination';
+import ImageWithLoading from '../Misc/ImageWithLoading';
 
 class MovieSearchResultPage extends Component {
     state = {
@@ -52,9 +53,9 @@ class MovieSearchResultPage extends Component {
                     {this.state.searchResults.map(movie => {
                         return (
                             <div key={movie.id} className="d-flex flex-row movie-results-list-item">
-                                <div>
-                                    <img width={100} src={this.props.store.getImageURL(movie.poster_path)}
-                                         className="movie-poster-image-list" alt="Movie poster"/>
+                                <div className="d-flex flex-row align-items-center">
+                                    <ImageWithLoading makeLink={true} movie_id={movie.id} width={100} imgStyle="movie-poster-image-list"
+                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[2])}/>
                                 </div>
                                 <div className="d-flex flex-column movie-list-content">
                                     <div className="d-flex flex-row">

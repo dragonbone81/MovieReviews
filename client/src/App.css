@@ -350,12 +350,18 @@
     width: 100%;
     max-width: 800px;
 }
-
+.movie-poster-actor-list-movies{
+    border: 2px solid #aaaaaa;
+    border-radius: 5px;
+}
 .movie-poster-image-list {
     border: 1px solid #aaaaaa;
     border-radius: 5px;
 }
-
+.movie-page-poster{
+    border: 3px solid #b2c7d7;
+    border-radius: 5px;
+}
 .movie-list-content {
     margin-left: 20px;
 }

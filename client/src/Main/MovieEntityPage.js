@@ -29,7 +29,7 @@ class MovieEntityPage extends Component {
             this.setState({
                 loadingData: false,
                 actorData,
-                movieData: actorData.movie_credits.cast,
+                movieData: actorData.movie_credits.cast.sort((a, b) => b.popularity - a.popularity),
                 page,
                 totalPages: Math.ceil(actorData.movie_credits.cast.length / 50)
             });
@@ -58,10 +58,8 @@ class MovieEntityPage extends Component {
                         return (
                             <div key={movie.id} className="">
                                 <div style={{padding: 10}}>
-                                    <ImageWithLoading width={100}
-                                                      src={this.props.store.getImageURL(movie.poster_path, "original")}/>
-                                    {/*<img width={100} src={this.props.store.getImageURL(movie.poster_path, "w154")}*/}
-                                    {/*className="movie-poster-image-list" alt="Movie poster"/>*/}
+                                    <ImageWithLoading width={200} imgStyle="movie-poster-actor-list-movies"
+                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 </div>
                             </div>
                         )
