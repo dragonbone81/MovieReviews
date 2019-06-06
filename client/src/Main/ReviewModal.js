@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.min.css"
 import ImageWithLoading from '../Misc/ImageWithLoading';
+import {toast} from 'react-toastify';
 
 class ReviewModal extends Component {
     state = {
@@ -43,11 +44,28 @@ class ReviewModal extends Component {
             this.props.updateVReview(this.state.v_rating);
         }
         this.props.updateReviewDate(this.state.review, this.state.date);
+        toast.info("💾 Review Saved", {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+        });
         this.props.close();
     };
     delete_review = () => {
         this.props.store.updateMovieUserDataReview(this.props.movie.id, null, null);
         this.props.updateReviewDate(null, null);
+        toast.info("❌ Review Deleted", {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+        });
+        this.setState({date: null, review: ""});
         this.props.close();
     };
 

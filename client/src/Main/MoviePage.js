@@ -72,6 +72,20 @@ class MoviePage extends Component {
                 message = "🙁 Movie Unliked"
             }
         }
+        if (type === "viewed") {
+            if (val) {
+                message = "🙉 Movie Viewed"
+            } else {
+                message = "🙈 Movie Unviewed"
+            }
+        }
+        if (type === "saved") {
+            if (val) {
+                message = "💾 Movie Saved"
+            } else {
+                message = "🚫 Movie Removed"
+            }
+        }
         toast.info(message, {
             position: "top-right",
             autoClose: 1500,
