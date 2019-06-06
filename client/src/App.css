@@ -180,7 +180,11 @@
     margin-left: 20px;
     padding-right: 20px;
 }
-
+.test{
+    background: #425467;
+    /*background-color: inherit;*/
+    height: 43px;
+}
 .img-watched {
     margin: 5px;
     border: 2px solid #bdbdbd;

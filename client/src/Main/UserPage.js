@@ -5,6 +5,8 @@ import WatchedMovies from '../UserPages/WatchedMovies'
 import HistoryMovies from '../UserPages/HistoryMovies'
 import MovieReviewPage from '../UserPages/MovieReviewPage'
 import ReviewMovies from '../UserPages/ReviewMovies'
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 class UserPage extends Component {
     state = {
@@ -36,6 +38,10 @@ class UserPage extends Component {
 
 
     render() {
+        const options = [
+            'one', 'two', 'three'
+        ];
+        const defaultOption = options[0];
         return (
             <div className="user-page">
                 <div className="user-page-content">
@@ -58,15 +64,14 @@ class UserPage extends Component {
                         </Link>
                         <div className="user-page-nav-nib border-right">Saved</div>
                         <div className="user-page-nav-nib mr-auto">Liked</div>
-                        <div onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
-                             className="user-page-nav-nib border-left">Sort
-                        </div>
-                        <div
-                             style={{visibility: this.state.sortShown ? "visible" : "hidden"}}
-                             className="d-flex flex-column sorting-selection">
-                            <span>Date</span>
-                            <span>Rating</span>
-                        </div>
+                        {/*<div*/}
+                        {/*className="user-page-nav-nib border-left">*/}
+                        <Dropdown controlClassName='test'
+                                  className="" options={options} onChange={this._onSelect}
+                                  // value={defaultOption}
+                                  placeholder="Sort"/>
+                        {/**/}
+                        {/*</div>*/}
                     </div>
                     <div>
                         <Switch>
