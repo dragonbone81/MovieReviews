@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id}) => {
-    const height = width * (3 / 2);
+    const height = Math.ceil(width * (3 / 2));
     const [loading, setLoading] = useState(true);
     const [couldNotLoad, setCouldNotLoad] = useState(false);
     return (

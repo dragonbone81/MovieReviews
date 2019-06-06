@@ -10,6 +10,8 @@ class UserPage extends Component {
     state = {
         page: "",
         readOnly: true,
+        sortMode: {type: "date_created", direction: "desc"},
+        sortShown: false,
     };
 
     componentDidMount() {
@@ -55,7 +57,16 @@ class UserPage extends Component {
                             className={`user-page-nav-nib border-right ${this.state.page === "reviews" ? "active" : ""}`}>Reviews
                         </Link>
                         <div className="user-page-nav-nib border-right">Saved</div>
-                        <div className="user-page-nav-nib">Liked</div>
+                        <div className="user-page-nav-nib mr-auto">Liked</div>
+                        <div onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
+                             className="user-page-nav-nib border-left">Sort
+                        </div>
+                        <div
+                             style={{visibility: this.state.sortShown ? "visible" : "hidden"}}
+                             className="d-flex flex-column sorting-selection">
+                            <span>Date</span>
+                            <span>Rating</span>
+                        </div>
                     </div>
                     <div>
                         <Switch>

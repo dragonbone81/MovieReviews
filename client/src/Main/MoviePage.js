@@ -5,6 +5,7 @@ import Loader from '../Misc/Loader';
 import RatingComponent from '../Misc/Rating';
 import ReviewModal from './ReviewModal';
 import ImageWithLoading from '../Misc/ImageWithLoading';
+import {toast} from 'react-toastify';
 import {
     BarChart, Bar, YAxis
 } from 'recharts';
@@ -63,6 +64,22 @@ class MoviePage extends Component {
     }
 
     updateMovieUserData = (type, val) => {
+        let message;
+        if (type === "liked") {
+            if (val) {
+                message = "🙂 Movie Liked"
+            } else {
+                message = "🙁 Movie Unliked"
+            }
+        }
+        toast.info(message, {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+        });
         this.props.store.updateMovieUserData(this.state.movieData.id, type, val);
         const updatedState = {...this.state.userMovieData};
         updatedState[type] = val;

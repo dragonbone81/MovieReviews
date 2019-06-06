@@ -9,6 +9,8 @@ import MoviePage from './Main/MoviePage';
 import MovieSearchResultPage from './Main/MovieSearchResultPage';
 import MovieEntityPage from './Main/MovieEntityPage';
 import UserPage from './Main/UserPage';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RedirectHome = () => {
     return (
@@ -20,6 +22,7 @@ class App extends Component {
     render() {
         return (
             <div>
+                <ToastContainer/>
                 <NavBar/>
                 <Switch>
                     {/*<Route exact path="/login" component={Login}/>*/}

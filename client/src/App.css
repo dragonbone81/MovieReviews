@@ -49,7 +49,14 @@
 .user-page-nav-nib:hover {
     color: #d4edff !important;
 }
-
+.sorting-selection{
+    background-color: red;
+    position: absolute;
+    right: 0;
+    width: 200px;
+    top: 43px;
+    z-index: 9000;
+}
 .user-page-nav-nib.border-right {
     border-color: black !important;
 }
@@ -60,6 +67,7 @@
 }
 
 .user-page-nav {
+    position: relative;
     user-select: none;
     margin-left: 5px;
     margin-right: 5px;
