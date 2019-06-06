@@ -213,6 +213,19 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
+    updateMovieVReview = (movie_id, v_review) => {
+        return fetch(`${SERVER_URL}/user/movie/update/v_review`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "token": this.user.token,
+            },
+            body: JSON.stringify({movie_id, v_review}),
+        })
+            .then(response => response.json())
+            .then(response => response.movie)
+            .catch(e => console.log(e))
+    };
     getViewedMoviesForUser = (username, page = 0) => {
         return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}`, {
             method: "GET",

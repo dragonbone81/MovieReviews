@@ -47,7 +47,6 @@ class MoviePage extends Component {
         } else {
             movieData.ratings = this.props.store.getRatings(OMDB_data);
         }
-        console.log(userMovieData);
         this.setState({movieData: movieData || {}, userMovieData: userMovieData || {}}, () => {
             this.setState({loadingData: false});
         });
@@ -70,7 +69,12 @@ class MoviePage extends Component {
         this.setState({userMovieData: updatedState})
     };
     updateReviewDate = (review, date_watched) => {
-        this.setState({userMovieData: {...this.state.userMovieData, review, date_watched}})
+        this.setState(prevState => ({userMovieData: {...prevState.userMovieData, review, date_watched}}))
+    };
+    updateVReview = (v_rating) => {
+        if (this.state.userMovieData.v_rating) {
+            this.setState(prevState => ({userMovieData: {...prevState.userMovieData, v_rating: {rating: v_rating}}}))
+        }
     };
 
     render() {
@@ -82,7 +86,8 @@ class MoviePage extends Component {
         if (Object.entries(this.state.movieData).length > 0)
             return (
                 <div className="movie-page-full">
-                    <ReviewModal updateReviewDate={this.updateReviewDate} userMovieData={this.state.userMovieData}
+                    <ReviewModal updateVReview={this.updateVReview} updateReviewDate={this.updateReviewDate}
+                                 userMovieData={this.state.userMovieData}
                                  movie={this.state.movieData}
                                  open={this.state.reviewModalOpen}
                                  close={() => this.setState({reviewModalOpen: false})}/>
@@ -133,8 +138,10 @@ class MoviePage extends Component {
                                 </div>
                                 <div className="d-flex flex-column">
                                     {this.props.store.user.token ?
-                                        <div className="movie-actions d-flex flex-column">
-
+                                        <div style={{
+                                            minHeight: this.state.userMovieData.v_rating ? 400 : 300,
+                                            maxHeight: this.state.userMovieData.v_rating ? 400 : 300
+                                        }} className="movie-actions d-flex flex-column">
                                             <div
                                                 className="d-flex flex-row movie-actions-icons justify-content-between">
                                                 <div
@@ -182,7 +189,8 @@ class MoviePage extends Component {
                                                 <div
                                                     className="d-flex flex-column align-items-center justify-content-center v-rating">
                                                     <span className="rating-text">Vernikoff Rating</span>
-                                                    <span className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userMovieData.v_rating.rating]}</span>
+                                                    <span
+                                                        className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userMovieData.v_rating.rating]}</span>
                                                 </div>
                                             )}
                                             <div className="d-flex flex-column align-items-center review"

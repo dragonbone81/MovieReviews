@@ -8,6 +8,7 @@ class ReviewModal extends Component {
     state = {
         date: new Date(),
         review: "",
+        v_rating: 0,
     };
 
     componentDidMount() {
@@ -36,6 +37,10 @@ class ReviewModal extends Component {
     };
     save = () => {
         this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review);
+        if (this.props.store.user.username === "dragonbone81") {
+            this.props.store.updateMovieVReview(this.props.movie.id, this.state.v_rating);
+            this.props.updateVReview(this.state.v_rating);
+        }
         this.props.updateReviewDate(this.state.review, this.state.date);
         this.props.close();
     };
@@ -79,6 +84,19 @@ class ReviewModal extends Component {
                                             onChange={(date) => this.setState({date})}
                                             maxDate={new Date()}
                                         />
+                                        {this.props.store.user.username === "dragonbone81" && (
+                                            <div className="form-group pt-2">
+                                                <label>Vernikoff Rating</label>
+                                                <select onChange={({target}) => this.setState({v_rating: parseInt(target.value)})}
+                                                        defaultValue={this.props.userMovieData.v_rating.rating}
+                                                        className="form-control">
+                                                    {this.props.store.vernikoff_ratings.map((v, i) =>
+                                                        <option
+                                                            key={i} value={i}>{v}</option>
+                                                    )}
+                                                </select>
+                                            </div>
+                                        )}
                                     </div>
                                     <textarea value={this.state.review}
                                               onChange={({target}) => this.setState({review: target.value})}

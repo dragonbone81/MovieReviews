@@ -78,6 +78,21 @@ router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, re
         res.json({})
     }
 });
+router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) => {
+    if (req.username !== "dragonbone81") {
+        res.json({});
+        return;
+    }
+    const {movie_id, v_review} = req.body;
+    try {
+        await V_Rating.query().upsertGraph({
+            movie_id, rating: v_review,
+        }, {insertMissing: true, noDelete: true});
+        res.json({success: true})
+    } catch (e) {
+        res.json({})
+    }
+});
 router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
     const {movie_id, type, value} = req.body;
     const query = {username: req.username, movie_id};

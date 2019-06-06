@@ -459,9 +459,12 @@
 }
 
 .v-rating {
+    text-align: center;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-size: 35px;
+    font-size: 25px;
+    padding-right: 10px;
+    padding-left: 10px;
     /*color: #b8f5b5;*/
 
     border-bottom: 1px solid #1a1a1c;
@@ -561,8 +564,8 @@
     background-color: #425467;
     min-width: 250px;
     max-width: 250px;
-    max-height: 400px;
-    min-height: 400px;
+    /*max-height: 400px;*/
+    /*min-height: 400px;*/
     /*padding-left: 5px;*/
     margin-left: 5px;
     /*margin-right: 5px;*/
@@ -724,7 +727,7 @@ body {
 
 .movie-modal-year {
     font-size: 20px;
-    padding-top: 4px;
+    padding-top: 5px;
     padding-left: 10px;
     color: #2c3338;
     /*line-height: 30px;*/
