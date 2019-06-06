@@ -3,6 +3,7 @@ import {observer, inject} from 'mobx-react';
 import {withRouter} from 'react-router-dom';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.min.css"
+import ImageWithLoading from '../Misc/ImageWithLoading';
 
 class ReviewModal extends Component {
     state = {
@@ -63,9 +64,9 @@ class ReviewModal extends Component {
                         <div className="review-modal-content">
                             <div className="d-flex flex-row movie-review-row">
                                 <div>
-                                    <img width={150}
-                                         src={this.props.movie.poster_path ? this.props.store.getImageURL(this.props.movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}
-                                         className="img-review" alt="Movie poster"/>
+                                    <ImageWithLoading width={150}
+                                                      imgStyle="img-review"
+                                                      src={this.props.store.getImageURL(this.props.movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 </div>
                                 <div className="d-flex flex-column review-details">
                                     <span className="modal-you-watched">You watched...</span>
