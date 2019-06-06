@@ -106,6 +106,8 @@ router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
 router.get('/user/movies/watched/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
+    const sort_type = req.query.sort_type || "created_at";
+    const sort_direction = req.query.sort_direction || "desc";
     const movies = await MovieInteraction.query()
         .where({username})
         .andWhere((table) => {
@@ -114,7 +116,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.orWhereNotNull("review");
         })
         .page(page, 10)
-        .orderBy("created_at", "desc");
+        .orderBy(sort_type || "created_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/history/:username', async (req, res) => {

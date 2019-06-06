@@ -21,6 +21,10 @@ class WatchedMovies extends Component {
         if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
             this.updatePage();
         }
+        if (this.props.sortType !== prevProps.sortType) {
+            console.log(this.props.sortType)
+            this.updatePage();
+        }
     }
 
     updatePage = async () => {
@@ -28,7 +32,7 @@ class WatchedMovies extends Component {
         const {username} = this.props.match.params;
         document.title = `${username}'s Watched Movies`;
         const page = parseInt(this.props.match.params.page) || 1;
-        const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1);
+        const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1, this.props.sortType);
         const movies = await this.props.store.getMultipleMovies(movie_data.results);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {withRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 import WatchedMovies from '../UserPages/WatchedMovies'
+import SortingComponent from '../Misc/SortingComponent'
 import HistoryMovies from '../UserPages/HistoryMovies'
 import MovieReviewPage from '../UserPages/MovieReviewPage'
 import ReviewMovies from '../UserPages/ReviewMovies'
@@ -12,7 +13,8 @@ class UserPage extends Component {
     state = {
         page: "",
         readOnly: true,
-        sortMode: {type: "date_created", direction: "desc"},
+        sortType: "created_at",
+        sortDirection: "desc",
         sortShown: false,
     };
 
@@ -36,6 +38,9 @@ class UserPage extends Component {
         }
     }
 
+    changeSortType = (type) => {
+        this.setState({sortType: type});
+    }
 
     render() {
         const options = [
@@ -64,19 +69,25 @@ class UserPage extends Component {
                         </Link>
                         <div className="user-page-nav-nib border-right">Saved</div>
                         <div className="user-page-nav-nib mr-auto">Liked</div>
-                        {/*<div*/}
-                        {/*className="user-page-nav-nib border-left">*/}
-                        <Dropdown controlClassName='test'
-                                  className="" options={options} onChange={this._onSelect}
-                                  // value={defaultOption}
-                                  placeholder="Sort"/>
+                        <div
+                            onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
+                            className="user-page-nav-nib border-left">
+                            <i className="fas fa-filter"/>
+                        </div>
+                        {/*<Dropdown controlClassName='test'*/}
+                        {/*menuClassName="test"*/}
+                        {/*className="border-left" options={options} onChange={this._onSelect}*/}
+                        {/*// value={defaultOption}*/}
+                        {/*placeholder="Sort"/>*/}
                         {/**/}
-                        {/*</div>*/}
+
                     </div>
                     <div>
+                        <SortingComponent changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
                         <Switch>
                             <Route exact path="/user/movies/:username/:page?"
-                                   render={(props) => <WatchedMovies {...props} readOnly={this.state.readOnly}/>}/>
+                                   render={(props) => <WatchedMovies {...props} sortType={this.state.sortType}
+                                                                     readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/history/:username/:page?"
                                    render={(props) => <HistoryMovies {...props} readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/review/:username/:movie_id"
