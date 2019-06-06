@@ -72,7 +72,7 @@ class MoviePage extends Component {
         this.setState(prevState => ({userMovieData: {...prevState.userMovieData, review, date_watched}}))
     };
     updateVReview = (v_rating) => {
-        if (this.state.userMovieData.v_rating) {
+        if (v_rating !== -1) {
             this.setState(prevState => ({userMovieData: {...prevState.userMovieData, v_rating: {rating: v_rating}}}))
         }
     };

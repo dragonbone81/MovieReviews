@@ -8,7 +8,7 @@ class ReviewModal extends Component {
     state = {
         date: new Date(),
         review: "",
-        v_rating: 0,
+        v_rating: -1,
     };
 
     componentDidMount() {
@@ -37,7 +37,7 @@ class ReviewModal extends Component {
     };
     save = () => {
         this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review);
-        if (this.props.store.user.username === "dragonbone81") {
+        if (this.props.store.user.username === "dragonbone81" && this.state.v_rating !== -1) {
             this.props.store.updateMovieVReview(this.props.movie.id, this.state.v_rating);
             this.props.updateVReview(this.state.v_rating);
         }
@@ -89,8 +89,10 @@ class ReviewModal extends Component {
                                                 <label>Vernikoff Rating</label>
                                                 <select
                                                     onChange={({target}) => this.setState({v_rating: parseInt(target.value)})}
-                                                    defaultValue={this.props.userMovieData.v_rating ? this.props.userMovieData.v_rating.rating : 0}
+                                                    defaultValue={this.props.userMovieData.v_rating ? this.props.userMovieData.v_rating.rating : -1}
                                                     className="form-control">
+                                                    <option
+                                                        key={-1} value={-1}/>
                                                     {this.props.store.vernikoff_ratings.map((v, i) =>
                                                         <option
                                                             key={i} value={i}>{v}</option>
