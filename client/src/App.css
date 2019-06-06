@@ -112,16 +112,12 @@
 }
 
 .img-review-page {
-    cursor: pointer;
-    width: 200px;
     margin: 5px;
     border: 2px solid #bdbdbd;
     border-radius: 5px;
 }
 
 .img-history {
-    cursor: pointer;
-    width: 100px;
     margin: 5px;
     border: 2px solid #bdbdbd;
     border-radius: 5px;
@@ -178,8 +174,6 @@
 }
 
 .img-watched {
-    cursor: pointer;
-    width: 200px;
     margin: 5px;
     border: 2px solid #bdbdbd;
     border-radius: 5px;
