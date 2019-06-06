@@ -34,6 +34,16 @@ class User extends Model {
     }
 }
 
+class V_Rating extends Model {
+    static get tableName() {
+        return 'v_rating'
+    }
+
+    static get idColumn() {
+        return 'movie_id';
+    }
+}
+
 class MovieInteraction extends Model {
     static get tableName() {
         return 'movie_interaction'
@@ -57,4 +67,4 @@ class MovieInteraction extends Model {
     }
 }
 
-module.exports = {User, MovieInteraction};
+module.exports = {User, MovieInteraction, V_Rating};

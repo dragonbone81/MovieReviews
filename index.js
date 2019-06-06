@@ -8,7 +8,7 @@ const server = app.listen(port, () => console.log("Server Started!"));
 const client = require('./server/db_connection');
 const authRoutes = require('./server/authRoutes');
 const movieRoutes = require('./server/movieRoutes');
-// const {User, MovieInteraction} = require('./server/models');
+const {User, MovieInteraction, V_Rating} = require('./server/models');
 
 app.use(morgan('short'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,6 +19,7 @@ app.use(movieRoutes);
 
 
 app.get('/', async (req, res) => {
+    await V_Rating.query().insert({movie_id: 24428, rating: 5});
     // await User.query().insert({username: "dragonbone81", email: "test", password: "test"})
     // const user = await User.query()
     //     .eager('movies')

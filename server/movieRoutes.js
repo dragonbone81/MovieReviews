@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
-const {User, MovieInteraction} = require('./models');
+const {User, MovieInteraction, V_Rating} = require('./models');
 
 router.get('/user/movie/:movie_id', jwtCheck, async (req, res) => {
     const {movie_id} = req.params;
@@ -22,8 +22,12 @@ router.get('/user/movie/:movie_id', jwtCheck, async (req, res) => {
             .count()
             .havingNotNull("rating")
             .where({movie_id}).groupBy("rating"),
+        V_Rating.query()
+            .findById(movie_id)
     ]);
-    res.json({movie: {...allQueries[0], rating_groups: allQueries[1]}});
+    console.log(allQueries)
+    res.json({movie: {...allQueries[0], rating_groups: allQueries[1], v_rating: allQueries[2]}});
+    // res.json({movie: {...allQueries[0]}});
 });
 router.get('/user/review/:movie_id/:username', async (req, res) => {
     const {movie_id, username} = req.params;
