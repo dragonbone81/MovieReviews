@@ -344,18 +344,22 @@
     width: 100%;
     max-width: 800px;
 }
-.movie-poster-actor-list-movies{
+
+.movie-poster-actor-list-movies {
     border: 2px solid #aaaaaa;
     border-radius: 5px;
 }
+
 .movie-poster-image-list {
     border: 1px solid #aaaaaa;
     border-radius: 5px;
 }
-.movie-page-poster{
+
+.movie-page-poster {
     border: 3px solid #b2c7d7;
     border-radius: 5px;
 }
+
 .movie-list-content {
     margin-left: 20px;
 }
@@ -454,6 +458,15 @@
     /*width: available;*/
 }
 
+.v-rating {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 35px;
+    /*color: #b8f5b5;*/
+
+    border-bottom: 1px solid #1a1a1c;
+}
+
 .review:hover {
     color: #bfd2e2;
     cursor: pointer;
@@ -520,6 +533,11 @@
     margin-right: 5px;
 }
 
+.v-rating-text {
+    font-family: 'Rubik', sans-serif;
+    color: #bed4e5;
+}
+
 .movie-actions-not-logged-in {
     border-radius: 5px;
     background-color: #425467;
@@ -543,8 +561,8 @@
     background-color: #425467;
     min-width: 250px;
     max-width: 250px;
-    max-height: 300px;
-    min-height: 300px;
+    max-height: 400px;
+    min-height: 400px;
     /*padding-left: 5px;*/
     margin-left: 5px;
     /*margin-right: 5px;*/

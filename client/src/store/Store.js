@@ -14,12 +14,12 @@ class Store {
     }
 
     vernikoff_ratings = [
-        "So bad it's good",
-        "TEEEEEAARIBLE",
-        "Mehhh",
-        "Pretty good",
-        "Amazing",
-        "Best movie ever made"
+        "So bad it's good 😶",
+        "TEEEEEAARIBLE 😔",
+        "Mehhh 😐",
+        "Pretty good 🙂",
+        "Amazing! 😄",
+        "Best movie ever made 😋"
     ];
     poster_sizes = [
         "w92",

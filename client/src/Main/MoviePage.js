@@ -47,8 +47,8 @@ class MoviePage extends Component {
         } else {
             movieData.ratings = this.props.store.getRatings(OMDB_data);
         }
+        console.log(userMovieData);
         this.setState({movieData: movieData || {}, userMovieData: userMovieData || {}}, () => {
-            console.log(this.state.movieData)
             this.setState({loadingData: false});
         });
     };
@@ -178,6 +178,13 @@ class MoviePage extends Component {
                                                 <RatingComponent initialRating={this.state.userMovieData.rating}
                                                                  onChange={(val) => this.updateMovieUserData("rating", val)}/>
                                             </div>
+                                            {this.state.userMovieData.v_rating && (
+                                                <div
+                                                    className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                    <span className="rating-text">Vernikoff Rating</span>
+                                                    <span className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userMovieData.v_rating.rating]}</span>
+                                                </div>
+                                            )}
                                             <div className="d-flex flex-column align-items-center review"
                                                  onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
                                                 <span>{(this.state.userMovieData.date_watched || this.state.userMovieData.review) ? "Edit Review..." : "Review..."}</span>
