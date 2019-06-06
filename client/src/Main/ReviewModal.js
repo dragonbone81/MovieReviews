@@ -87,9 +87,10 @@ class ReviewModal extends Component {
                                         {this.props.store.user.username === "dragonbone81" && (
                                             <div className="form-group pt-2">
                                                 <label>Vernikoff Rating</label>
-                                                <select onChange={({target}) => this.setState({v_rating: parseInt(target.value)})}
-                                                        defaultValue={this.props.userMovieData.v_rating.rating}
-                                                        className="form-control">
+                                                <select
+                                                    onChange={({target}) => this.setState({v_rating: parseInt(target.value)})}
+                                                    defaultValue={this.props.userMovieData.v_rating ? this.props.userMovieData.v_rating.rating : 0}
+                                                    className="form-control">
                                                     {this.props.store.vernikoff_ratings.map((v, i) =>
                                                         <option
                                                             key={i} value={i}>{v}</option>
