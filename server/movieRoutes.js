@@ -3,25 +3,26 @@ const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
 const {User, MovieInteraction, V_Rating} = require('./models');
 
-router.get('/user/movie/:movie_id', jwtCheck.jwtCheckWithNoToken, async (req, res) => {
-    const {movie_id} = req.params;
+router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => {
+    const {id} = req.params;
+    const type = req.query.type || "movie";
     if (req.no_token) {
         const allQueries = await Promise.all([
             MovieInteraction.query()
                 .columns("rating")
                 .count()
                 .havingNotNull("rating")
-                .where({movie_id}).groupBy("rating"),
+                .where({movie_id: id, type}).groupBy("rating"),
             V_Rating.query()
-                .findById(movie_id)
+                .findById([id, type])
                 .column("rating"),
             MovieInteraction.query()
-                .where({movie_id})
+                .where({movie_id: id, type})
                 .whereNotNull("rating")
                 .count()
                 .as('total_ratings'),
             MovieInteraction.query()
-                .where({movie_id}).avg("rating")
+                .where({movie_id: id, type}).avg("rating")
                 .as('average_rating'),
         ]);
         res.json({
@@ -35,12 +36,12 @@ router.get('/user/movie/:movie_id', jwtCheck.jwtCheckWithNoToken, async (req, re
     } else {
         const allQueries = await Promise.all([
             MovieInteraction.query()
-                .findById([req.username, movie_id])
+                .findById([req.username, id, type])
                 .columns(MovieInteraction.query()
-                        .where({movie_id}).avg("rating")
+                        .where({movie_id: id, type}).avg("rating")
                         .as('average_rating'),
                     MovieInteraction.query()
-                        .where({movie_id})
+                        .where({movie_id: id, type})
                         .whereNotNull("rating")
                         .count()
                         .as('total_ratings'),
@@ -49,9 +50,9 @@ router.get('/user/movie/:movie_id', jwtCheck.jwtCheckWithNoToken, async (req, re
                 .columns("rating")
                 .count()
                 .havingNotNull("rating")
-                .where({movie_id}).groupBy("rating"),
+                .where({movie_id: id, type}).groupBy("rating"),
             V_Rating.query()
-                .findById(movie_id)
+                .findById([id, type])
                 .column("rating")
         ]);
         res.json({movie: {...allQueries[0], rating_groups: allQueries[1], v_rating: allQueries[2]}});
@@ -60,7 +61,7 @@ router.get('/user/movie/:movie_id', jwtCheck.jwtCheckWithNoToken, async (req, re
 router.get('/user/review/:movie_id/:username', async (req, res) => {
     const {movie_id, username} = req.params;
     const movie = await MovieInteraction.query()
-        .findById([username, movie_id])
+        .findById([username, movie_id, "movie"])
         .andWhere((table) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
@@ -71,7 +72,7 @@ router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, re
     const {movie_id, date_watched, review} = req.body;
     try {
         await MovieInteraction.query().upsertGraph({
-            movie_id, username: req.username, date_watched, review,
+            movie_id, username: req.username, date_watched, review, type: "movie",
         }, {insertMissing: true, noDelete: true});
         res.json({success: true})
     } catch (e) {
@@ -99,7 +100,7 @@ router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
     query[type] = value;
     await MovieInteraction.query().upsertGraph({
         username: req.username,
-        movie_id, ...query
+        movie_id, ...query, type: "movie",
     }, {insertMissing: true, noDelete: true});
     res.json({success: true})
 });
@@ -109,7 +110,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
     const sort_type = req.query.sort_type || "created_at";
     const sort_direction = req.query.sort_direction || "desc";
     const movies = await MovieInteraction.query()
-        .where({username})
+        .where({username, type: "movie"})
         .andWhere((table) => {
             table.where({viewed: true});
             table.orWhereNotNull("date_watched");
@@ -129,7 +130,7 @@ router.get('/user/movies/history/:username', async (req, res) => {
         sort_type = "date_watched";
     }
     const movies = await MovieInteraction.query()
-        .where({username})
+        .where({username, type: "movie"})
         .whereNotNull("date_watched")
         .page(page, 10)
         .orderBy(sort_type || "date_watched", sort_direction || "desc");
@@ -139,7 +140,7 @@ router.get('/user/movies/reviews/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
     const movies = await MovieInteraction.query()
-        .where({username})
+        .where({username, type: "movie"})
         .andWhere((table) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
@@ -152,7 +153,7 @@ router.get('/user/movies/ratings/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
     const movies = await MovieInteraction.query()
-        .where({username})
+        .where({username, type: "movie"})
         .whereNotNull("review")
         .page(page, 10)
         .orderBy("created_at", "desc");

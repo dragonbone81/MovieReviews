@@ -40,7 +40,7 @@ class V_Rating extends Model {
     }
 
     static get idColumn() {
-        return 'movie_id';
+        return ['movie_id', 'type'];
     }
 }
 
@@ -50,7 +50,7 @@ class MovieInteraction extends Model {
     }
 
     static get idColumn() {
-        return ['username', 'movie_id'];
+        return ['username', 'movie_id', 'type'];
     }
 
     static get relationMappings() {

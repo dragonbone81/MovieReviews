@@ -110,6 +110,20 @@ class Store {
                 return {};
             });
     };
+    getShowInfo = (show_id, credits = true) => {
+        return fetch(`${THE_MOVIE_DB_URL}/tv/${show_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
     getActorInfo = (actor_id) => {
         return fetch(`${THE_MOVIE_DB_URL}/person/${actor_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=movie_credits`, {
             method: "GET",
@@ -141,7 +155,7 @@ class Store {
         })));
     };
     searchForMovies = (search_q, page = 1) => {
-        return fetch(`${THE_MOVIE_DB_URL}/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
+        return fetch(`${THE_MOVIE_DB_URL}/search/multi?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -162,8 +176,8 @@ class Store {
             .then(response => response)
             .catch(e => console.log(e));
     };
-    getUsersMovieDetail = (movie_id) => {
-        return fetch(`${SERVER_URL}/user/movie/${encodeURIComponent(movie_id)}`, {
+    getUsersEntityDetail = (id, type) => {
+        return fetch(`${SERVER_URL}/user/movie/${encodeURIComponent(id)}?type=${type}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

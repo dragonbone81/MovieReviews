@@ -15,8 +15,8 @@ class ReviewModal extends Component {
 
     componentDidMount() {
         this.setState({
-            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || null : null,
-            review: this.props.userMovieData.review || ""
+            date: this.props.userShowData.date_watched ? new Date(this.props.userShowData.date_watched) || null : null,
+            review: this.props.userShowData.review || ""
         });
         document.addEventListener('mousedown', this.click, false);
     }
@@ -32,8 +32,8 @@ class ReviewModal extends Component {
     };
     cancel = () => {
         this.setState({
-            date: this.props.userMovieData.date_watched ? new Date(this.props.userMovieData.date_watched) || new Date() : new Date(),
-            review: this.props.userMovieData.review || ""
+            date: this.props.userShowData.date_watched ? new Date(this.props.userShowData.date_watched) || new Date() : new Date(),
+            review: this.props.userShowData.review || ""
         });
         this.props.close();
     };
@@ -108,7 +108,7 @@ class ReviewModal extends Component {
                                                 <label>Vernikoff Rating</label>
                                                 <select
                                                     onChange={({target}) => this.setState({v_rating: parseInt(target.value)})}
-                                                    defaultValue={this.props.userMovieData.v_rating ? this.props.userMovieData.v_rating.rating : -1}
+                                                    defaultValue={this.props.userShowData.v_rating ? this.props.userShowData.v_rating.rating : -1}
                                                     className="form-control">
                                                     <option
                                                         key={-1} value={-1}/>
@@ -132,7 +132,7 @@ class ReviewModal extends Component {
                                 <button onClick={this.cancel} type="button"
                                         className="mr-2 btn btn-warning submit-review">Cancel
                                 </button>
-                                {(this.props.userMovieData.review || this.props.userMovieData.date_watched) &&
+                                {(this.props.userShowData.review || this.props.userShowData.date_watched) &&
                                 <button onClick={this.delete_review} type="button"
                                         className="mr-auto btn btn-danger submit-review">Delete Review
                                 </button>}

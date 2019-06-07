@@ -26,7 +26,7 @@ class WatchedMovies extends Component {
             return;
         }
         document.title = `${promiseData[1].title} reviewed by ${username}`;
-        this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
+        this.setState({showData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
     };
     // changePage = (page) => {
     //     this.setState({page: page}, () => {
@@ -38,7 +38,7 @@ class WatchedMovies extends Component {
         const newMovieData = {...this.state.movieData};
         newMovieData[type] = val;
         this.setState({
-            movieData: newMovieData
+            showData: newMovieData
         });
     };
 

@@ -29,7 +29,7 @@ class MovieEntityPage extends Component {
             this.setState({
                 loadingData: false,
                 actorData,
-                movieData: actorData.movie_credits.cast.sort((a, b) => b.popularity - a.popularity),
+                showData: actorData.movie_credits.cast.sort((a, b) => b.popularity - a.popularity),
                 page,
                 totalPages: Math.ceil(actorData.movie_credits.cast.length / 50)
             });

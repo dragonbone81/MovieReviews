@@ -4,6 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import Pagination from '../Misc/Pagination';
 import ImageWithLoading from '../Misc/ImageWithLoading';
+import MovieSearchResult from '../Misc/MovieSearchResult';
 
 class MovieSearchResultPage extends Component {
     state = {
@@ -50,26 +51,10 @@ class MovieSearchResultPage extends Component {
             <div className="d-flex flex-column align-items-center movie-page">
                 <div className="movie-results d-flex flex-column align-items-start">
                     <div>Found {this.state.totalResults} results for "{decodeURIComponent(this.state.term)}"</div>
-                    {this.state.searchResults.map(movie => {
+                    {this.state.searchResults.map(entity => {
                         return (
-                            <div key={movie.id} className="d-flex flex-row movie-results-list-item">
-                                <div className="d-flex flex-row align-items-center">
-                                    <ImageWithLoading makeLink={true} movie_id={movie.id} width={100} imgStyle="movie-poster-image-list"
-                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[2])}/>
-                                </div>
-                                <div className="d-flex flex-column movie-list-content">
-                                    <div className="d-flex flex-row">
-                                        <span className="movie-title-list"><Link
-                                            style={{textDecoration: 'none', color: 'white'}}
-                                            to={`/movie/${movie.id}`}><span
-                                            className="movie-list-title-link">{movie.title}</span></Link></span>
-                                        <span
-                                            className="movie-release-year-list">{movie.release_date.substring(0, 4)}</span>
-                                    </div>
-                                    <div className="movie-list-description">{movie.overview}</div>
-                                </div>
-
-                            </div>
+                            <MovieSearchResult entity={entity} poster_size={this.props.store.poster_sizes[2]}
+                                               getImageURL={this.props.store.getImageURL}/>
                         )
                     })}
                 </div>
