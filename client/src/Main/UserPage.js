@@ -10,10 +10,12 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 class UserPage extends Component {
+    initStateSort = {created_at: "desc", rating: "desc"};
+
     state = {
         page: "",
         readOnly: true,
-        sort: {created_at: "desc", rating: "desc"},
+        sort: {...this.initStateSort},
         sortType: "created_at",
         sortDirection: "desc",
         sortShown: false,
@@ -25,7 +27,6 @@ class UserPage extends Component {
 
     updatePage = () => {
         const page = this.props.location.pathname.split("/").slice(2)[0];
-        console.log(this.props.match.params)
         let readOnly = true;
         if (this.props.store.user.username === this.props.match.params.username) {
             readOnly = false;
@@ -35,6 +36,12 @@ class UserPage extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.location.pathname !== prevProps.location.pathname) {
+            this.setState({
+                sortType: "created_at",
+                sortDirection: "desc",
+                sortShown: false,
+                sort: {...this.initStateSort}
+            });
             this.updatePage();
         }
     }
@@ -88,7 +95,7 @@ class UserPage extends Component {
                         {/**/}
 
                     </div>
-                    <div className="d-flex flex-column justify-content-center align-items-center">
+                    <div className="">
                         <SortingComponent sortType={this.state.sortType} changeSortDirection={this.changeSortDirection}
                                           sort={this.state.sort}
                                           changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>

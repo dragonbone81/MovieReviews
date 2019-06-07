@@ -223,7 +223,7 @@
 
 .box {
     height: 40px;
-    transition: height 0.3s, opacity 0.3s;
+    transition: height 0.2s, opacity 0.2s;
 }
 
 .hidden {
@@ -237,7 +237,7 @@
     border-radius: 5px;
     background-color: #6b89a8;
     color: #344352;
-    width: 300px;
+    width: 250px;
     /*width: 100%;*/
 }
 

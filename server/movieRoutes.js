@@ -128,7 +128,6 @@ router.get('/user/movies/history/:username', async (req, res) => {
     if (sort_type === "created_at") {
         sort_type = "date_watched";
     }
-    console.log(req.query.sort_type, sort_direction, sort_type)
     const movies = await MovieInteraction.query()
         .where({username})
         .whereNotNull("date_watched")
