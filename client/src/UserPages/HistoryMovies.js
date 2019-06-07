@@ -22,6 +22,10 @@ class HistoryMovies extends Component {
         if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
             this.updatePage();
         }
+        if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection)) {
+            console.log(this.props.sortType, this.props.sortDirection);
+            this.updatePage();
+        }
     }
 
     updatePage = async () => {
@@ -29,7 +33,7 @@ class HistoryMovies extends Component {
         const {username} = this.props.match.params;
         document.title = `${username}'s History`;
         const page = parseInt(this.props.match.params.page) || 1;
-        const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1);
+        const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };

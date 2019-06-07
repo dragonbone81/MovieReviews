@@ -226,8 +226,8 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    getViewedMoviesForUser = (username, page = 0, sortType) => {
-        return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}`, {
+    getViewedMoviesForUser = (username, page = 0, sortType, sortDirection) => {
+        return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -238,8 +238,8 @@ class Store {
             .then(response => response.movies)
             .catch(e => console.log(e))
     };
-    getHistoryMoviesForUser = (username, page = 0) => {
-        return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}`, {
+    getHistoryMoviesForUser = (username, page = 0, sortType, sortDirection) => {
+        return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

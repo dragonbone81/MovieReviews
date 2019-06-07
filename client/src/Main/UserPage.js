@@ -13,6 +13,7 @@ class UserPage extends Component {
     state = {
         page: "",
         readOnly: true,
+        sort: {created_at: "desc", rating: "desc"},
         sortType: "created_at",
         sortDirection: "desc",
         sortShown: false,
@@ -40,7 +41,12 @@ class UserPage extends Component {
 
     changeSortType = (type) => {
         this.setState({sortType: type});
-    }
+    };
+    changeSortDirection = (type, direction) => {
+        const newSortType = {};
+        newSortType[type] = direction;
+        this.setState(prevState => ({sort: {...prevState.sort, ...newSortType}}))
+    };
 
     render() {
         const options = [
@@ -82,14 +88,21 @@ class UserPage extends Component {
                         {/**/}
 
                     </div>
-                    <div>
-                        <SortingComponent changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
+                    <div className="d-flex flex-column justify-content-center align-items-center">
+                        <SortingComponent sortType={this.state.sortType} changeSortDirection={this.changeSortDirection}
+                                          sort={this.state.sort}
+                                          changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
                         <Switch>
                             <Route exact path="/user/movies/:username/:page?"
-                                   render={(props) => <WatchedMovies {...props} sortType={this.state.sortType}
+                                   render={(props) => <WatchedMovies {...props}
+                                                                     sortDirection={this.state.sort[this.state.sortType]}
+                                                                     sortType={this.state.sortType}
                                                                      readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/history/:username/:page?"
-                                   render={(props) => <HistoryMovies {...props} readOnly={this.state.readOnly}/>}/>
+                                   render={(props) => <HistoryMovies {...props}
+                                                                     sortDirection={this.state.sort[this.state.sortType]}
+                                                                     sortType={this.state.sortType}
+                                                                     readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/review/:username/:movie_id"
                                    render={(props) => <MovieReviewPage {...props} readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/reviews/:username/:page?"

@@ -114,6 +114,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.where({viewed: true});
             table.orWhereNotNull("date_watched");
             table.orWhereNotNull("review");
+            table.orWhereNotNull("rating");
         })
         .page(page, 10)
         .orderBy(sort_type || "created_at", sort_direction || "desc");
@@ -122,11 +123,17 @@ router.get('/user/movies/watched/:username', async (req, res) => {
 router.get('/user/movies/history/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
+    let sort_type = req.query.sort_type || "created_at";
+    let sort_direction = req.query.sort_direction || "desc";
+    if (sort_type === "created_at") {
+        sort_type = "date_watched";
+    }
+    console.log(req.query.sort_type, sort_direction, sort_type)
     const movies = await MovieInteraction.query()
         .where({username})
         .whereNotNull("date_watched")
         .page(page, 10)
-        .orderBy("date_watched", "desc");
+        .orderBy(sort_type || "date_watched", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/reviews/:username', async (req, res) => {
