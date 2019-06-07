@@ -68,7 +68,7 @@ class ShowMoviePage extends Component {
             userShowData.rating_groups = this.normalizeRatings(userShowData.rating_groups);
             userShowData.max_one_rating = Math.max.apply(Math, userShowData.rating_groups.map(e => e.count));
         }
-        document.title = showData.title;
+        document.title = showData.name;
         showData.ratings = {};
         return {data: showData, userData: userShowData}
     };
@@ -83,29 +83,6 @@ class ShowMoviePage extends Component {
             datas = await this.getDataForShow(entity_id);
         }
         this.setState({...datas, loadingData: false});
-    };
-    updateWithNewMovie = async () => {
-        this.setState({loadingData: true});
-        const {movie_id} = this.props.match.params;
-        let movieData = this.props.store.getMovieInfo(movie_id);
-        let userMovieData = this.props.store.getUsersMovieDetail(movie_id);
-        const result = await Promise.all([movieData, userMovieData]);
-        movieData = result[0];
-        userMovieData = result[1];
-        if (userMovieData) {
-            userMovieData.rating_groups = this.normalizeRatings(userMovieData.rating_groups);
-            userMovieData.max_one_rating = Math.max.apply(Math, userMovieData.rating_groups.map(e => e.count));
-        }
-        document.title = movieData.title;
-        const OMDB_data = await this.props.store.getMovieInfoOMDB(movieData.imdb_id);
-        if (OMDB_data.Response === "False") {
-            movieData.ratings = [];
-        } else {
-            movieData.ratings = this.props.store.getRatings(OMDB_data);
-        }
-        this.setState({showData: movieData || {}, userShowData: userMovieData || {}}, () => {
-            this.setState({loadingData: false});
-        });
     };
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -155,7 +132,7 @@ class ShowMoviePage extends Component {
         this.setState({userShowData: updatedState})
     };
     updateReviewDate = (review, date_watched) => {
-        this.setState(prevState => ({userShowData: {...prevState.userShowData, review, date_watched}}))
+        this.setState(prevState => ({userData: {...prevState.userData, review, date_watched}}))
     };
     updateVReview = (v_rating) => {
         if (v_rating !== -1) {
@@ -172,11 +149,12 @@ class ShowMoviePage extends Component {
         if (Object.entries(this.state.data).length > 0)
             return (
                 <div className="movie-page-full">
-                    {/*<ReviewModal updateVReview={this.updateVReview} updateReviewDate={this.updateReviewDate}*/}
-                    {/*userMovieData={this.state.userMovieData}*/}
-                    {/*movie={this.state.movieData}*/}
-                    {/*open={this.state.reviewModalOpen}*/}
-                    {/*close={() => this.setState({reviewModalOpen: false})}/>*/}
+                    {/*<ReviewModal type={this.entityType} updateVReview={this.updateVReview}*/}
+                                 {/*updateReviewDate={this.updateReviewDate}*/}
+                                 {/*userMovieData={this.state.userData}*/}
+                                 {/*movie={this.state.data}*/}
+                                 {/*open={this.state.reviewModalOpen}*/}
+                                 {/*close={() => this.setState({reviewModalOpen: false})}/>*/}
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path)})`}}
                         className="movie-backdrop"/>

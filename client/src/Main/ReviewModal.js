@@ -15,8 +15,8 @@ class ReviewModal extends Component {
 
     componentDidMount() {
         this.setState({
-            date: this.props.userShowData.date_watched ? new Date(this.props.userShowData.date_watched) || null : null,
-            review: this.props.userShowData.review || ""
+            date: this.props.userData.date_watched ? new Date(this.props.userData.date_watched) || null : null,
+            review: this.props.userData.review || ""
         });
         document.addEventListener('mousedown', this.click, false);
     }
