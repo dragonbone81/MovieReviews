@@ -124,8 +124,8 @@ class Store {
                 return {};
             });
     };
-    getActorInfo = (actor_id) => {
-        return fetch(`${THE_MOVIE_DB_URL}/person/${actor_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=combined_credits`, {
+    getSeasonInfo = (show_id, season, credits = true) => {
+        return fetch(`${THE_MOVIE_DB_URL}/tv/${show_id}/season/${season}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -138,8 +138,8 @@ class Store {
                 return {};
             });
     };
-    getActorImages = (actor_id) => {
-        return fetch(`${THE_MOVIE_DB_URL}/person/${actor_id}/images?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US`, {
+    getActorInfo = (actor_id) => {
+        return fetch(`${THE_MOVIE_DB_URL}/person/${actor_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=combined_credits`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -30,7 +30,7 @@ class App extends Component {
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/home" component={Home}/>
                     <Route exact path="/movie/:entity_id" component={ShowMoviePage}/>
-                    <Route exact path="/show/:entity_id" component={ShowMoviePage}/>
+                    <Route exact path="/show/:entity_id/:season?" component={ShowMoviePage}/>
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/user/:term/:username" component={UserPage}/>
                     <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>

@@ -19,6 +19,7 @@ class ShowMoviePage extends Component {
         userData: {},
         loadingData: false,
         reviewModalOpen: false,
+        entityType: "null",
     };
     normalizeRatings = (ratings) => {
         const ratingGroups = ratings.map(rating => ({rating: parseInt(rating.rating), count: parseInt(rating.count)}));
@@ -34,10 +35,12 @@ class ShowMoviePage extends Component {
 
     get entityType() {
         if (this.props.location.pathname.includes("show")) {
-            return "tv"
+            if (this.props.match.params.season)
+                return "season";
+            return "tv";
         }
         if (this.props.location.pathname.includes("movie")) {
-            return "movie"
+            return "movie";
         }
         else
             return console.log("ERROR")
@@ -63,39 +66,53 @@ class ShowMoviePage extends Component {
         return {data: movieData, userData: userMovieData}
     };
     getDataForShow = async (show_id) => {
-        let showData = this.props.store.getShowInfo(show_id);
-        let userShowData = this.props.store.getUsersEntityDetail(show_id, "tv");
-        const result = await Promise.all([showData, userShowData]);
-        showData = result[0];
-        userShowData = result[1];
-        if (userShowData) {
-            userShowData.rating_groups = this.normalizeRatings(userShowData.rating_groups);
-            userShowData.max_one_rating = Math.max.apply(Math, userShowData.rating_groups.map(e => e.count));
+        if (this.props.match.params.season) {
+            let seasonData = this.props.store.getSeasonInfo(show_id, this.props.match.params.season);
+            const result = await Promise.all([seasonData]);
+            seasonData = result[0];
+            seasonData.ratings = {};
+            return {data: seasonData, userData: {}}
+        } else {
+            let showData = this.props.store.getShowInfo(show_id);
+            let userShowData = this.props.store.getUsersEntityDetail(show_id, "tv");
+            const result = await Promise.all([showData, userShowData]);
+            showData = result[0];
+            userShowData = result[1];
+            if (userShowData) {
+                userShowData.rating_groups = this.normalizeRatings(userShowData.rating_groups);
+                userShowData.max_one_rating = Math.max.apply(Math, userShowData.rating_groups.map(e => e.count));
+            }
+            document.title = showData.name;
+            showData.ratings = {};
+            return {data: showData, userData: userShowData}
         }
-        document.title = showData.name;
-        showData.ratings = {};
-        return {data: showData, userData: userShowData}
     };
-    updateWithNewEntity = async () => {
-        this.setState({loadingData: true});
-        const {entity_id} = this.props.match.params;
-        let datas;
-        if (this.entityType === "movie") {
-            datas = await this.getDataForMovie(entity_id);
-        }
-        if (this.entityType === "tv") {
-            datas = await this.getDataForShow(entity_id);
-        }
-        this.setState({...datas, loadingData: false});
+    updateWithNewEntity = () => {
+        this.setState({loadingData: true}, async () => {
+            const {entity_id} = this.props.match.params;
+            let datas;
+            if (this.entityType === "movie") {
+                datas = await this.getDataForMovie(entity_id);
+            }
+            if (this.entityType === "tv" || this.entityType === "season") {
+                datas = await this.getDataForShow(entity_id);
+            }
+            this.setState({
+                data: datas.data,
+                userData: datas.userData,
+                loadingData: false,
+                entityType: this.entityType
+            });
+        });
     };
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.match.params.entity_id !== this.props.match.params.entity_id) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.match.params.entity_id !== this.props.match.params.entity_id || prevProps.match.params.season !== this.props.match.params.season) {
             this.updateWithNewEntity();
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.updateWithNewEntity();
     }
 
@@ -155,21 +172,21 @@ class ShowMoviePage extends Component {
         if (Object.entries(this.state.data).length > 0)
             return (
                 <div className="movie-page-full">
-                    <ReviewModal type={this.entityType} updateVReview={this.updateVReview}
+                    <ReviewModal type={this.state.entityType} updateVReview={this.updateVReview}
                                  updateReviewDate={this.updateReviewDate}
                                  userData={this.state.userData}
                                  movie={this.state.data}
                                  open={this.state.reviewModalOpen}
                                  close={() => this.setState({reviewModalOpen: false})}/>
                     <div
-                        style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path)})`}}
+                        style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path || this.state.data.poster_path)})`}}
                         className="movie-backdrop"/>
                     <div className="mr-1 ml-1 movie-content d-flex flex-row justify-content-center">
                         <div className="movie-poster d-flex flex-column mr-2">
-                            <ImageWithLoading type={this.entityType} width={250}
+                            <ImageWithLoading type={this.state.entityType} width={250}
                                               imgStyle="movie-page-poster"
                                               src={this.props.store.getImageURL(this.state.data.poster_path, this.props.store.poster_sizes[3])}/>
-                            {this.entityType === "movie" && (
+                            {this.state.entityType === "movie" && (
                                 <div className="d-flex flex-row justify-content-between ratings mt-2">
                                     <div className="d-flex flex-row mr-1">
                                         <img alt="" className="mr-1" height={25}
@@ -195,39 +212,53 @@ class ShowMoviePage extends Component {
                         <div className="movie-info d-flex flex-column">
                             <div className="d-flex flex-row align-items-center movie-title-d-y">
                                 <div
-                                    className="movie-title">{this.entityType === "movie" ? this.state.data.title : this.state.data.name}</div>
-                                {this.entityType === "movie" ?
-                                    (<div className="movie-director-year">
-                                        Directed
-                                        by {this.props.store.getDirectors(this.state.data.credits).map((director, i, arr) => {
-                                        return (<span key={director.id}>{director.name}{arr.length - 1 !== i && (
-                                            <span>, </span>)}</span>)
-                                    })} | <span>{this.state.data.release_date.substring(0, 4)}</span>
-                                    </div>)
-                                    :
-                                    (<div className="movie-director-year">
-                                        Created
-                                        by {this.state.data.created_by.map((creator, i, arr) => {
-                                        return (
-                                            <span key={creator.id}>{creator.name}{arr.length - 1 !== i && (
-                                                <span>, </span>)}</span>
-                                        )
-                                    })} | <span>{this.state.data.first_air_date.substring(0, 4)}</span>
-                                    </div>)
+                                    className="movie-title">{this.state.entityType === "movie" ? this.state.data.title : this.state.data.name}</div>
+                                {this.state.entityType === "movie" &&
+                                (<div className="movie-director-year">
+                                    Directed
+                                    by {this.props.store.getDirectors(this.state.data.credits).map((director, i, arr) => {
+                                    return (<span key={director.id}>{director.name}{arr.length - 1 !== i && (
+                                        <span>, </span>)}</span>)
+                                })} | <span>{this.state.data.release_date.substring(0, 4)}</span>
+                                </div>)}
+                                {this.state.entityType === "tv" &&
+                                (<div className="movie-director-year">
+                                    Created
+                                    by {this.state.data.created_by.map((creator, i, arr) => {
+                                    return (
+                                        <span key={creator.id}>{creator.name}{arr.length - 1 !== i && (
+                                            <span>, </span>)}</span>
+                                    )
+                                })} | <span>{this.state.data.first_air_date.substring(0, 4)}</span>
+                                </div>)
                                 }
+                                {this.state.entityType === "season" &&
+                                (<div className="movie-director-year">
+                                    <span>{this.state.data.air_date.substring(0, 4)}</span>
+                                </div>)}
                             </div>
                             <div className="d-flex flex-row">
                                 <div className="d-flex flex-column align-items-start">
                                     <div className="tag-line">{this.state.data.tagline}</div>
                                     <div className="move-description-detail">{this.state.data.overview}</div>
 
-                                    {this.entityType === "tv" && (
+                                    {this.state.entityType === "tv" && (
                                         <div className="seasons-slider-div">
                                             <SeasonsScroller seasons={this.state.data.seasons}
+                                                             show_id={this.state.data.id}
                                                              size={this.props.store.poster_sizes[3]}
                                                              getImageURL={this.props.store.getImageURL}/>
                                         </div>
                                     )}
+                                    {/*{this.state.entityType === "season" && (*/}
+                                        {/*<div className="seasons-slider-div">*/}
+                                            {/*<SeasonsScroller seasons={this.state.data.episodes}*/}
+                                                             {/*episode={true}*/}
+                                                             {/*show_id={this.state.data.id}*/}
+                                                             {/*size={this.props.store.poster_sizes[3]}*/}
+                                                             {/*getImageURL={this.props.store.getImageURL}/>*/}
+                                        {/*</div>*/}
+                                    {/*)}*/}
                                     <PersonCast credits={this.state.data.credits}
                                                 created_by={this.state.data.created_by}
                                                 size={this.props.store.poster_sizes[3]}

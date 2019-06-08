@@ -31,7 +31,7 @@ const PersonCast = ({credits, getImageURL, size, created_by}) => {
             )}
             {selectedPill === "crew" && (
                 <div className="movie-cast d-flex flex-row flex-wrap">
-                    {credits.crew.length > 0 ? credits.crew.slice(0, expandedCrew ? credits.cast.length + 1 : 20).map(person => {
+                    {credits.crew.length > 0 ? credits.crew.slice(0, expandedCrew ? credits.crew.length + 1 : 20).map(person => {
                             return (
                                 <PersonCastPill size={size}
                                                 key={`${person.id} ${person.job}`}
@@ -42,7 +42,7 @@ const PersonCast = ({credits, getImageURL, size, created_by}) => {
                             )
                         })
                         :
-                        created_by.slice(0, expandedCrew ? credits.cast.length + 1 : 20).map(person => {
+                        created_by.slice(0, expandedCrew ? credits.crew.length + 1 : 20).map(person => {
                             return (
                                 <PersonCastPill size={size}
                                                 key={`${person.id} ${person.job}`}
