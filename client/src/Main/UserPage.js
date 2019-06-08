@@ -6,8 +6,6 @@ import SortingComponent from '../Misc/SortingComponent'
 import HistoryMovies from '../UserPages/HistoryMovies'
 import MovieReviewPage from '../UserPages/MovieReviewPage'
 import ReviewMovies from '../UserPages/ReviewMovies'
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 
 class UserPage extends Component {
     initStateSort = {created_at: "desc", rating: "desc"};
@@ -68,7 +66,7 @@ class UserPage extends Component {
                         <Link
                             to={`/user/movies/${this.props.match.params.username}`}
                             style={{textDecoration: 'none', color: '#9badbb'}}
-                            className={`user-page-nav-nib border-right ${this.state.page === "movies" ? "active" : ""}`}>Movies
+                            className={`user-page-nav-nib border-right ${this.state.page === "movies" ? "active" : ""}`}>Watched
                         </Link>
                         <Link
                             to={`/user/history/${this.props.match.params.username}`}

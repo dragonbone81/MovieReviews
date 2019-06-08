@@ -150,9 +150,18 @@ class Store {
     //     }
     // };
     getMultipleMovies = (movies, all = false) => {
-        return Promise.all(movies.map(movie => this.getMovieInfo(movie.movie_id, false).then(api_movie => {
-            return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
-        })));
+        return Promise.all(movies.map(movie => {
+            if (movie.type === "movie") {
+                return this.getMovieInfo(movie.movie_id, false).then(api_movie => {
+                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                })
+            }
+            if (movie.type === "tv") {
+                return this.getShowInfo(movie.movie_id, false).then(api_movie => {
+                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                })
+            }
+        }));
     };
     searchForMovies = (search_q, page = 1) => {
         return fetch(`${THE_MOVIE_DB_URL}/search/multi?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
@@ -201,40 +210,40 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieUserData = (movie_id, type, value) => {
+    updateMovieUserData = (movie_id, type, value, entityType) => {
         return fetch(`${SERVER_URL}/user/movie/update`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id, type, value}),
+            body: JSON.stringify({movie_id, type, value, entityType}),
         })
             .then(response => response.json())
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieUserDataReview = (movie_id, date_watched, review) => {
+    updateMovieUserDataReview = (movie_id, date_watched, review, type) => {
         return fetch(`${SERVER_URL}/user/movie/update/date_content`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id, date_watched, review}),
+            body: JSON.stringify({movie_id, date_watched, review, type}),
         })
             .then(response => response.json())
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieVReview = (movie_id, v_review) => {
+    updateMovieVReview = (movie_id, v_review, type) => {
         return fetch(`${SERVER_URL}/user/movie/update/v_review`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id, v_review}),
+            body: JSON.stringify({movie_id, v_review, type}),
         })
             .then(response => response.json())
             .then(response => response.movie)

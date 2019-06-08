@@ -8,7 +8,7 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
         return (
             <div key={movie.id} className="d-flex flex-row movie-results-list-item">
                 <div className="d-flex flex-row align-items-center">
-                    <ImageWithLoading makeLink={true} movie_id={movie.id} width={100}
+                    <ImageWithLoading type={"movie"} makeLink={true} movie_id={movie.id} width={100}
                                       imgStyle="movie-poster-image-list"
                                       src={getImageURL(movie.poster_path, poster_size)}/>
                 </div>
@@ -32,7 +32,7 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
         return (
             <div key={tv_show.id} className="d-flex flex-row movie-results-list-item">
                 <div className="d-flex flex-row align-items-center">
-                    <ImageWithLoading makeLink={true} movie_id={tv_show.id} width={100}
+                    <ImageWithLoading type={"tv"} makeLink={true} movie_id={tv_show.id} width={100}
                                       imgStyle="movie-poster-image-list"
                                       src={getImageURL(tv_show.poster_path, poster_size)}/>
                 </div>
@@ -53,6 +53,6 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
 
             </div>
         )
-    } else return <div/>
+    } else return <div>{entity.name}</div>
 };
 export default MovieSearchResult;

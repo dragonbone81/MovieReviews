@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id}) => {
+const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id, type}) => {
     const height = Math.ceil(width * (3 / 2));
     const [loading, setLoading] = useState(true);
     const [couldNotLoad, setCouldNotLoad] = useState(false);
+    const link = type === "movie" && `/movie/${movie_id}` || type === "tv" && `/show/${movie_id}`;
     return (
         <>
             {loading ? (
@@ -13,7 +14,7 @@ const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id}) => {
                 </div>
             ) : null}
             {makeLink ?
-                <Link to={`/movie/${movie_id}`}>
+                <Link to={link}>
                     <img className={imgStyle} width={width} height={height}
                          src={couldNotLoad ? "https://i.imgur.com/zhdC9CX.jpg" : src}
                          alt="Movie poster"

@@ -10,8 +10,8 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
     return Promise.all([
-        knex.schema.alterTable('movie_interaction', table => {
-            table.dropUnique(['movie_id', 'type'])
+        knex.schema.alterTable('v_rating', table => {
+            table.dropUnique(['movie_id', 'type']);
             table.string('type').alter();
             table.integer('movie_id').primary();
         })

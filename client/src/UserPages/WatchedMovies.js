@@ -70,7 +70,7 @@ class WatchedMovies extends Component {
                         return (
                             <div key={movie.movie_id}
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
-                                <ImageWithLoading width={200}
+                                <ImageWithLoading type={movie.type} width={200}
                                                   imgStyle="img-watched"
                                                   makeLink={true} movie_id={movie.movie_id}
                                                   src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>

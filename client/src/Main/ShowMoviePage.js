@@ -32,7 +32,7 @@ class ShowMoviePage extends Component {
 
     get entityType() {
         if (this.props.location.pathname.includes("show")) {
-            return "show"
+            return "tv"
         }
         if (this.props.location.pathname.includes("movie")) {
             return "movie"
@@ -79,7 +79,7 @@ class ShowMoviePage extends Component {
         if (this.entityType === "movie") {
             datas = await this.getDataForMovie(entity_id);
         }
-        if (this.entityType === "show") {
+        if (this.entityType === "tv") {
             datas = await this.getDataForShow(entity_id);
         }
         this.setState({...datas, loadingData: false});
@@ -118,25 +118,27 @@ class ShowMoviePage extends Component {
                 message = "🚫 Movie Removed"
             }
         }
-        toast.info(message, {
-            position: "top-right",
-            autoClose: 1500,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-        });
-        this.props.store.updateMovieUserData(this.state.movieData.id, type, val);
-        const updatedState = {...this.state.userMovieData};
+        if (type !== "rating") {
+            toast.info(message, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+            });
+        }
+        this.props.store.updateMovieUserData(this.state.data.id, type, val, this.entityType);
+        const updatedState = {...this.state.userData};
         updatedState[type] = val;
-        this.setState({userShowData: updatedState})
+        this.setState({userData: updatedState})
     };
     updateReviewDate = (review, date_watched) => {
         this.setState(prevState => ({userData: {...prevState.userData, review, date_watched}}))
     };
     updateVReview = (v_rating) => {
         if (v_rating !== -1) {
-            this.setState(prevState => ({userShowData: {...prevState.userShowData, v_rating: {rating: v_rating}}}))
+            this.setState(prevState => ({userData: {...prevState.userData, v_rating: {rating: v_rating}}}))
         }
     };
 
@@ -149,18 +151,18 @@ class ShowMoviePage extends Component {
         if (Object.entries(this.state.data).length > 0)
             return (
                 <div className="movie-page-full">
-                    {/*<ReviewModal type={this.entityType} updateVReview={this.updateVReview}*/}
-                                 {/*updateReviewDate={this.updateReviewDate}*/}
-                                 {/*userMovieData={this.state.userData}*/}
-                                 {/*movie={this.state.data}*/}
-                                 {/*open={this.state.reviewModalOpen}*/}
-                                 {/*close={() => this.setState({reviewModalOpen: false})}/>*/}
+                    <ReviewModal type={this.entityType} updateVReview={this.updateVReview}
+                                 updateReviewDate={this.updateReviewDate}
+                                 userData={this.state.userData}
+                                 movie={this.state.data}
+                                 open={this.state.reviewModalOpen}
+                                 close={() => this.setState({reviewModalOpen: false})}/>
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path)})`}}
                         className="movie-backdrop"/>
                     <div className="mr-1 ml-1 movie-content d-flex flex-row justify-content-center">
                         <div className="movie-poster d-flex flex-column mr-2">
-                            <ImageWithLoading width={250}
+                            <ImageWithLoading type={this.entityType} width={250}
                                               imgStyle="movie-page-poster"
                                               src={this.props.store.getImageURL(this.state.data.poster_path, this.props.store.poster_sizes[3])}/>
                             {this.entityType === "movie" && (

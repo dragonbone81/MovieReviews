@@ -65,7 +65,7 @@ class HistoryMovies extends Component {
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
                                 <div
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
-                                    <ImageWithLoading width={100}
+                                    <ImageWithLoading type={movie.type} width={100}
                                                       imgStyle="img-history"
                                                       makeLink={true} movie_id={movie.movie_id}
                                                       src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
