@@ -339,6 +339,37 @@
     max-width: 300px;
 }
 
+.scroll-arrow {
+    top: 10%;
+    right: 0;
+    position: absolute;
+    font-size: 70px;
+    color: whitesmoke;
+}
+
+.seasons-slider-arrow {
+    cursor: pointer;
+    margin-top: 100px;
+    font-size: 30px;
+    color: #9badbb;
+}
+.seasons-slider-arrow:hover{
+    color: whitesmoke;
+}
+
+.seasons-slider-arrow-right {
+    padding-left: 4px;
+}
+
+.seasons-slider-div {
+    margin: auto;
+}
+
+.seasons-slider {
+    overflow-x: hidden;
+    max-width: 500px;
+}
+
 .actor-movie-results {
     color: #9badbb;
     /*padding-left: 20px;*/
@@ -489,6 +520,11 @@
 .movie-poster-image-list {
     border: 1px solid #aaaaaa;
     border-radius: 5px;
+}
+
+.seasons-slider-movie {
+    border-radius: 5px;
+    margin: 5px;
 }
 
 .movie-cast-pic {
