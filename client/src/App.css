@@ -333,10 +333,15 @@
     margin-top: 20px;
 }
 
+.actor-bio {
+    margin-top: 20px;
+    min-width: 300px;
+}
+
 .actor-movie-results {
     color: #9badbb;
-    padding-left: 20px;
-    padding-right: 20px;
+    /*padding-left: 20px;*/
+    /*padding-right: 20px;*/
     padding-bottom: 20px;
     margin-top: 20px;
 }
@@ -430,18 +435,14 @@
     max-width: 1200px;
     height: 675px;
     margin-top: -20px;
-    /*background-size: 1920px 1080px;*/
+    width: 100%;
     background-size: cover;
-    background: no-repeat 50% 50%;
-    /*background-size: contain;*/
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
     top: 0;
-    /*left: 50%;*/
-    /*object-fit: scale-down;*/
 }
 
 .movie-backdrop::before {
@@ -472,6 +473,11 @@
     border-bottom: 1px solid #2c3440;
     width: 100%;
     max-width: 800px;
+}
+
+.actor-bio-poster {
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
 }
 
 .movie-poster-actor-list-movies {
@@ -644,13 +650,23 @@
     color: #9ab;
     font-size: 18px;
 }
-.actor-page-name{
+
+.actor-page-bio-bio {
+    font-size: 16px;
+    /*padding-top: 10px;*/
+    margin-bottom: -10px;
+    /*font-family: 'Rubik', sans-serif;*/
+    color: #93aabc;
+}
+
+.actor-page-name {
     font-size: 30px;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     margin-bottom: -10px;
     font-family: 'Rubik', sans-serif;
     color: #ebedf6;
 }
+
 .no-ratings-yet {
     margin: 0 auto 0 auto;
     padding-top: 20px;
@@ -796,6 +812,8 @@
 }
 
 .movie-page {
+    padding-right: 20px;
+    padding-left: 20px;
     padding-bottom: 20px;
     background-image: linear-gradient(#2a3640, #13181c 15%);
 }

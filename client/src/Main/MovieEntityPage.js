@@ -58,21 +58,28 @@ class MovieEntityPage extends Component {
         }
         return (
             <div className="d-flex flex-column align-items-center movie-page">
-                <span className="actor-page-name">{this.state.actorData.name}</span>
-                <div className="actor-movie-results d-flex flex-row flex-wrap">
-                    {this.state.movieData.slice((this.state.page - 1) * 50, (this.state.page) * 50).map(movie => {
-                        return (
-                            <div key={movie.id} className="">
-                                <div style={{padding: 10}}>
-                                    <ImageWithLoading width={200} imgStyle="movie-poster-actor-list-movies"
-                                                      movie_id={movie.id}
-                                                      type={movie.media_type}
-                                                      makeLink={true}
-                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
+                <div className="d-flex flex-row">
+                    <div className="actor-movie-results d-flex flex-row flex-wrap">
+                        {this.state.movieData.slice((this.state.page - 1) * 50, (this.state.page) * 50).map(movie => {
+                            return (
+                                <div key={movie.id} className="">
+                                    <div style={{padding: 10}}>
+                                        <ImageWithLoading width={200} imgStyle="movie-poster-actor-list-movies"
+                                                          movie_id={movie.id}
+                                                          type={movie.media_type}
+                                                          makeLink={true}
+                                                          src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
+                    <div className="d-flex flex-column align-items-center actor-bio">
+                        <ImageWithLoading width={150} imgStyle="actor-bio-poster"
+                                          src={this.props.store.getImageURL(this.state.actorData.profile_path, this.props.store.poster_sizes[3])}/>
+                        <span className="actor-page-name">{this.state.actorData.name}</span>
+                        <p className="actor-page-bio-bio">{this.state.actorData.biography}</p>
+                    </div>
                 </div>
                 <Pagination url={`/actor/${this.props.match.params.actor_id}`} page={this.state.page}
                             totalPages={this.state.totalPages}/>
