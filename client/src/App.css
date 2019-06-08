@@ -336,6 +336,7 @@
 .actor-bio {
     margin-top: 20px;
     min-width: 300px;
+    max-width: 300px;
 }
 
 .actor-movie-results {
