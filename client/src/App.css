@@ -190,6 +190,64 @@
     transform: rotate(0deg);
 }
 
+.people-div {
+    cursor: pointer;
+    margin-right: 20px
+}
+
+.people-div-options {
+    margin-bottom: 10px;
+    color: #9badbb;
+    font-size: 25px;
+}
+
+.people-div-selected {
+    cursor: pointer;
+    margin-right: 20px;
+    color: #d4edff;
+}
+
+.people-div:hover {
+    color: #aec2d2 !important;
+}
+
+.movie-people {
+    width: 95%;
+    margin-top: 20px;
+
+    /*margin: -5px;*/
+}
+
+.person-cast-pill-character {
+    min-width: max-content;
+    color: #d4edff;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 9000;
+    bottom: 30px;
+    background: #425467;
+    position: absolute;
+}
+
+.person-cast-pill-div {
+    position: relative;
+    margin-right: 5px;
+    margin-bottom: 8px;
+}
+
+.person-cast-pill {
+    background: #2a3642;
+    padding: 3px 5px 3px 5px;
+    border-radius: 5px;
+    color: #9badbb;
+    cursor: pointer;
+}
+
+.person-cast-pill:hover {
+    color: #d4edff;
+}
+
 .sorting-div-nib {
     padding-left: 20px;
     padding-right: 20px;
@@ -426,6 +484,11 @@
     border-radius: 5px;
 }
 
+.movie-cast-pic {
+    /*border: 1px solid #b2c7d7;*/
+    border-radius: 5px;
+}
+
 .movie-page-poster {
     border: 3px solid #b2c7d7;
     border-radius: 5px;
@@ -581,9 +644,15 @@
     color: #9ab;
     font-size: 18px;
 }
-
+.actor-page-name{
+    font-size: 30px;
+    padding-top: 10px;
+    margin-bottom: -10px;
+    font-family: 'Rubik', sans-serif;
+    color: #ebedf6;
+}
 .no-ratings-yet {
-    margin: auto;
+    margin: 0 auto 0 auto;
     padding-top: 20px;
     color: #9ab;
     font-size: 25px;

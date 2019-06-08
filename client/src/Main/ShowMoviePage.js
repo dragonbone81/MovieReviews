@@ -5,6 +5,7 @@ import Loader from '../Misc/Loader';
 import RatingComponent from '../Misc/Rating';
 import ReviewModal from './ReviewModal';
 import ImageWithLoading from '../Misc/ImageWithLoading';
+import PersonCast from '../Misc/PersonCast';
 import {toast} from 'react-toastify';
 import {
     BarChart, Bar, YAxis
@@ -218,6 +219,10 @@ class ShowMoviePage extends Component {
                                 <div className="d-flex flex-column align-items-start">
                                     <div className="tag-line">{this.state.data.tagline}</div>
                                     <div className="move-description-detail">{this.state.data.overview}</div>
+                                    <PersonCast credits={this.state.data.credits}
+                                                created_by={this.state.data.created_by}
+                                                size={this.props.store.poster_sizes[3]}
+                                                getImageURL={this.props.store.getImageURL}/>
                                 </div>
                                 <div className="d-flex flex-column">
                                     {this.props.store.user.token ?
