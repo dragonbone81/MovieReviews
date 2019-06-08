@@ -5,7 +5,7 @@ const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id, type}) => {
     const height = Math.ceil(width * (3 / 2));
     const [loading, setLoading] = useState(true);
     const [couldNotLoad, setCouldNotLoad] = useState(false);
-    const link = type === "movie" && `/movie/${movie_id}` || type === "tv" && `/show/${movie_id}`;
+    const link = (type === "movie" && `/movie/${movie_id}`) || (type === "tv" && `/show/${movie_id}`);
     return (
         <>
             {loading ? (

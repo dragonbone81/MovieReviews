@@ -37,6 +37,8 @@ class ShowMoviePage extends Component {
         if (this.props.location.pathname.includes("movie")) {
             return "movie"
         }
+        else
+            return console.log("ERROR")
     }
 
     getDataForMovie = async (movie_id) => {
@@ -168,19 +170,19 @@ class ShowMoviePage extends Component {
                             {this.entityType === "movie" && (
                                 <div className="d-flex flex-row justify-content-between ratings mt-2">
                                     <div className="d-flex flex-row mr-1">
-                                        <img className="mr-1" height={25}
+                                        <img alt="" className="mr-1" height={25}
                                              src="//i.imgur.com/2Sle5QI.png"/>
                                         <span>{this.state.data.ratings.imdb || "N/A"}</span>
                                     </div>
                                     <div className="d-flex flex-row">
                                         {this.state.data.ratings.rt ?
                                             parseInt(this.state.data.ratings.rt.slice(0, -1)) < 60 ?
-                                                <img className="mr-1" height={25}
+                                                <img alt="" className="mr-1" height={25}
                                                      src="//i.imgur.com/6oR2eKa.png"/>
                                                 :
-                                                <img className="mr-1" height={25}
+                                                <img alt="" className="mr-1" height={25}
                                                      src="//i.imgur.com/FugNdUf.png"/>
-                                            : <img className="mr-1" height={25}
+                                            : <img alt="" className="mr-1" height={25}
                                                    src="//i.imgur.com/FugNdUf.png"/>
                                         }
                                         <span>{this.state.data.ratings.rt || "N/A"}</span>

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
+import {withRouter, Switch, Route, Link} from 'react-router-dom';
 import WatchedMovies from '../UserPages/WatchedMovies'
 import SortingComponent from '../Misc/SortingComponent'
 import HistoryMovies from '../UserPages/HistoryMovies'

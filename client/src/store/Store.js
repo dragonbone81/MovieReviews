@@ -161,6 +161,7 @@ class Store {
                     return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
                 })
             }
+            else return console.log("ERROR")
         }));
     };
     searchForMovies = (search_q, page = 1) => {

@@ -102,7 +102,7 @@ class HistoryMovies extends Component {
                                 </div>
                                 <div className="movie-title smaller">
                                     <Link style={{color: 'inherit'}}
-                                          to={movie.type === "movie" && `/movie/${movie.movie_id}` || movie.type === "tv" && `/show/${movie.movie_id}`}>{movie.type === "movie" ? movie.title : movie.name}</Link>
+                                          to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`)}>{movie.type === "movie" ? movie.title : movie.name}</Link>
                                 </div>
                                 <div
                                     className="movie-history-year">{movie.type === "movie" ? movie.release_date.substring(0, 4) : movie.first_air_date.substring(0, 4)}</div>
