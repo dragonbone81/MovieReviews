@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import ImageWithLoading from '../Misc/ImageWithLoading';
 
@@ -6,7 +6,7 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
     if (entity.media_type === "movie") {
         const movie = entity;
         return (
-            <div key={movie.id} className="d-flex flex-row movie-results-list-item">
+            <div className="d-flex flex-row movie-results-list-item">
                 <div className="d-flex flex-row align-items-center">
                     <ImageWithLoading type={"movie"} makeLink={true} movie_id={movie.id} width={100}
                                       imgStyle="movie-poster-image-list"
@@ -30,7 +30,7 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
     if (entity.media_type === "tv") {
         const tv_show = entity;
         return (
-            <div key={tv_show.id} className="d-flex flex-row movie-results-list-item">
+            <div className="d-flex flex-row movie-results-list-item">
                 <div className="d-flex flex-row align-items-center">
                     <ImageWithLoading type={"tv"} makeLink={true} movie_id={tv_show.id} width={100}
                                       imgStyle="movie-poster-image-list"

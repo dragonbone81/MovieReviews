@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
-const {User, MovieInteraction, V_Rating} = require('./models');
+const {MovieInteraction, V_Rating} = require('./models');
 
 router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => {
     const {id} = req.params;

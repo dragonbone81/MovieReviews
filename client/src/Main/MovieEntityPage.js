@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import Pagination from '../Misc/Pagination';
 import ImageWithLoading from '../Misc/ImageWithLoading';

@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import Pagination from '../Misc/Pagination';
-import ImageWithLoading from '../Misc/ImageWithLoading';
 import MovieSearchResult from '../Misc/MovieSearchResult';
 
 class MovieSearchResultPage extends Component {
@@ -53,7 +52,8 @@ class MovieSearchResultPage extends Component {
                     <div>Found {this.state.totalResults} results for "{decodeURIComponent(this.state.term)}"</div>
                     {this.state.searchResults.map(entity => {
                         return (
-                            <MovieSearchResult entity={entity} poster_size={this.props.store.poster_sizes[2]}
+                            <MovieSearchResult key={`${entity.id} ${entity.media_type}`} entity={entity}
+                                               poster_size={this.props.store.poster_sizes[2]}
                                                getImageURL={this.props.store.getImageURL}/>
                         )
                     })}

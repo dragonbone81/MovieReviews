@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
 
 const ImageWithLoading = ({sortType, sortShown, changeSortType, sort, changeSortDirection, changeTypeSort, typeName}) => {
     return (

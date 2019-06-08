@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {observer, inject} from 'mobx-react';
 
 class MovieSearch extends Component {

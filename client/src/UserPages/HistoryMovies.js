@@ -45,11 +45,6 @@ class HistoryMovies extends Component {
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
-    changePage = (page) => {
-        this.setState({page: page}, () => {
-            this.updatePage()
-        });
-    };
     getMonth = (date) => {
         return new Date(date).toLocaleString("default", {month: 'short'});
     };
@@ -86,7 +81,7 @@ class HistoryMovies extends Component {
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map((movie, i) => {
                         return (
-                            <div key={movie.movie_id}
+                            <div key={`${movie.movie_id} ${movie.type}`}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
                                 <div className="calendar">
                                     <i className="fas fa-calendar"/>

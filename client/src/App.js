@@ -5,12 +5,10 @@ import SignUp from './Auth/SignUp';
 import Login from './Auth/Login';
 import NavBar from './Nav/NavBar';
 import Home from './Main/Home';
-import MoviePage from './Main/MoviePage';
 import MovieSearchResultPage from './Main/MovieSearchResultPage';
 import MovieEntityPage from './Main/MovieEntityPage';
 import ShowMoviePage from './Main/ShowMoviePage';
 import UserPage from './Main/UserPage';
-import ShowPage from './Main/ShowPage';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

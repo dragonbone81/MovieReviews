@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
 import {Link, withRouter} from 'react-router-dom';
 import RatingComponent from '../Misc/Rating';
-import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
 import ImageWithLoading from '../Misc/ImageWithLoading';
 
@@ -25,7 +24,7 @@ class WatchedMovies extends Component {
             this.setState({movieReviewDoesNotExist: true});
             return;
         }
-        delete promiseData[1].type
+        delete promiseData[1].type;
         document.title = `${promiseData[1].title} reviewed by ${username}`;
         this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
     };

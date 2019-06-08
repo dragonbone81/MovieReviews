@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import RatingComponent from '../Misc/Rating';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
@@ -44,11 +44,6 @@ class WatchedMovies extends Component {
         const movies = await this.props.store.getMultipleMovies(movie_data.results);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
-    changePage = (page) => {
-        this.setState({page: page}, () => {
-            this.updatePage()
-        });
-    };
     updateMovieUserData = (type, val, movie_id) => {
         this.props.store.updateMovieUserData(movie_id, type, val);
         this.setState({
@@ -76,7 +71,7 @@ class WatchedMovies extends Component {
                     className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch justify-content-center align-items-center">
                     {this.state.movies.map(movie => {
                         return (
-                            <div key={movie.movie_id}
+                            <div key={`${movie.movie_id} ${movie.type}`}
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                 <ImageWithLoading type={movie.type} width={200}
                                                   imgStyle="img-watched"

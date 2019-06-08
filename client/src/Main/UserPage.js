@@ -62,10 +62,6 @@ class UserPage extends Component {
     };
 
     render() {
-        const options = [
-            'one', 'two', 'three'
-        ];
-        const defaultOption = options[0];
         return (
             <div className="user-page">
                 <div className="user-page-content">
@@ -93,13 +89,6 @@ class UserPage extends Component {
                             className="user-page-nav-nib border-left">
                             <i className="fas fa-filter"/>
                         </div>
-                        {/*<Dropdown controlClassName='test'*/}
-                        {/*menuClassName="test"*/}
-                        {/*className="border-left" options={options} onChange={this._onSelect}*/}
-                        {/*// value={defaultOption}*/}
-                        {/*placeholder="Sort"/>*/}
-                        {/**/}
-
                     </div>
                     <div className="">
                         <SortingComponent typeName={this.sortTypes[this.state.typeSort].name}

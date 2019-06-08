@@ -71,7 +71,7 @@ class ReviewMovies extends Component {
             <div className="d-flex flex-column justify-content-center align-items-center">
                 <div
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
-                    {this.state.movies.map((movie, i) => {
+                    {this.state.movies.map((movie) => {
                         return (
                             <div key={`${movie.movie_id} ${movie.type}`}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
