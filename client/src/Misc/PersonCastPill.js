@@ -17,7 +17,7 @@ const PersonCastPill = ({actor, character, url, getImageURL, size, id}) => {
                                       src={getImageURL(url, size)}/>
                 </div>
             )}
-            <Link style={{color: 'inherit', textDecoration: "none"}} to={`/actor/${id}`}>
+            <Link style={{color: 'inherit', textDecoration: "none"}} to={`/person/${id}`}>
                 <span onMouseEnter={() => setMouseEnter(true)} onMouseLeave={() => setMouseEnter(false)}
                       className="person-cast-pill">{actor}</span>
             </Link>

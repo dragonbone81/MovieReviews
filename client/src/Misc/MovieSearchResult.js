@@ -53,6 +53,31 @@ const MovieSearchResult = ({entity, poster_size, getImageURL}) => {
 
             </div>
         )
-    } else return <div>{entity.name}</div>
+    }
+    if (entity.media_type === "person") {
+        const person = entity;
+        return (
+            <div className="d-flex flex-row movie-results-list-item">
+                <div className="d-flex flex-row align-items-center">
+                    <ImageWithLoading type={"person"} makeLink={true} movie_id={person.id} width={100}
+                                      imgStyle="movie-poster-image-list"
+                                      src={getImageURL(person.profile_path, poster_size)}/>
+                </div>
+                <div className="d-flex flex-column movie-list-content">
+                    <div className="d-flex flex-row">
+                        <div className="movie-title-list">
+                            <Link
+                                style={{textDecoration: 'none', color: 'white'}}
+                                to={`/person/${person.id}`}>
+                                <span className="movie-list-title-link">{person.name}</span>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        )
+    }
+    else return <div>{entity.name}</div>
 };
 export default MovieSearchResult;

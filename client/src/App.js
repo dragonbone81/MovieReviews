@@ -33,7 +33,7 @@ class App extends Component {
                     <Route exact path="/show/:entity_id" component={ShowMoviePage}/>
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/user/:term/:username" component={UserPage}/>
-                    <Route path="/actor/:actor_id/:page?" component={MovieEntityPage}/>
+                    <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
             </div>
