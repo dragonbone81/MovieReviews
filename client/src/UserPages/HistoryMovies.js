@@ -22,18 +22,26 @@ class HistoryMovies extends Component {
         if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
             this.updatePage();
         }
-        if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection)) {
-            console.log(this.props.sortType, this.props.sortDirection);
-            this.updatePage();
+        else if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection) || this.props.typeSort !== prevProps.typeSort) {
+            if (this.props.typeSort !== prevProps.typeSort)
+                this.updatePage(true);
+            else
+                this.updatePage()
         }
     }
 
-    updatePage = async () => {
+    updatePage = async (typeSort = false) => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
         document.title = `${username}'s History`;
-        const page = parseInt(this.props.match.params.page) || 1;
-        const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection);
+        let page;
+        if (typeSort) {
+            this.props.history.push(this.props.location.pathname.slice(0, -1) + '1');
+            page = 1
+        } else {
+            page = parseInt(this.props.match.params.page) || 1;
+        }
+        const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
@@ -51,8 +59,8 @@ class HistoryMovies extends Component {
     getYear = (date) => {
         return new Date(date).toLocaleString("default", {year: 'numeric'});
     };
-    updateMovieUserData = (type, val, movie_id) => {
-        this.props.store.updateMovieUserData(movie_id, type, val);
+    updateMovieUserData = (type, val, movie_id, entityType) => {
+        this.props.store.updateMovieUserData(movie_id, type, val, entityType);
         this.setState({
             movies: this.state.movies.map((movie) => {
                 if (movie.movie_id === movie_id) {
@@ -99,12 +107,13 @@ class HistoryMovies extends Component {
                                 </div>
                                 <div className="movie-title smaller">
                                     <Link style={{color: 'inherit'}}
-                                          to={`/movie/${movie.movie_id}`}>{movie.title}</Link>
+                                          to={movie.type === "movie" && `/movie/${movie.movie_id}` || movie.type === "tv" && `/show/${movie.movie_id}`}>{movie.type === "movie" ? movie.title : movie.name}</Link>
                                 </div>
-                                <div className="movie-history-year">{movie.release_date.substring(0, 4)}</div>
+                                <div
+                                    className="movie-history-year">{movie.type === "movie" ? movie.release_date.substring(0, 4) : movie.first_air_date.substring(0, 4)}</div>
                                 <div className="movie-ratings-history">
                                     <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
-                                                     onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
+                                                     onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id, movie.type)}/>
                                 </div>
                             </div>
                         )

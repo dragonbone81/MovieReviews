@@ -21,18 +21,26 @@ class WatchedMovies extends Component {
         if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
             this.updatePage();
         }
-        if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection)) {
-            console.log(this.props.sortType, this.props.sortDirection);
-            this.updatePage();
+        else if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection) || this.props.typeSort !== prevProps.typeSort) {
+            if (this.props.typeSort !== prevProps.typeSort)
+                this.updatePage(true);
+            else
+                this.updatePage()
         }
     }
 
-    updatePage = async () => {
+    updatePage = async (typeSort = false) => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
         document.title = `${username}'s Watched Movies`;
-        const page = parseInt(this.props.match.params.page) || 1;
-        const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection);
+        let page;
+        if (typeSort && this.props.match.params.page) {
+            this.props.history.push(this.props.location.pathname.slice(0, -1) + '1');
+            page = 1
+        } else {
+            page = parseInt(this.props.match.params.page) || 1;
+        }
+        const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
         const movies = await this.props.store.getMultipleMovies(movie_data.results);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };

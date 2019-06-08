@@ -60,8 +60,9 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
 });
 router.get('/user/review/:movie_id/:username', async (req, res) => {
     const {movie_id, username} = req.params;
+    const type = req.query.type;
     const movie = await MovieInteraction.query()
-        .findById([username, movie_id, "movie"])
+        .findById([username, movie_id, type])
         .andWhere((table) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
@@ -96,7 +97,9 @@ router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) =
 });
 router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
     const {movie_id, type, value, entityType} = req.body;
-    console.log(req.body)
+    if (!entityType) {
+        res.json({error: true});
+    }
     const query = {username: req.username, movie_id};
     query[type] = value;
     await MovieInteraction.query().upsertGraph({
@@ -110,7 +113,12 @@ router.get('/user/movies/watched/:username', async (req, res) => {
     const page = req.query.page || 0;
     const sort_type = req.query.sort_type || "created_at";
     const sort_direction = req.query.sort_direction || "desc";
-    const type = ["movie", "tv"];
+    let type = req.query.type || "all";
+    if (type === "all") {
+        type = ["movie", "tv"];
+    } else {
+        type = [type];
+    }
     const movies = await MovieInteraction.query()
         .where({username})
         .whereIn("type", type)
@@ -132,8 +140,15 @@ router.get('/user/movies/history/:username', async (req, res) => {
     if (sort_type === "created_at") {
         sort_type = "date_watched";
     }
+    let type = req.query.type || "all";
+    if (type === "all") {
+        type = ["movie", "tv"];
+    } else {
+        type = [type];
+    }
     const movies = await MovieInteraction.query()
-        .where({username, type: "movie"})
+        .where({username})
+        .whereIn("type", type)
         .whereNotNull("date_watched")
         .page(page, 10)
         .orderBy(sort_type || "date_watched", sort_direction || "desc");
@@ -142,14 +157,23 @@ router.get('/user/movies/history/:username', async (req, res) => {
 router.get('/user/movies/reviews/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
+    const sort_type = req.query.sort_type || "created_at";
+    const sort_direction = req.query.sort_direction || "desc";
+    let type = req.query.type || "all";
+    if (type === "all") {
+        type = ["movie", "tv"];
+    } else {
+        type = [type];
+    }
     const movies = await MovieInteraction.query()
-        .where({username, type: "movie"})
+        .where({username})
+        .whereIn("type", type)
         .andWhere((table) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
         })
         .page(page, 10)
-        .orderBy("created_at", "desc");
+        .orderBy(sort_type || "created_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/ratings/:username', async (req, res) => {

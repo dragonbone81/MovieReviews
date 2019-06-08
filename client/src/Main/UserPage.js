@@ -9,7 +9,7 @@ import ReviewMovies from '../UserPages/ReviewMovies'
 
 class UserPage extends Component {
     initStateSort = {created_at: "desc", rating: "desc"};
-
+    sortTypes = [{id: "movie", name: "Movies"}, {id: "tv", name: "Shows"}, {id: "all", name: "All"}];
     state = {
         page: "",
         readOnly: true,
@@ -17,6 +17,7 @@ class UserPage extends Component {
         sortType: "created_at",
         sortDirection: "desc",
         sortShown: false,
+        typeSort: 2,
     };
 
     componentDidMount() {
@@ -33,11 +34,11 @@ class UserPage extends Component {
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.location.pathname !== prevProps.location.pathname) {
+        if (this.props.location.pathname.slice(0, -1) !== prevProps.location.pathname.slice(0, -1)) {
             this.setState({
                 sortType: "created_at",
                 sortDirection: "desc",
-                sortShown: false,
+                // sortShown: false,
                 sort: {...this.initStateSort}
             });
             this.updatePage();
@@ -51,6 +52,13 @@ class UserPage extends Component {
         const newSortType = {};
         newSortType[type] = direction;
         this.setState(prevState => ({sort: {...prevState.sort, ...newSortType}}))
+    };
+    changeTypeSort = () => {
+        let typeSort = this.state.typeSort + 1;
+        if (typeSort > 2) {
+            typeSort = 0;
+        }
+        this.setState({typeSort});
     };
 
     render() {
@@ -94,24 +102,33 @@ class UserPage extends Component {
 
                     </div>
                     <div className="">
-                        <SortingComponent sortType={this.state.sortType} changeSortDirection={this.changeSortDirection}
+                        <SortingComponent typeName={this.sortTypes[this.state.typeSort].name}
+                                          changeTypeSort={this.changeTypeSort} sortType={this.state.sortType}
+                                          changeSortDirection={this.changeSortDirection}
                                           sort={this.state.sort}
                                           changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
                         <Switch>
                             <Route exact path="/user/movies/:username/:page?"
                                    render={(props) => <WatchedMovies {...props}
+                                                                     typeSort={this.sortTypes[this.state.typeSort].id}
                                                                      sortDirection={this.state.sort[this.state.sortType]}
                                                                      sortType={this.state.sortType}
                                                                      readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/history/:username/:page?"
                                    render={(props) => <HistoryMovies {...props}
+                                                                     typeSort={this.sortTypes[this.state.typeSort].id}
                                                                      sortDirection={this.state.sort[this.state.sortType]}
                                                                      sortType={this.state.sortType}
                                                                      readOnly={this.state.readOnly}/>}/>
-                            <Route exact path="/user/review/:username/:movie_id"
-                                   render={(props) => <MovieReviewPage {...props} readOnly={this.state.readOnly}/>}/>
+                            <Route exact path="/user/review/:username/:entity_type/:movie_id"
+                                   render={(props) => <MovieReviewPage {...props}
+                                                                       readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/reviews/:username/:page?"
-                                   render={(props) => <ReviewMovies {...props} readOnly={this.state.readOnly}/>}/>
+                                   render={(props) => <ReviewMovies {...props}
+                                                                    typeSort={this.sortTypes[this.state.typeSort].id}
+                                                                    sortDirection={this.state.sort[this.state.sortType]}
+                                                                    sortType={this.state.sortType}
+                                                                    readOnly={this.state.readOnly}/>}/>
                         </Switch>
                     </div>
                 </div>

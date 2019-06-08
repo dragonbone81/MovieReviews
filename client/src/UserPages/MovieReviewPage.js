@@ -19,14 +19,15 @@ class WatchedMovies extends Component {
 
     updatePage = async () => {
         this.setState({loadingData: true, movieReviewDoesNotExist: false});
-        const {username, movie_id} = this.props.match.params;
-        const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username), this.props.store.getMovieInfo(movie_id)])
+        const {username, movie_id, entity_type} = this.props.match.params;
+        const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username, entity_type), entity_type === "movie" ? this.props.store.getMovieInfo(movie_id) : this.props.store.getShowInfo(movie_id)]);
         if (promiseData[0] === undefined) {
             this.setState({movieReviewDoesNotExist: true});
             return;
         }
+        delete promiseData[1].type
         document.title = `${promiseData[1].title} reviewed by ${username}`;
-        this.setState({showData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
+        this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
     };
     // changePage = (page) => {
     //     this.setState({page: page}, () => {
@@ -34,11 +35,11 @@ class WatchedMovies extends Component {
     //     });
     // };
     updateMovieUserData = (type, val, movie_id) => {
-        this.props.store.updateMovieUserData(movie_id, type, val);
+        this.props.store.updateMovieUserData(movie_id, type, val, this.state.movieData.type);
         const newMovieData = {...this.state.movieData};
         newMovieData[type] = val;
         this.setState({
-            showData: newMovieData
+            movieData: newMovieData
         });
     };
 
@@ -68,9 +69,10 @@ class WatchedMovies extends Component {
                             style={{textDecoration: 'none', color: '#cbe2f4'}}
                             to={`/user/${this.props.match.params.username}`}>{this.props.match.params.username}</Link></span>
                         <div className="d-flex flex-row movie-review-user-title-year">
-                            <span className="movie-review-user-title">{this.state.movieData.title}</span>
                             <span
-                                className="movie-review-user-year">{this.state.movieData.release_date.substring(0, 4)}</span>
+                                className="movie-review-user-title">{this.state.movieData.type === "movie" ? this.state.movieData.title : this.state.movieData.name}</span>
+                            <span
+                                className="movie-review-user-year">{this.state.movieData.type === "movie" ? this.state.movieData.release_date.substring(0, 4) : this.state.movieData.first_air_date.substring(0, 4)}</span>
                             <div className="user-review-ratings">
                                 <RatingComponent readOnly={this.props.readOnly}
                                                  initialRating={this.state.movieData.rating}

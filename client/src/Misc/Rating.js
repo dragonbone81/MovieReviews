@@ -5,7 +5,7 @@ import {toast} from 'react-toastify';
 const RatingComponent = ({initialRating, onChange, readOnly = false}) => {
     const onChangeRating = (val) => {
         onChange(val);
-        toast.info("⭐ Movie Rated!", {
+        toast.info("⭐ Rated!", {
             position: "top-right",
             autoClose: 1500,
             hideProgressBar: true,

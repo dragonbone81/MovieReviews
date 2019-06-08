@@ -198,8 +198,8 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    getUsersMovieReview = (movie_id, username) => {
-        return fetch(`${SERVER_URL}/user/review/${encodeURIComponent(movie_id)}/${encodeURIComponent(username)}`, {
+    getUsersMovieReview = (movie_id, username, type) => {
+        return fetch(`${SERVER_URL}/user/review/${encodeURIComponent(movie_id)}/${encodeURIComponent(username)}?type=${type}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -249,8 +249,8 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    getViewedMoviesForUser = (username, page = 0, sortType, sortDirection) => {
-        return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}`, {
+    getViewedMoviesForUser = (username, page = 0, sortType, sortDirection, typeSort) => {
+        return fetch(`${SERVER_URL}/user/movies/watched/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}&type=${typeSort}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -261,8 +261,8 @@ class Store {
             .then(response => response.movies)
             .catch(e => console.log(e))
     };
-    getHistoryMoviesForUser = (username, page = 0, sortType, sortDirection) => {
-        return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}`, {
+    getHistoryMoviesForUser = (username, page = 0, sortType, sortDirection, typeSort) => {
+        return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}&type=${typeSort}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -273,8 +273,8 @@ class Store {
             .then(response => response.movies)
             .catch(e => console.log(e))
     };
-    getReviewMoviesForUser = (username, page = 0) => {
-        return fetch(`${SERVER_URL}/user/movies/reviews/${encodeURIComponent(username)}?page=${page}`, {
+    getReviewMoviesForUser = (username, page = 0, sortType, sortDirection, typeSort) => {
+        return fetch(`${SERVER_URL}/user/movies/reviews/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}&type=${typeSort}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

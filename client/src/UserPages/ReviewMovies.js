@@ -7,7 +7,7 @@ import Loader from "../Misc/Loader";
 import ImageWithLoading from '../Misc/ImageWithLoading';
 
 
-class HistoryMovies extends Component {
+class ReviewMovies extends Component {
     state = {
         movies: [],
         page: 1,
@@ -23,14 +23,26 @@ class HistoryMovies extends Component {
         if (this.props.match.params.username !== prevProps.match.params.username || this.props.match.params.page !== prevProps.match.params.page) {
             this.updatePage();
         }
+        else if (this.props.sortType !== prevProps.sortType || (this.props.sortType === prevProps.sortType && this.props.sortDirection !== prevProps.sortDirection) || this.props.typeSort !== prevProps.typeSort) {
+            if (this.props.typeSort !== prevProps.typeSort)
+                this.updatePage(true);
+            else
+                this.updatePage()
+        }
     }
 
-    updatePage = async () => {
+    updatePage = async (typeSort = false) => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
         document.title = `${username}'s Reviews`;
-        const page = parseInt(this.props.match.params.page) || 1;
-        const movie_data = await this.props.store.getReviewMoviesForUser(username, page - 1);
+        let page;
+        if (typeSort) {
+            this.props.history.push(this.props.location.pathname.slice(0, -1) + '1');
+            page = 1
+        } else {
+            page = parseInt(this.props.match.params.page) || 1;
+        }
+        const movie_data = await this.props.store.getReviewMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
         this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
@@ -61,7 +73,7 @@ class HistoryMovies extends Component {
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map((movie, i) => {
                         return (
-                            <div key={movie.movie_id}
+                            <div key={`${movie.movie_id} ${movie.type}`}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
                                 <div
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
@@ -72,12 +84,12 @@ class HistoryMovies extends Component {
                                 </div>
                                 <div className="d-flex flex-column align-self-start">
                                     <div className="movie-title smaller">
-                                        <Link to={`/user/review/${movie.username}/${movie.movie_id}`}
+                                        <Link to={`/user/review/${movie.username}/${movie.type}/${movie.movie_id}`}
                                               style={{color: 'inherit'}}>
-                                            <span>{movie.title}</span>
+                                            <span>{movie.type === "movie" ? movie.title : movie.name}</span>
                                         </Link>
                                         <span
-                                            className="movie-reviews-all-year">{movie.release_date.substring(0, 4)}</span>
+                                            className="movie-reviews-all-year">{movie.type === "movie" ? movie.release_date.substring(0, 4) : movie.first_air_date.substring(0, 4)}</span>
                                     </div>
 
                                     <span
@@ -107,4 +119,4 @@ class HistoryMovies extends Component {
     }
 }
 
-export default withRouter(inject("store")(observer(HistoryMovies)));
+export default withRouter(inject("store")(observer(ReviewMovies)));
