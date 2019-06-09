@@ -73,7 +73,7 @@ class ReviewMovies extends Component {
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map((movie) => {
                         return (
-                            <div key={`${movie.movie_id} ${movie.type}`}
+                            <div key={`${movie.movie_id} ${movie.type} ${movie.season}`}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
                                 <div
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">

@@ -71,7 +71,7 @@ class WatchedMovies extends Component {
                     className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch justify-content-center align-items-center">
                     {this.state.movies.map(movie => {
                         return (
-                            <div key={`${movie.movie_id} ${movie.type}`}
+                            <div key={`${movie.movie_id} ${movie.type} ${movie.season}`}
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                 <ImageWithLoading type={movie.type} width={200}
                                                   imgStyle="img-watched"

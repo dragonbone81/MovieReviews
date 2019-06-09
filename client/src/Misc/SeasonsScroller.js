@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
 import ImageWithLoading from '../Misc/ImageWithLoading';
 
 const SeasonsScroller = ({seasons, getImageURL, size, show_id, episode}) => {

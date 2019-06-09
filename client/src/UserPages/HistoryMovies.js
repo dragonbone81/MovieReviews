@@ -81,7 +81,7 @@ class HistoryMovies extends Component {
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map((movie, i) => {
                         return (
-                            <div key={`${movie.movie_id} ${movie.type}`}
+                            <div key={`${movie.movie_id} ${movie.type} ${movie.season}`}
                                  className="d-flex flex-row align-content-stretch justify-content-start align-items-center border-bottom history-row">
                                 <div className="calendar">
                                     <i className="fas fa-calendar"/>
