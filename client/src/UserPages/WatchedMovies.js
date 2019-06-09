@@ -75,6 +75,7 @@ class WatchedMovies extends Component {
                                  className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                 <ImageWithLoading type={movie.type} width={200}
                                                   imgStyle="img-watched"
+                                                  season_number={movie.season}
                                                   makeLink={true} movie_id={movie.movie_id}
                                                   src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 <div className="movie-ratings-watched">

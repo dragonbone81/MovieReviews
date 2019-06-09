@@ -97,17 +97,28 @@ class HistoryMovies extends Component {
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                     <ImageWithLoading type={movie.type} width={100}
                                                       imgStyle="img-history"
+                                                      season_number={movie.season}
                                                       makeLink={true} movie_id={movie.movie_id}
                                                       src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 </div>
                                 <div className="movie-title smaller">
                                     <Link style={{color: 'inherit'}}
-                                          to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`)}>{movie.type === "movie" ? movie.title : movie.name}</Link>
+                                          to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`) || (movie.type === "season" && `/show/${movie.movie_id}/${movie.season}`)}>{movie.type === "movie" ? movie.title : movie.name}</Link>
                                 </div>
-                                <div
-                                    className="movie-history-year">{movie.type === "movie" ? movie.release_date.substring(0, 4) : movie.first_air_date.substring(0, 4)}</div>
+                                {movie.type === "movie" && (
+                                    <div
+                                        className="movie-history-year">{movie.release_date.substring(0, 4)}</div>
+                                )}
+                                {movie.type === "tv" && (
+                                    <div
+                                        className="movie-history-year">{movie.first_air_date.substring(0, 4)}</div>
+                                )}
+                                {movie.type === "season" && (
+                                    <div
+                                        className="movie-history-year">{movie.air_date.substring(0, 4)}</div>
+                                )}
                                 <div className="movie-ratings-history">
-                                    <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
+                                    <RatingComponent readOnly={true} initialRating={movie.rating}
                                                      onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id, movie.type)}/>
                                 </div>
                             </div>

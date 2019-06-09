@@ -9,7 +9,10 @@ import ReviewMovies from '../UserPages/ReviewMovies'
 
 class UserPage extends Component {
     initStateSort = {created_at: "desc", rating: "desc"};
-    sortTypes = [{id: "movie", name: "Movies"}, {id: "tv", name: "Shows"}, {id: "all", name: "All"}];
+    sortTypes = [{id: "movie", name: "Movies"}, {id: "tv", name: "Shows"}, {id: "season", name: "Seasons"}, {
+        id: "all",
+        name: "All"
+    }];
     state = {
         page: "",
         readOnly: true,
@@ -17,7 +20,7 @@ class UserPage extends Component {
         sortType: "created_at",
         sortDirection: "desc",
         sortShown: false,
-        typeSort: 2,
+        typeSort: 3,
     };
 
     componentDidMount() {
@@ -46,16 +49,22 @@ class UserPage extends Component {
     }
 
     changeSortType = (type) => {
+        if (!this.state.sortShown)
+            return;
         this.setState({sortType: type});
     };
     changeSortDirection = (type, direction) => {
+        if (!this.state.sortShown)
+            return;
         const newSortType = {};
         newSortType[type] = direction;
         this.setState(prevState => ({sort: {...prevState.sort, ...newSortType}}))
     };
     changeTypeSort = () => {
+        if (!this.state.sortShown)
+            return;
         let typeSort = this.state.typeSort + 1;
-        if (typeSort > 2) {
+        if (typeSort > 3) {
             typeSort = 0;
         }
         this.setState({typeSort});
@@ -109,7 +118,7 @@ class UserPage extends Component {
                                                                      sortDirection={this.state.sort[this.state.sortType]}
                                                                      sortType={this.state.sortType}
                                                                      readOnly={this.state.readOnly}/>}/>
-                            <Route exact path="/user/review/:username/:entity_type/:movie_id"
+                            <Route exact path="/user/review/:username/:entity_type/:movie_id/:season?"
                                    render={(props) => <MovieReviewPage {...props}
                                                                        readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/reviews/:username/:page?"

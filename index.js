@@ -20,8 +20,8 @@ app.use(movieRoutes);
 
 app.get('/', async (req, res) => {
     const x = await MovieInteraction.query()
-    .findById(["abc", 63247, 'tv'])
-        // .where({username: "abc", movie_id: 63247, type: "tv"})
+    // .findById(["abc", 63247, 'tv'])
+        .where({username: "abc", type: "season", season: 1, movie_id:68638})
         // .delete();
     console.log(x);
     // await V_Rating.query().insert({movie_id: 299534, rating: 3});

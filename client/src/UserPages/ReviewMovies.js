@@ -36,7 +36,7 @@ class ReviewMovies extends Component {
         const {username} = this.props.match.params;
         document.title = `${username}'s Reviews`;
         let page;
-        if (typeSort) {
+        if (typeSort && this.props.match.params.page) {
             this.props.history.push(this.props.location.pathname.slice(0, -1) + '1');
             page = 1
         } else {
@@ -79,17 +79,29 @@ class ReviewMovies extends Component {
                                     className="watched-movie d-flex flex-column justify-content-center align-items-center">
                                     <ImageWithLoading type={movie.type} width={100}
                                                       imgStyle="img-history"
+                                                      season_number={movie.season}
                                                       makeLink={true} movie_id={movie.movie_id}
                                                       src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 </div>
                                 <div className="d-flex flex-column align-self-start">
                                     <div className="movie-title smaller">
-                                        <Link to={`/user/review/${movie.username}/${movie.type}/${movie.movie_id}`}
-                                              style={{color: 'inherit'}}>
+                                        <Link
+                                            to={`/user/review/${movie.username}/${movie.type}/${movie.movie_id}${movie.season !== -1 ? `/${movie.season}` : ''}`}
+                                            style={{color: 'inherit'}}>
                                             <span>{movie.type === "movie" ? movie.title : movie.name}</span>
                                         </Link>
-                                        <span
-                                            className="movie-reviews-all-year">{movie.type === "movie" ? movie.release_date.substring(0, 4) : movie.first_air_date.substring(0, 4)}</span>
+                                        {movie.type === "movie" && (
+                                            <span
+                                                className="movie-reviews-all-year">{movie.release_date.substring(0, 4)}</span>
+                                        )}
+                                        {movie.type === "tv" && (
+                                            <span
+                                                className="movie-reviews-all-year">{movie.first_air_date.substring(0, 4)}</span>
+                                        )}
+                                        {movie.type === "season" && (
+                                            <span
+                                                className="movie-reviews-all-year">{movie.air_date.substring(0, 4)}</span>
+                                        )}
                                     </div>
 
                                     <span
@@ -103,7 +115,7 @@ class ReviewMovies extends Component {
                                         day: 'numeric'
                                     })}`}</span>
                                     <div className="movie-ratings-review-all">
-                                        <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
+                                        <RatingComponent readOnly={true} initialRating={movie.rating}
                                                          onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
                                     </div>
                                     <p className="movie-review-preview-review">{movie.review ? `${movie.review.substring(0, 50)}...` : "No Review..."}</p>

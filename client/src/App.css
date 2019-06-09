@@ -279,12 +279,13 @@
 
 .box {
     height: 40px;
-    transition: height 0.2s, opacity 0.2s;
+    transition: height 0.2s, opacity 0.2s, z-index 0.3s;
 }
 
 .hidden {
     height: 0;
     opacity: 0;
+    z-index: -9000;
 }
 
 .sorting-div {
@@ -353,15 +354,19 @@
     font-size: 30px;
     color: #9badbb;
 }
+
 .seasons-slider-arrow.less {
     margin-top: 27px;
 }
-.seasons-slider-arrow:hover{
+
+.seasons-slider-arrow:hover {
     color: whitesmoke;
 }
-.image-top{
+
+.image-top {
     position: relative;
 }
+
 .seasons-slider-arrow-right {
     padding-left: 4px;
 }

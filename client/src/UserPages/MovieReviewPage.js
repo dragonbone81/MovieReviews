@@ -18,8 +18,8 @@ class WatchedMovies extends Component {
 
     updatePage = async () => {
         this.setState({loadingData: true, movieReviewDoesNotExist: false});
-        const {username, movie_id, entity_type} = this.props.match.params;
-        const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username, entity_type), entity_type === "movie" ? this.props.store.getMovieInfo(movie_id) : this.props.store.getShowInfo(movie_id)]);
+        const {username, movie_id, entity_type, season} = this.props.match.params;
+        const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username, entity_type, season), (entity_type === "movie" && this.props.store.getMovieInfo(movie_id)) || (entity_type === "tv" && this.props.store.getShowInfo(movie_id)) || (entity_type === "season" && this.props.store.getSeasonInfo(movie_id, season))]);
         if (promiseData[0] === undefined) {
             this.setState({movieReviewDoesNotExist: true});
             return;
@@ -59,6 +59,7 @@ class WatchedMovies extends Component {
                     <div className="movie-img-review-page-div">
                         <ImageWithLoading type={this.state.movieData.type} width={200}
                                           imgStyle="img-review-page"
+                                          season_number={this.props.match.params.season}
                                           makeLink={true} movie_id={this.state.movieData.movie_id}
                                           src={this.props.store.getImageURL(this.state.movieData.poster_path, this.props.store.poster_sizes[3])}/>
                     </div>
@@ -70,10 +71,20 @@ class WatchedMovies extends Component {
                         <div className="d-flex flex-row movie-review-user-title-year">
                             <span
                                 className="movie-review-user-title">{this.state.movieData.type === "movie" ? this.state.movieData.title : this.state.movieData.name}</span>
-                            <span
-                                className="movie-review-user-year">{this.state.movieData.type === "movie" ? this.state.movieData.release_date.substring(0, 4) : this.state.movieData.first_air_date.substring(0, 4)}</span>
+                            {this.state.movieData.type === "movie" && (
+                                <span
+                                    className="movie-review-user-year">{this.state.movieData.release_date.substring(0, 4)}</span>
+                            )}
+                            {this.state.movieData.type === "tv" && (
+                                <span
+                                    className="movie-review-user-year">{this.state.movieData.first_air_date.substring(0, 4)}</span>
+                            )}
+                            {this.state.movieData.type === "season" && (
+                                <span
+                                    className="movie-review-user-year">{this.state.movieData.air_date.substring(0, 4)}</span>
+                            )}
                             <div className="user-review-ratings">
-                                <RatingComponent readOnly={this.props.readOnly}
+                                <RatingComponent readOnly={true}
                                                  initialRating={this.state.movieData.rating}
                                                  onChange={(val) => this.updateMovieUserData("rating", val, this.state.movieData.movie_id)}/>
                             </div>
@@ -95,27 +106,6 @@ class WatchedMovies extends Component {
                         </div>
                     </div>
                 </div>
-                {/*<div*/}
-                {/*className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch justify-content-center align-items-center">*/}
-                {/*{this.state.movies.map(movie => {*/}
-                {/*return (*/}
-                {/*<div key={movie.movie_id}*/}
-                {/*className="watched-movie d-flex flex-column justify-content-center align-items-center">*/}
-                {/*<Link to={`/movie/${movie.movie_id}`}>*/}
-                {/*<img*/}
-                {/*src={movie.poster_path ? this.props.store.getImageURL(movie.poster_path) : "https://i.imgur.com/IiA2iLz.png"}*/}
-                {/*className="img-watched" alt="Movie poster"/>*/}
-                {/*</Link>*/}
-                {/*<div className="movie-ratings-watched">*/}
-                {/*<RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}*/}
-                {/*onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>*/}
-                {/*</div>*/}
-                {/*</div>*/}
-                {/*)*/}
-                {/*})}*/}
-                {/*</div>*/}
-                {/*<Pagination url={`/search/${this.props.match.params.term}`} page={this.state.page}*/}
-                {/*totalPages={this.state.totalPages} link={false} callback={this.changePage}/>*/}
             </div>
         );
     }

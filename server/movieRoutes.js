@@ -35,7 +35,6 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
             }
         });
     } else {
-        console.log(season)
         const allQueries = await Promise.all([
             MovieInteraction.query()
                 .findById([req.username, id, type, season])
@@ -57,14 +56,13 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
                 .findById([id, type, season])
                 .column("rating")
         ]);
-        console.log(allQueries)
         res.json({movie: {...allQueries[0], rating_groups: allQueries[1], v_rating: allQueries[2]}});
     }
 });
 router.get('/user/review/:movie_id/:username', async (req, res) => {
     const {movie_id, username} = req.params;
     const type = req.query.type;
-    const season = req.query.season || -1;
+    const season = ((req.query.season && req.query.season !== "undefined") && req.query.season) || -1;
     const movie = await MovieInteraction.query()
         .findById([username, movie_id, type, season])
         .andWhere((table) => {
@@ -75,12 +73,10 @@ router.get('/user/review/:movie_id/:username', async (req, res) => {
 });
 router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, res) => {
     const {movie_id, date_watched, review, type, season} = req.body;
-    console.log(season)
     try {
-        const x  =await MovieInteraction.query().upsertGraph({
+        await MovieInteraction.query().upsertGraph({
             movie_id, username: req.username, date_watched, review, type, season: season || -1
         }, {insertMissing: true, noDelete: true});
-        console.log(x)
         res.json({success: true})
     } catch (e) {
         res.json({})
@@ -103,17 +99,15 @@ router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) =
 });
 router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
     const {movie_id, type, value, entityType, season} = req.body;
-    console.log(req.body)
     if (!entityType) {
         res.json({error: true});
     }
     const query = {username: req.username, movie_id};
     query[type] = value;
-    const x = await MovieInteraction.query().upsertGraph({
+    await MovieInteraction.query().upsertGraph({
         username: req.username,
         movie_id, ...query, type: entityType, season: season || -1
     }, {insertMissing: true, noDelete: true});
-    console.log(x);
     res.json({success: true})
 });
 router.get('/user/movies/watched/:username', async (req, res) => {
@@ -123,7 +117,7 @@ router.get('/user/movies/watched/:username', async (req, res) => {
     const sort_direction = req.query.sort_direction || "desc";
     let type = req.query.type || "all";
     if (type === "all") {
-        type = ["movie", "tv"];
+        type = ["movie", "tv", "season"];
     } else {
         type = [type];
     }
@@ -150,7 +144,7 @@ router.get('/user/movies/history/:username', async (req, res) => {
     }
     let type = req.query.type || "all";
     if (type === "all") {
-        type = ["movie", "tv"];
+        type = ["movie", "tv", "season"];
     } else {
         type = [type];
     }
@@ -169,7 +163,7 @@ router.get('/user/movies/reviews/:username', async (req, res) => {
     const sort_direction = req.query.sort_direction || "desc";
     let type = req.query.type || "all";
     if (type === "all") {
-        type = ["movie", "tv"];
+        type = ["movie", "tv", "season"];
     } else {
         type = [type];
     }

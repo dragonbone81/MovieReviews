@@ -175,6 +175,11 @@ class Store {
                     return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
                 })
             }
+            if (movie.type === "season") {
+                return this.getSeasonInfo(movie.movie_id, movie.season, false).then(api_movie => {
+                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                })
+            }
             else return console.log("ERROR")
         }));
     };
@@ -213,8 +218,8 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    getUsersMovieReview = (movie_id, username, type) => {
-        return fetch(`${SERVER_URL}/user/review/${encodeURIComponent(movie_id)}/${encodeURIComponent(username)}?type=${type}`, {
+    getUsersMovieReview = (movie_id, username, type, season) => {
+        return fetch(`${SERVER_URL}/user/review/${encodeURIComponent(movie_id)}/${encodeURIComponent(username)}?type=${type}&season=${season}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
