@@ -263,19 +263,24 @@ class ShowMoviePage extends Component {
                                                              getImageURL={this.props.store.getImageURL}/>
                                         </div>
                                     )}
-                                    {/*{this.state.entityType === "season" && (*/}
-                                    {/*<div className="seasons-slider-div">*/}
-                                    {/*<SeasonsScroller seasons={this.state.data.episodes}*/}
-                                    {/*episode={true}*/}
-                                    {/*show_id={this.state.data.id}*/}
-                                    {/*size={this.props.store.poster_sizes[3]}*/}
-                                    {/*getImageURL={this.props.store.getImageURL}/>*/}
-                                    {/*</div>*/}
-                                    {/*)}*/}
                                     <PersonCast credits={this.state.data.credits}
                                                 created_by={this.state.data.created_by}
                                                 size={this.props.store.poster_sizes[3]}
                                                 getImageURL={this.props.store.getImageURL}/>
+                                    {(this.state.entityType === "movie" || this.state.entityType === "tv") && (
+                                        <>
+                                            <span className="related-movie-text border-bottom">Related</span>
+                                            <div className="related-movie-entitites d-flex flex-row flex-wrap">
+                                                {this.state.data.similar.results.map(similar =>
+                                                    <ImageWithLoading type={this.state.entityType} width={100}
+                                                                      imgStyle="related-movie"
+                                                                      makeLink={true}
+                                                                      movie_id={similar.id}
+                                                                      src={this.props.store.getImageURL(similar.poster_path, this.props.store.poster_sizes[3])}/>
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                                 <div className="d-flex flex-column">
                                     {this.props.store.user.token ?

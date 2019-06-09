@@ -536,12 +536,22 @@
     border-radius: 5px;
     margin: 5px;
 }
-
+.related-movie{
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
 .movie-cast-pic {
     /*border: 1px solid #b2c7d7;*/
     border-radius: 5px;
 }
-
+.related-movie-text{
+    color: #9badbb;
+    font-size: 25px;
+    width: 95%;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
 .movie-page-poster {
     border: 3px solid #b2c7d7;
     border-radius: 5px;

@@ -96,8 +96,8 @@ class Store {
     viewedOrReviewed = (userMovieData) => {
         return userMovieData.viewed || userMovieData.review || userMovieData.date_watched;
     };
-    getMovieInfo = (movie_id, credits = true) => {
-        return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"}`, {
+    getMovieInfo = (movie_id, credits = true, similar = true) => {
+        return fetch(`${THE_MOVIE_DB_URL}/movie/${movie_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"},${similar && "similar"}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -110,8 +110,8 @@ class Store {
                 return {};
             });
     };
-    getShowInfo = (show_id, credits = true) => {
-        return fetch(`${THE_MOVIE_DB_URL}/tv/${show_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"}`, {
+    getShowInfo = (show_id, credits = true, similar = true) => {
+        return fetch(`${THE_MOVIE_DB_URL}/tv/${show_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"},${similar && "similar"}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
