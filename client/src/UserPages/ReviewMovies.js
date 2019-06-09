@@ -69,6 +69,9 @@ class ReviewMovies extends Component {
         }
         return (
             <div className="d-flex flex-column justify-content-center align-items-center">
+                {this.state.movies.length === 0 && (
+                    <h1 className="no-content">No Content 😴</h1>
+                )}
                 <div
                     className="d-flex flex-column justify-content-start align-items-start align-self-start history-col">
                     {this.state.movies.map((movie) => {
