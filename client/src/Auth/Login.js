@@ -33,7 +33,8 @@ class Login extends Component {
         if ('error' in response) {
             this.setState({error: {on: true, message: response.error}});
         } else {
-            this.props.history.push("/home");
+            console.log(response)
+            this.props.history.push(`/user/movies/${response.user.username}`);
         }
     };
 

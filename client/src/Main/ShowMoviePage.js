@@ -273,6 +273,7 @@ class ShowMoviePage extends Component {
                                             <div className="related-movie-entitites d-flex flex-row flex-wrap">
                                                 {this.state.data.similar.results.map(similar =>
                                                     <ImageWithLoading type={this.state.entityType} width={100}
+                                                                      key={similar.id}
                                                                       imgStyle="related-movie"
                                                                       makeLink={true}
                                                                       movie_id={similar.id}
