@@ -79,7 +79,7 @@ class WatchedMovies extends Component {
                                                   makeLink={true} movie_id={movie.movie_id}
                                                   src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
                                 <div className="movie-ratings-watched">
-                                    <RatingComponent readOnly={this.props.readOnly} initialRating={movie.rating}
+                                    <RatingComponent readOnly={true} initialRating={movie.rating}
                                                      onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
                                 </div>
                             </div>
