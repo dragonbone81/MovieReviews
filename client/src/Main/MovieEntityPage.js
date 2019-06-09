@@ -81,7 +81,7 @@ class MovieEntityPage extends Component {
                         <p className="actor-page-bio-bio">{this.state.actorData.biography}</p>
                     </div>
                 </div>
-                <Pagination url={`/actor/${this.props.match.params.actor_id}`} page={this.state.page}
+                <Pagination url={`/person/${this.props.match.params.actor_id}`} page={this.state.page}
                             totalPages={this.state.totalPages}/>
             </div>
         );
