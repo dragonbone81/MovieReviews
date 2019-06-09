@@ -110,6 +110,34 @@ class Store {
                 return {};
             });
     };
+    getPopularMovieInfo = () => {
+        return fetch(`${THE_MOVIE_DB_URL}/movie/popular?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
+    getPopularShowInfo = () => {
+        return fetch(`${THE_MOVIE_DB_URL}/tv/popular?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
     getShowInfo = (show_id, credits = true, similar = true) => {
         return fetch(`${THE_MOVIE_DB_URL}/tv/${show_id}?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&append_to_response=${credits && "credits"},${similar && "similar"}`, {
             method: "GET",
