@@ -38,9 +38,9 @@ class ReviewModal extends Component {
         this.props.close();
     };
     save = () => {
-        this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review, this.props.type);
+        this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review, this.props.type, this.props.season);
         if (this.props.store.user.username === "dragonbone81" && this.state.v_rating !== -1) {
-            this.props.store.updateMovieVReview(this.props.movie.id, this.state.v_rating, this.props.type);
+            this.props.store.updateMovieVReview(this.props.movie.id, this.state.v_rating, this.props.type, this.props.season);
             this.props.updateVReview(this.state.v_rating);
         }
         this.props.updateReviewDate(this.state.review, this.state.date);
@@ -55,7 +55,7 @@ class ReviewModal extends Component {
         this.props.close();
     };
     delete_review = () => {
-        this.props.store.updateMovieUserDataReview(this.props.movie.id, null, null, this.props.type);
+        this.props.store.updateMovieUserDataReview(this.props.movie.id, null, null, this.props.type, this.props.season);
         this.props.updateReviewDate(null, null);
         toast.info("❌ Review Deleted", {
             position: "top-right",

@@ -10,7 +10,7 @@ const SeasonsScroller = ({seasons, getImageURL, size, show_id, episode}) => {
             behavior: 'smooth'
         });
     };
-    const actualSeasons = [...seasons.filter(season => season.season_number > 0)];
+    const actualSeasons = [...seasons.filter(season => season.season_number > 0 && season.air_date !== null)];
     return (
         <div className="d-flex flex-row">
             <span className={`seasons-slider-arrow ${episode ? "less" : ""}`} onClick={() => scroll(-336)}>

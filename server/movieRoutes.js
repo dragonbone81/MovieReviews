@@ -6,23 +6,24 @@ const {MovieInteraction, V_Rating} = require('./models');
 router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => {
     const {id} = req.params;
     const type = req.query.type || "movie";
+    const season = req.query.season || -1;
     if (req.no_token) {
         const allQueries = await Promise.all([
             MovieInteraction.query()
                 .columns("rating")
                 .count()
                 .havingNotNull("rating")
-                .where({movie_id: id, type}).groupBy("rating"),
+                .where({movie_id: id, type, season}).groupBy("rating"),
             V_Rating.query()
-                .findById([id, type])
+                .findById([id, type, season])
                 .column("rating"),
             MovieInteraction.query()
-                .where({movie_id: id, type})
+                .where({movie_id: id, type, season})
                 .whereNotNull("rating")
                 .count()
                 .as('total_ratings'),
             MovieInteraction.query()
-                .where({movie_id: id, type}).avg("rating")
+                .where({movie_id: id, type, season}).avg("rating")
                 .as('average_rating'),
         ]);
         res.json({
@@ -34,14 +35,15 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
             }
         });
     } else {
+        console.log(season)
         const allQueries = await Promise.all([
             MovieInteraction.query()
-                .findById([req.username, id, type])
+                .findById([req.username, id, type, season])
                 .columns(MovieInteraction.query()
-                        .where({movie_id: id, type}).avg("rating")
+                        .where({movie_id: id, type, season}).avg("rating")
                         .as('average_rating'),
                     MovieInteraction.query()
-                        .where({movie_id: id, type})
+                        .where({movie_id: id, type, season})
                         .whereNotNull("rating")
                         .count()
                         .as('total_ratings'),
@@ -50,19 +52,21 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
                 .columns("rating")
                 .count()
                 .havingNotNull("rating")
-                .where({movie_id: id, type}).groupBy("rating"),
+                .where({movie_id: id, type, season}).groupBy("rating"),
             V_Rating.query()
-                .findById([id, type])
+                .findById([id, type, season])
                 .column("rating")
         ]);
+        console.log(allQueries)
         res.json({movie: {...allQueries[0], rating_groups: allQueries[1], v_rating: allQueries[2]}});
     }
 });
 router.get('/user/review/:movie_id/:username', async (req, res) => {
     const {movie_id, username} = req.params;
     const type = req.query.type;
+    const season = req.query.season || -1;
     const movie = await MovieInteraction.query()
-        .findById([username, movie_id, type])
+        .findById([username, movie_id, type, season])
         .andWhere((table) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
@@ -70,11 +74,13 @@ router.get('/user/review/:movie_id/:username', async (req, res) => {
     res.json({movie});
 });
 router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, res) => {
-    const {movie_id, date_watched, review, type} = req.body;
+    const {movie_id, date_watched, review, type, season} = req.body;
+    console.log(season)
     try {
-        await MovieInteraction.query().upsertGraph({
-            movie_id, username: req.username, date_watched, review, type,
+        const x  =await MovieInteraction.query().upsertGraph({
+            movie_id, username: req.username, date_watched, review, type, season: season || -1
         }, {insertMissing: true, noDelete: true});
+        console.log(x)
         res.json({success: true})
     } catch (e) {
         res.json({})
@@ -85,10 +91,10 @@ router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) =
         res.json({});
         return;
     }
-    const {movie_id, v_review, type} = req.body;
+    const {movie_id, v_review, type, season} = req.body;
     try {
         await V_Rating.query().upsertGraph({
-            movie_id, rating: v_review, type,
+            movie_id, rating: v_review, type, season: season || -1
         }, {insertMissing: true, noDelete: true});
         res.json({success: true})
     } catch (e) {
@@ -96,16 +102,18 @@ router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) =
     }
 });
 router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
-    const {movie_id, type, value, entityType} = req.body;
+    const {movie_id, type, value, entityType, season} = req.body;
+    console.log(req.body)
     if (!entityType) {
         res.json({error: true});
     }
     const query = {username: req.username, movie_id};
     query[type] = value;
-    await MovieInteraction.query().upsertGraph({
+    const x = await MovieInteraction.query().upsertGraph({
         username: req.username,
-        movie_id, ...query, type: entityType,
+        movie_id, ...query, type: entityType, season: season || -1
     }, {insertMissing: true, noDelete: true});
+    console.log(x);
     res.json({success: true})
 });
 router.get('/user/movies/watched/:username', async (req, res) => {

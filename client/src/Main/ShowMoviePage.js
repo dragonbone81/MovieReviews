@@ -68,10 +68,18 @@ class ShowMoviePage extends Component {
     getDataForShow = async (show_id) => {
         if (this.props.match.params.season) {
             let seasonData = this.props.store.getSeasonInfo(show_id, this.props.match.params.season);
-            const result = await Promise.all([seasonData]);
+            let userSeasonData = this.props.store.getUsersEntityDetail(show_id, "season", this.props.match.params.season);
+            const result = await Promise.all([seasonData, userSeasonData]);
             seasonData = result[0];
+            userSeasonData = result[1];
+            if (userSeasonData) {
+                userSeasonData.rating_groups = this.normalizeRatings(userSeasonData.rating_groups);
+                userSeasonData.max_one_rating = Math.max.apply(Math, userSeasonData.rating_groups.map(e => e.count));
+            }
+            document.title = seasonData.name;
             seasonData.ratings = {};
-            return {data: seasonData, userData: {}}
+            seasonData.id = this.props.match.params.entity_id;
+            return {data: seasonData, userData: userSeasonData}
         } else {
             let showData = this.props.store.getShowInfo(show_id);
             let userShowData = this.props.store.getUsersEntityDetail(show_id, "tv");
@@ -149,7 +157,11 @@ class ShowMoviePage extends Component {
                 draggable: true,
             });
         }
-        this.props.store.updateMovieUserData(this.state.data.id, type, val, this.entityType);
+        if (this.entityType === "season") {
+            this.props.store.updateMovieUserData(this.props.match.params.entity_id, type, val, this.entityType, this.props.match.params.season);
+        } else {
+            this.props.store.updateMovieUserData(this.state.data.id, type, val, this.entityType, this.props.match.params.season);
+        }
         const updatedState = {...this.state.userData};
         updatedState[type] = val;
         this.setState({userData: updatedState})
@@ -177,6 +189,7 @@ class ShowMoviePage extends Component {
                                  userData={this.state.userData}
                                  movie={this.state.data}
                                  open={this.state.reviewModalOpen}
+                                 season={this.props.match.params.season}
                                  close={() => this.setState({reviewModalOpen: false})}/>
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path || this.state.data.poster_path)})`}}
@@ -251,13 +264,13 @@ class ShowMoviePage extends Component {
                                         </div>
                                     )}
                                     {/*{this.state.entityType === "season" && (*/}
-                                        {/*<div className="seasons-slider-div">*/}
-                                            {/*<SeasonsScroller seasons={this.state.data.episodes}*/}
-                                                             {/*episode={true}*/}
-                                                             {/*show_id={this.state.data.id}*/}
-                                                             {/*size={this.props.store.poster_sizes[3]}*/}
-                                                             {/*getImageURL={this.props.store.getImageURL}/>*/}
-                                        {/*</div>*/}
+                                    {/*<div className="seasons-slider-div">*/}
+                                    {/*<SeasonsScroller seasons={this.state.data.episodes}*/}
+                                    {/*episode={true}*/}
+                                    {/*show_id={this.state.data.id}*/}
+                                    {/*size={this.props.store.poster_sizes[3]}*/}
+                                    {/*getImageURL={this.props.store.getImageURL}/>*/}
+                                    {/*</div>*/}
                                     {/*)}*/}
                                     <PersonCast credits={this.state.data.credits}
                                                 created_by={this.state.data.created_by}
