@@ -3,15 +3,8 @@ import {observer, inject} from 'mobx-react';
 import {withRouter, Link} from 'react-router-dom';
 import Loader from '../Misc/Loader';
 import RatingComponent from '../Misc/Rating';
-import ReviewModal from './ReviewModal';
 import ImageWithLoading from '../Misc/ImageWithLoading';
-import PersonCast from '../Misc/PersonCast';
-import SeasonsScroller from '../Misc/SeasonsScroller';
 import Scroller from '../Misc/Scroller';
-import {toast} from 'react-toastify';
-import {
-    BarChart, Bar, YAxis
-} from 'recharts';
 
 
 class ShowMoviePage extends Component {

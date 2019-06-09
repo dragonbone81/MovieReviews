@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const RedirectHome = () => {
     return (
-        <Redirect to="/signup"/>
+        <Redirect to="/"/>
     )
 };
 
@@ -34,7 +34,7 @@ class App extends Component {
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/user/:term/:username" component={UserPage}/>
                     <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>
-                    {/*<Route path="/" component={RedirectHome}/>*/}
+                    <Route path="/" component={RedirectHome}/>
                 </Switch>
             </div>
         );

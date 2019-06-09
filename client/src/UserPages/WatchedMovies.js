@@ -5,6 +5,7 @@ import RatingComponent from '../Misc/Rating';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
 import ImageWithLoading from '../Misc/ImageWithLoading';
+import NoContent from '../Misc/NoContent';
 
 class WatchedMovies extends Component {
     state = {
@@ -68,7 +69,7 @@ class WatchedMovies extends Component {
         return (
             <div className="d-flex flex-column align-items-center">
                 {this.state.movies.length === 0 && (
-                    <h1 className="no-content">No Content 😴</h1>
+                    <NoContent/>
                 )}
                 <div
                     className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch justify-content-center align-items-center">

@@ -471,7 +471,10 @@
     padding-right: 20px;
     color: #3c516f;
 }
-
+.over-nav{
+    margin-right: 10px;
+    margin-left: 10px;
+}
 .trans-nav-movie-view {
     background: rgba(190, 212, 229, 0.81);
     margin: auto;
