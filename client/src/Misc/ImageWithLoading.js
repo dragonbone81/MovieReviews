@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id, type, season_number, episode}) => {
+const ImageWithLoading = ({src, width, imgStyle, makeLink, movie_id, type, season_number, episode, review}) => {
     const height = Math.ceil(width * (episode ? (9 / 16) : (3 / 2)));
     const [loading, setLoading] = useState(true);
     const [couldNotLoad, setCouldNotLoad] = useState(false);
-    const link = (type === "movie" && `/movie/${movie_id}`) || (type === "tv" && `/show/${movie_id}`) || (type === "person" && `/person/${movie_id}`) || (type === "season" && `/show/${movie_id}/${season_number}`);
+    let link;
+    if (review) {
+        link = `/user/review/${review.username}/${type}/${movie_id}/${review.season !== -1 ? review.season : ""}`
+    } else {
+        link = (type === "movie" && `/movie/${movie_id}`) || (type === "tv" && `/show/${movie_id}`) || (type === "person" && `/person/${movie_id}`) || (type === "season" && `/show/${movie_id}/${season_number}`);
+    }
     return (
         <>
             {loading ? (

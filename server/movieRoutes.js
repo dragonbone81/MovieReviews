@@ -71,6 +71,18 @@ router.get('/user/review/:movie_id/:username', async (req, res) => {
         });
     res.json({movie});
 });
+router.get('/recent/reviews', async (req, res) => {
+    const type = req.query.type;
+    const movie = await MovieInteraction.query()
+        .where({type})
+        .andWhere((table) => {
+            table.whereNotNull("review");
+            table.orWhereNotNull("rating");
+        })
+        .orderBy("created_at", "desc")
+        .limit(4);
+    res.json({movie});
+});
 router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, res) => {
     const {movie_id, date_watched, review, type, season} = req.body;
     try {

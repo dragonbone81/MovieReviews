@@ -10,12 +10,12 @@ const Scroller = ({content, getImageURL, size, width, scrollAmt, imageCSS, scrol
         });
     };
     return (
-        <div className="d-flex flex-row">
-            <span className={`seasons-slider-arrow`} onClick={() => scroll(-scrollAmt)}>
+        <div className="d-flex flex-row slider2">
+            <span className={`slider-arrow`} onClick={() => scroll(-scrollAmt)}>
                 <i className="fas fa-chevron-left"/>
             </span>
-            <div ref={el => modal = el} className="d-flex flex-row seasons-slider"
-                 style={{maxWidth: scrollerWidth, minWidth: 0}}>
+            <div ref={el => modal = el} className="d-flex flex-row slider"
+                 style={{}}>
                 {content.map(thing => {
                     return (
                         <ImageWithLoading type={type} width={width}
@@ -27,8 +27,8 @@ const Scroller = ({content, getImageURL, size, width, scrollAmt, imageCSS, scrol
                     )
                 })}
             </div>
-            <span className={`seasons-slider-arrow`} onClick={() => scroll(scrollAmt)}>
-                <i className="fas fa-chevron-right seasons-slider-arrow-right"/>
+            <span className={`slider-arrow`} onClick={() => scroll(scrollAmt)}>
+                <i className="fas fa-chevron-right"/>
             </span>
         </div>
     )

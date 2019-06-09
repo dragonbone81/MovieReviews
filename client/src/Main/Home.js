@@ -18,6 +18,8 @@ class ShowMoviePage extends Component {
     state = {
         popularMovies: [],
         popularShows: [],
+        recentReviewsMovies: [],
+        recentReviewsShows: [],
         loadingData: true,
         entityType: "null",
     };
@@ -35,6 +37,14 @@ class ShowMoviePage extends Component {
         this.setState({loadingData: true});
         this.props.store.getPopularShowInfo().then(result => {
             this.setState({popularShows: result.results});
+        });
+        this.props.store.getRecentReviews("movie").then(async (reviews) => {
+            const movies = await this.props.store.getMultipleMovies(reviews, true);
+            this.setState({recentReviewsMovies: movies.map((movie, i) => ({...movie, ...reviews[i]}))});
+        });
+        this.props.store.getRecentReviews("tv").then(async (reviews) => {
+            const movies = await this.props.store.getMultipleMovies(reviews, true);
+            this.setState({recentReviewsShows: movies.map((movie, i) => ({...movie, ...reviews[i]}))});
         });
         const popularMovies = await this.props.store.getPopularMovieInfo();
         this.setState({popularMovies: popularMovies.results});
@@ -63,13 +73,50 @@ class ShowMoviePage extends Component {
                     )}
                     <span className="mr-auto border-bottom slider-header">Popular Movies</span>
                     <Scroller content={this.state.popularMovies} getImageURL={this.props.store.getImageURL}
-                              size={this.props.store.poster_sizes[3]} width={150} scrollAmt={300}
+                              size={this.props.store.poster_sizes[3]} width={150} scrollAmt={400}
                               imageCSS="poster-home-page" scrollerWidth={800} type="movie"/>
                     <br/>
+                    <span className=" border-bottom recent-reviews">Recent Movie Reviews</span>
+                    <div className="d-flex flex-row">
+                        {this.state.recentReviewsMovies.map(review => {
+                                return (
+                                    <div key={review.id}
+                                         className="d-flex flex-column justify-content-center align-items-center movie-ratings-history">
+                                        <ImageWithLoading type={"movie"} width={100}
+                                                          imgStyle={"poster-home-page"}
+                                                          makeLink={true}
+                                                          movie_id={review.id}
+                                                          review={review}
+                                                          src={this.props.store.getImageURL(review.poster_path, this.props.store.poster_sizes[3])}/>
+                                        <RatingComponent readOnly={true} initialRating={review.rating}/>
+                                    </div>
+                                )
+                            }
+                        )}
+                    </div>
                     <span className="mr-auto border-bottom slider-header">Popular Shows</span>
                     <Scroller content={this.state.popularShows} getImageURL={this.props.store.getImageURL}
-                              size={this.props.store.poster_sizes[3]} width={150} scrollAmt={300}
+                              size={this.props.store.poster_sizes[3]} width={150} scrollAmt={400}
                               imageCSS="poster-home-page" scrollerWidth={800} type="tv"/>
+                    <br/>
+                    <span className=" border-bottom recent-reviews">Recent Show Reviews</span>
+                    <div className="d-flex flex-row">
+                        {this.state.recentReviewsShows.map(review => {
+                                return (
+                                    <div key={review.id}
+                                         className="d-flex flex-column justify-content-center align-items-center movie-ratings-history">
+                                        <ImageWithLoading type={"tv"} width={100}
+                                                          imgStyle={"poster-home-page"}
+                                                          makeLink={true}
+                                                          movie_id={review.id}
+                                                          review={review}
+                                                          src={this.props.store.getImageURL(review.poster_path, this.props.store.poster_sizes[3])}/>
+                                        <RatingComponent readOnly={true} initialRating={review.rating}/>
+                                    </div>
+                                )
+                            }
+                        )}
+                    </div>
                 </div>
             </div>
         );
