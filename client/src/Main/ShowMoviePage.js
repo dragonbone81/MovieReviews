@@ -348,6 +348,14 @@ class ShowMoviePage extends Component {
                                         :
                                         <div
                                             className="movie-actions-not-logged-in d-flex flex-column justify-content-center align-items-center">
+                                            {this.state.userData.v_rating && (
+                                                <div
+                                                    className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                    <span className="rating-text">Vernikoff Rating</span>
+                                                    <span
+                                                        className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                                </div>
+                                            )}
                                             <span><Link to='/login'
                                                         style={{color: 'inherit'}}>Please login to review...</Link></span>
                                         </div>
