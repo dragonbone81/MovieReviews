@@ -13,8 +13,6 @@
     "global": "^4.3.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.17.1",
-    "mongodb": "^3.2.6",
-    "mongoose": "^5.5.11",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.0",
     "objection": "^1.6.9",

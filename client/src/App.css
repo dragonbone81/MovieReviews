@@ -435,23 +435,39 @@
 }
 
 .nav-bar-content {
-    z-index: 500;
     width: 100%;
-    max-width: 800px;
 }
 
 .username {
     cursor: pointer;
     margin-right: 10px;
 }
-
+.login-button{
+    padding-right: 20px;
+    color: #3c516f;
+}
+.trans-nav-movie-view {
+    background: rgba(190, 212, 229, 0.81);
+    margin: auto;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+    border-radius: 100px;
+    z-index: 500;
+    width: 100%;
+    max-width: 1200px;
+    font-weight: bold;
+    font-size: 25px;
+    color: #33404f;
+}
 .trans-nav {
     font-weight: bold;
     font-size: 25px;
-    padding: 15px;
+    padding: 10px;
     color: whitesmoke;
-    z-index: 500;
-    background: rgba(0, 0, 0, 0.0);
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
 }
 
 .trans {
@@ -485,6 +501,7 @@
     left: 0;
     right: 0;
     top: 0;
+    z-index: -1;
 }
 
 .movie-backdrop::before {
