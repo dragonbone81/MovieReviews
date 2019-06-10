@@ -81,10 +81,12 @@
     margin-bottom: 10px;
     color: #9badbb;
 }
-.no-content{
+
+.no-content {
     padding-top: 20px;
     color: #9badbb;
 }
+
 .movie-ratings-history {
     white-space: nowrap;
     color: #b8f5b5;
@@ -382,6 +384,7 @@
     overflow-x: hidden;
     max-width: 500px;
 }
+
 .slider-arrow {
     padding-right: 10px;
     padding-left: 10px;
@@ -390,14 +393,17 @@
     font-size: 50px;
     color: #9badbb;
 }
+
 .slider {
     overflow-x: hidden;
 }
+
 @media (min-width: 1000px) {
     .slider {
         max-width: 900px;
     }
 }
+
 @media (max-width: 1000px) {
     .slider {
         max-width: 600px;
@@ -471,15 +477,18 @@
     padding-right: 20px;
     color: #3c516f;
 }
-.over-nav{
+
+.over-nav {
     margin-right: 10px;
     margin-left: 10px;
 }
-.saved-movie-title{
+
+.saved-movie-title {
     color: white;
     font-family: 'Rubik', sans-serif;
     font-size: 23px;
 }
+
 .trans-nav-movie-view {
     background: rgba(190, 212, 229, 0.81);
     margin: auto;
@@ -596,6 +605,7 @@
     width: 100%;
     font-size: 25px;
 }
+
 .recent-reviews {
     color: white;
     font-family: 'Rubik', sans-serif;
@@ -613,6 +623,14 @@
 .track-signup {
     margin-bottom: 20px;
     max-width: 400px;
+}
+
+.poster-usual {
+    box-sizing: border-box;
+}
+
+.poster-usual:hover {
+    box-shadow: 0 0 5px 1px rgb(174, 194, 210);
 }
 
 .poster-home-page {

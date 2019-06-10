@@ -275,7 +275,7 @@ class ShowMoviePage extends Component {
                                                 {this.state.data.similar.results.map(similar =>
                                                     <ImageWithLoading type={this.state.entityType} width={100}
                                                                       key={similar.id}
-                                                                      imgStyle="related-movie"
+                                                                      imgStyle="related-movie poster-usual"
                                                                       makeLink={true}
                                                                       movie_id={similar.id}
                                                                       src={this.props.store.getImageURL(similar.poster_path, this.props.store.poster_sizes[3])}/>
