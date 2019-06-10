@@ -38,7 +38,7 @@ class ReviewModal extends Component {
         this.props.close();
     };
     save = () => {
-        this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review, this.props.type, this.props.season, this.props.movie.poster_path);
+        this.props.store.updateMovieUserDataReview(this.props.movie.id, this.state.date, this.state.review === "" ? null : this.state.review, this.props.type, this.props.season, this.props.movie.poster_path, this.props.movie.release_date || this.props.movie.first_air_date || this.props.movie.air_date, this.props.movie.title || this.props.movie.name);
         if (this.props.store.user.username === "dragonbone81" && this.state.v_rating !== -1) {
             this.props.store.updateMovieVReview(this.props.movie.id, this.state.v_rating, this.props.type, this.props.season);
             this.props.updateVReview(this.state.v_rating);

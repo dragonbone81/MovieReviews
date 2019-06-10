@@ -19,14 +19,21 @@ class WatchedMovies extends Component {
     updatePage = async () => {
         this.setState({loadingData: true, movieReviewDoesNotExist: false});
         const {username, movie_id, entity_type, season} = this.props.match.params;
-        const promiseData = await Promise.all([this.props.store.getUsersMovieReview(movie_id, username, entity_type, season), (entity_type === "movie" && this.props.store.getMovieInfo(movie_id)) || (entity_type === "tv" && this.props.store.getShowInfo(movie_id)) || (entity_type === "season" && this.props.store.getSeasonInfo(movie_id, season))]);
-        if (promiseData[0] === undefined) {
+        const movieData = await this.props.store.getUsersMovieReview(movie_id, username, entity_type, season);
+        if (movieData === undefined) {
             this.setState({movieReviewDoesNotExist: true});
             return;
         }
-        delete promiseData[1].type;
-        document.title = `${promiseData[1].title || promiseData[1].name} reviewed by ${username}`;
-        this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
+        if (movieData.type === "tv") {
+            movieData.first_air_date = movieData.release_date;
+            movieData.name = movieData.title;
+        }
+        if (movieData.type === "season") {
+            movieData.air_date = movieData.release_date;
+            movieData.name = movieData.title;
+        }
+        document.title = `${movieData.title} reviewed by ${username}`;
+        this.setState({movieData: {...movieData || {}}, loadingData: false});
     };
     updateMovieUserData = (type, val, movie_id) => {
         this.props.store.updateMovieUserData(movie_id, type, val, this.state.movieData.type);
@@ -82,7 +89,8 @@ class WatchedMovies extends Component {
                                 <RatingComponent readOnly={true}
                                                  initialRating={this.state.movieData.rating}
                                                  onChange={(val) => this.updateMovieUserData("rating", val, this.state.movieData.movie_id)}/>
-                                {this.state.movieData.liked && (<span role="img" aria-label="up" className="ml-1">👍</span>)}
+                                {this.state.movieData.liked && (
+                                    <span role="img" aria-label="up" className="ml-1">👍</span>)}
                             </div>
                         </div>
                         <span

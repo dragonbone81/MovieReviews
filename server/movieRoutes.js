@@ -84,19 +84,27 @@ router.get('/recent/reviews', async (req, res) => {
     res.json({movie});
 });
 router.post('/add_poster', async (req, res) => {
-    const {poster_path, movie_id, season, type} = req.body;
+    const {poster_path, movie_id, season, type, release_date, title} = req.body;
     console.log(req.body)
     const r = await MovieInteraction.query()
-        .patch({poster_path})
+        .patch({poster_path, release_date, title})
         .where({movie_id, season, type});
     console.log(r);
     res.json({});
 });
 router.post('/user/movie/update/date_content', jwtCheck.jwtCheck, async (req, res) => {
-    const {movie_id, date_watched, review, type, season, poster_path} = req.body;
+    const {movie_id, date_watched, review, type, season, poster_path, release_date, title} = req.body;
     try {
         await MovieInteraction.query().upsertGraph({
-            movie_id, username: req.username, date_watched, review, type, season: season || -1, poster_path
+            movie_id,
+            username: req.username,
+            date_watched,
+            review,
+            type,
+            season: season || -1,
+            poster_path,
+            release_date,
+            title
         }, {insertMissing: true, noDelete: true});
         res.json({success: true})
     } catch (e) {
@@ -119,7 +127,7 @@ router.post('/user/movie/update/v_review', jwtCheck.jwtCheck, async (req, res) =
     }
 });
 router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
-    const {movie_id, type, value, entityType, season, poster_path} = req.body;
+    const {movie_id, type, value, entityType, season, poster_path, release_date, title} = req.body;
     if (!entityType) {
         res.json({error: true});
     }
@@ -127,7 +135,7 @@ router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
     query[type] = value;
     await MovieInteraction.query().upsertGraph({
         username: req.username,
-        movie_id, ...query, type: entityType, season: season || -1, poster_path
+        movie_id, ...query, type: entityType, season: season || -1, poster_path, release_date, title
     }, {insertMissing: true, noDelete: true});
     res.json({success: true})
 });
