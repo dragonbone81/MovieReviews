@@ -25,14 +25,9 @@ class WatchedMovies extends Component {
             return;
         }
         delete promiseData[1].type;
-        document.title = `${promiseData[1].title} reviewed by ${username}`;
+        document.title = `${promiseData[1].title || promiseData[1].name} reviewed by ${username}`;
         this.setState({movieData: {...promiseData[0] || {}, ...promiseData[1] || {}}, loadingData: false});
     };
-    // changePage = (page) => {
-    //     this.setState({page: page}, () => {
-    //         this.updatePage()
-    //     });
-    // };
     updateMovieUserData = (type, val, movie_id) => {
         this.props.store.updateMovieUserData(movie_id, type, val, this.state.movieData.type);
         const newMovieData = {...this.state.movieData};
