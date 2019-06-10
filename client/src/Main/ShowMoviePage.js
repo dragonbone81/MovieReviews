@@ -158,9 +158,9 @@ class ShowMoviePage extends Component {
             });
         }
         if (this.entityType === "season") {
-            this.props.store.updateMovieUserData(this.props.match.params.entity_id, type, val, this.entityType, this.props.match.params.season);
+            this.props.store.updateMovieUserData(this.props.match.params.entity_id, type, val, this.entityType, this.state.data.poster_path, this.props.match.params.season);
         } else {
-            this.props.store.updateMovieUserData(this.state.data.id, type, val, this.entityType, this.props.match.params.season);
+            this.props.store.updateMovieUserData(this.state.data.id, type, val, this.entityType, this.state.data.poster_path, this.props.match.params.season);
         }
         const updatedState = {...this.state.userData};
         updatedState[type] = val;

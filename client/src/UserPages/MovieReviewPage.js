@@ -82,7 +82,7 @@ class WatchedMovies extends Component {
                                 <RatingComponent readOnly={true}
                                                  initialRating={this.state.movieData.rating}
                                                  onChange={(val) => this.updateMovieUserData("rating", val, this.state.movieData.movie_id)}/>
-                                {this.state.movieData.liked && (<span className="ml-1">👍</span>)}
+                                {this.state.movieData.liked && (<span role="img" aria-label="up" className="ml-1">👍</span>)}
                             </div>
                         </div>
                         <span

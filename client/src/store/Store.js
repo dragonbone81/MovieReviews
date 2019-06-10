@@ -193,23 +193,46 @@ class Store {
     // };
     getMultipleMovies = (movies, all = false) => {
         return Promise.all(movies.map(movie => {
-            if (movie.type === "movie") {
-                return this.getMovieInfo(movie.movie_id, false).then(api_movie => {
-                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
-                })
+            if (movie.poster_path === "") {
+                delete movie.poster_path;
+                if (movie.type === "movie") {
+                    return this.getMovieInfo(movie.movie_id, false).then(api_movie => {
+                        this.updateMoviePoster(movie.movie_id, movie.season, movie.type, api_movie.poster_path);
+                        return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                    })
+                }
+                if (movie.type === "tv") {
+                    return this.getShowInfo(movie.movie_id, false).then(api_movie => {
+                        this.updateMoviePoster(movie.movie_id, movie.season, movie.type, api_movie.poster_path);
+                        return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                    })
+                }
+                if (movie.type === "season") {
+                    return this.getSeasonInfo(movie.movie_id, movie.season, false).then(api_movie => {
+                        this.updateMoviePoster(movie.movie_id, movie.season, movie.type, api_movie.poster_path);
+                        return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
+                    })
+                }
+                else {
+                    return console.log("ERROR");
+                }
+            } else {
+                return movie;
             }
-            if (movie.type === "tv") {
-                return this.getShowInfo(movie.movie_id, false).then(api_movie => {
-                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
-                })
-            }
-            if (movie.type === "season") {
-                return this.getSeasonInfo(movie.movie_id, movie.season, false).then(api_movie => {
-                    return all ? {...api_movie, ...movie} : {poster_path: api_movie.poster_path, ...movie}
-                })
-            }
-            else return console.log("ERROR")
         }));
+    };
+    updateMoviePoster = (movie_id, season, type, poster_path) => {
+        // return fetch(`${SERVER_URL}/add_poster`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "token": this.user.token,
+        //     },
+        //     body: JSON.stringify({movie_id, season, type, poster_path}),
+        // })
+        //     .then(response => response.json())
+        //     .then(response => response.movie)
+        //     .catch(e => console.log(e))
     };
     searchForMovies = (search_q, page = 1) => {
         return fetch(`${THE_MOVIE_DB_URL}/search/multi?api_key=${THE_MOVIE_DB_API_KEY}&query=${encodeURIComponent(search_q)}&page=${page}&include_adult=false`, {
@@ -270,27 +293,27 @@ class Store {
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieUserData = (movie_id, type, value, entityType, season = null) => {
+    updateMovieUserData = (movie_id, type, value, entityType, poster_path, season = null) => {
         return fetch(`${SERVER_URL}/user/movie/update`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id, type, value, entityType, season}),
+            body: JSON.stringify({movie_id, type, value, entityType, season, poster_path}),
         })
             .then(response => response.json())
             .then(response => response.movie)
             .catch(e => console.log(e))
     };
-    updateMovieUserDataReview = (movie_id, date_watched, review, type, season) => {
+    updateMovieUserDataReview = (movie_id, date_watched, review, type, season, poster_path) => {
         return fetch(`${SERVER_URL}/user/movie/update/date_content`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "token": this.user.token,
             },
-            body: JSON.stringify({movie_id, date_watched, review, type, season}),
+            body: JSON.stringify({movie_id, date_watched, review, type, season, poster_path}),
         })
             .then(response => response.json())
             .then(response => response.movie)

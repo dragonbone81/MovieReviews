@@ -120,7 +120,7 @@ class ReviewMovies extends Component {
                                     <div className="movie-ratings-review-all">
                                         <RatingComponent readOnly={true} initialRating={movie.rating}
                                                          onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
-                                        {movie.liked && (<span className="ml-1">👍</span>)}
+                                        {movie.liked && (<span role="img" aria-label="up" className="ml-1">👍</span>)}
                                     </div>
                                     <p className="movie-review-preview-review">{movie.review ? `${movie.review.substring(0, 50)}...` : "No Review..."}</p>
                                 </div>
