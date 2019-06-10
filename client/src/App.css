@@ -475,6 +475,11 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+.saved-movie-title{
+    color: white;
+    font-family: 'Rubik', sans-serif;
+    font-size: 23px;
+}
 .trans-nav-movie-view {
     background: rgba(190, 212, 229, 0.81);
     margin: auto;

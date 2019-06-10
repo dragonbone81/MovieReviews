@@ -6,6 +6,7 @@ import SortingComponent from '../Misc/SortingComponent'
 import HistoryMovies from '../UserPages/HistoryMovies'
 import MovieReviewPage from '../UserPages/MovieReviewPage'
 import ReviewMovies from '../UserPages/ReviewMovies'
+import SavedMovies from '../UserPages/SavedMovies'
 
 class UserPage extends Component {
     initStateSort = {created_at: "desc", rating: "desc"};
@@ -91,8 +92,11 @@ class UserPage extends Component {
                             style={{textDecoration: 'none', color: '#9badbb'}}
                             className={`user-page-nav-nib border-right ${this.state.page === "reviews" ? "active" : ""}`}>Reviews
                         </Link>
-                        <div className="user-page-nav-nib border-right">Saved</div>
-                        <div className="user-page-nav-nib mr-auto">Liked</div>
+                        <Link
+                            to={`/user/saved/${this.props.match.params.username}`}
+                            style={{textDecoration: 'none', color: '#9badbb'}}
+                            className={`user-page-nav-nib  mr-auto ${this.state.page === "saved" ? "active" : ""}`}>Saved
+                        </Link>
                         <div
                             onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
                             className="user-page-nav-nib border-left">
@@ -114,6 +118,12 @@ class UserPage extends Component {
                                                                      readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/history/:username/:page?"
                                    render={(props) => <HistoryMovies {...props}
+                                                                     typeSort={this.sortTypes[this.state.typeSort].id}
+                                                                     sortDirection={this.state.sort[this.state.sortType]}
+                                                                     sortType={this.state.sortType}
+                                                                     readOnly={this.state.readOnly}/>}/>
+                            <Route exact path="/user/saved/:username/:page?"
+                                   render={(props) => <SavedMovies {...props}
                                                                      typeSort={this.sortTypes[this.state.typeSort].id}
                                                                      sortDirection={this.state.sort[this.state.sortType]}
                                                                      sortType={this.state.sortType}

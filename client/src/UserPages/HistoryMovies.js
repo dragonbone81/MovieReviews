@@ -44,7 +44,7 @@ class HistoryMovies extends Component {
         }
         const movie_data = await this.props.store.getHistoryMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
         const movies = await this.props.store.getMultipleMovies(movie_data.results, true);
-        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
+        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 20), loadingData: false, page});
     };
     getMonth = (date) => {
         return new Date(date).toLocaleString("default", {month: 'short'});

@@ -354,6 +354,18 @@ class Store {
             .then(response => response.movies)
             .catch(e => console.log(e))
     };
+    getSavedMoviesForUser = (username, page = 0, sortType, sortDirection, typeSort) => {
+        return fetch(`${SERVER_URL}/user/movies/saved/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}&type=${typeSort}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify({movie_id, date_watched, review}),
+        })
+            .then(response => response.json())
+            .then(response => response.movies)
+            .catch(e => console.log(e))
+    };
     getHistoryMoviesForUser = (username, page = 0, sortType, sortDirection, typeSort) => {
         return fetch(`${SERVER_URL}/user/movies/history/${encodeURIComponent(username)}?page=${page}&sort_type=${sortType}&sort_direction=${sortDirection}&type=${typeSort}`, {
             method: "GET",

@@ -37,16 +37,15 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
     } else {
         const allQueries = await Promise.all([
             MovieInteraction.query()
-                .findById([req.username, id, type, season])
-                .columns(MovieInteraction.query()
-                        .where({movie_id: id, type, season}).avg("rating")
-                        .as('average_rating'),
-                    MovieInteraction.query()
-                        .where({movie_id: id, type, season})
-                        .whereNotNull("rating")
-                        .count()
-                        .as('total_ratings'),
-                    "*"),
+                .findById([req.username, id, type, season]),
+            MovieInteraction.query()
+                .where({movie_id: id, type, season}).avg("rating")
+                .as('average_rating'),
+            MovieInteraction.query()
+                .where({movie_id: id, type, season})
+                .whereNotNull("rating")
+                .count()
+                .as('total_ratings'),
             MovieInteraction.query()
                 .columns("rating")
                 .count()
@@ -56,7 +55,15 @@ router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => 
                 .findById([id, type, season])
                 .column("rating")
         ]);
-        res.json({movie: {...allQueries[0], rating_groups: allQueries[1], v_rating: allQueries[2]}});
+        const average_rating = allQueries[1] ? allQueries[1][0] : {};
+        const total_ratings = allQueries[2] ? allQueries[2][0] : {};
+        res.json({
+            movie: {
+                ...allQueries[0], average_rating: average_rating.avg, total_ratings: total_ratings.count,
+                rating_groups: allQueries[3],
+                v_rating: allQueries[4]
+            }
+        });
     }
 });
 router.get('/user/review/:movie_id/:username', async (req, res) => {
@@ -159,7 +166,25 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.orWhereNotNull("review");
             table.orWhereNotNull("rating");
         })
-        .page(page, 10)
+        .page(page, 20)
+        .orderBy(sort_type || "created_at", sort_direction || "desc");
+    res.json({success: true, movies})
+});
+router.get('/user/movies/saved/:username', async (req, res) => {
+    const {username} = req.params;
+    const page = req.query.page || 0;
+    const sort_type = req.query.sort_type || "created_at";
+    const sort_direction = req.query.sort_direction || "desc";
+    let type = req.query.type || "all";
+    if (type === "all") {
+        type = ["movie", "tv", "season"];
+    } else {
+        type = [type];
+    }
+    const movies = await MovieInteraction.query()
+        .where({username, saved: true})
+        .whereIn("type", type)
+        .page(page, 20)
         .orderBy(sort_type || "created_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
@@ -181,7 +206,7 @@ router.get('/user/movies/history/:username', async (req, res) => {
         .where({username})
         .whereIn("type", type)
         .whereNotNull("date_watched")
-        .page(page, 10)
+        .page(page, 20)
         .orderBy(sort_type || "date_watched", sort_direction || "desc");
     res.json({success: true, movies})
 });
@@ -203,7 +228,7 @@ router.get('/user/movies/reviews/:username', async (req, res) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
         })
-        .page(page, 10)
+        .page(page, 20)
         .orderBy(sort_type || "created_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
@@ -213,7 +238,7 @@ router.get('/user/movies/ratings/:username', async (req, res) => {
     const movies = await MovieInteraction.query()
         .where({username, type: "movie"})
         .whereNotNull("review")
-        .page(page, 10)
+        .page(page, 20)
         .orderBy("created_at", "desc");
     res.json({success: true, movies})
 });

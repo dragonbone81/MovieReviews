@@ -52,6 +52,7 @@ class ShowMoviePage extends Component {
         const result = await Promise.all([movieData, userMovieData]);
         movieData = result[0];
         userMovieData = result[1];
+        console.log(userMovieData)
         if (userMovieData) {
             userMovieData.rating_groups = this.normalizeRatings(userMovieData.rating_groups);
             userMovieData.max_one_rating = Math.max.apply(Math, userMovieData.rating_groups.map(e => e.count));

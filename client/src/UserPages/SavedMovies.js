@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter} from 'react-router-dom';
-import RatingComponent from '../Misc/Rating';
+import {withRouter, Link} from 'react-router-dom';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
 import ImageWithLoading from '../Misc/ImageWithLoading';
 import NoContent from '../Misc/NoContent';
 
-class WatchedMovies extends Component {
+class SavedMovies extends Component {
     state = {
         movies: [],
         page: 1,
@@ -33,7 +32,7 @@ class WatchedMovies extends Component {
     updatePage = async (typeSort = false) => {
         this.setState({loadingData: true});
         const {username} = this.props.match.params;
-        document.title = `${username}'s Watched Movies`;
+        document.title = `${username}'s Saved Movies`;
         let page;
         if (typeSort && this.props.match.params.page) {
             this.props.history.push(this.props.location.pathname.slice(0, -1) + '1');
@@ -41,9 +40,9 @@ class WatchedMovies extends Component {
         } else {
             page = parseInt(this.props.match.params.page) || 1;
         }
-        const movie_data = await this.props.store.getViewedMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
+        const movie_data = await this.props.store.getSavedMoviesForUser(username, page - 1, this.props.sortType, this.props.sortDirection, this.props.typeSort);
         const movies = await this.props.store.getMultipleMovies(movie_data.results);
-        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 20), loadingData: false, page});
+        this.setState({movies: movies, totalPages: Math.ceil(movie_data.total / 10), loadingData: false, page});
     };
     updateMovieUserData = (type, val, movie_id) => {
         this.props.store.updateMovieUserData(movie_id, type, val);
@@ -82,11 +81,10 @@ class WatchedMovies extends Component {
                                                   season_number={movie.season}
                                                   makeLink={true} movie_id={movie.movie_id}
                                                   src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
-                                <div className="movie-ratings-watched">
-                                    <RatingComponent readOnly={true} initialRating={movie.rating}
-                                                     onChange={(val) => this.updateMovieUserData("rating", val, movie.movie_id)}/>
-                                    {movie.liked && (<span role="img" aria-label="up" className="ml-1">👍</span>)}
-                                </div>
+                                <Link
+                                    style={{color:'white'}}
+                                    to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`) || (movie.type === "season" && `/show/${movie.movie_id}/${movie.season}`)}
+                                    className="saved-movie-title">{movie.title || movie.name}</Link>
                             </div>
                         )
                     })}
@@ -99,4 +97,4 @@ class WatchedMovies extends Component {
     }
 }
 
-export default withRouter(inject("store")(observer(WatchedMovies)));
+export default withRouter(inject("store")(observer(SavedMovies)));

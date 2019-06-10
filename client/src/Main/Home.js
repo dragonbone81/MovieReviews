@@ -78,7 +78,7 @@ class ShowMoviePage extends Component {
                                         <ImageWithLoading type={"movie"} width={100}
                                                           imgStyle={"poster-home-page"}
                                                           makeLink={true}
-                                                          movie_id={review.id}
+                                                          movie_id={review.movie_id}
                                                           review={review}
                                                           src={this.props.store.getImageURL(review.poster_path, this.props.store.poster_sizes[3])}/>
                                         <RatingComponent readOnly={true} initialRating={review.rating}/>
@@ -101,7 +101,7 @@ class ShowMoviePage extends Component {
                                         <ImageWithLoading type={"tv"} width={100}
                                                           imgStyle={"poster-home-page"}
                                                           makeLink={true}
-                                                          movie_id={review.id}
+                                                          movie_id={review.movie_id}
                                                           review={review}
                                                           src={this.props.store.getImageURL(review.poster_path, this.props.store.poster_sizes[3])}/>
                                         <RatingComponent readOnly={true} initialRating={review.rating}/>
