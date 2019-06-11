@@ -64,7 +64,7 @@ class MovieEntityPage extends Component {
                             return (
                                 <div key={movie.id} className="">
                                     <div style={{padding: 10}}>
-                                        <ImageWithLoading width={200} imgStyle="movie-poster-actor-list-movies"
+                                        <ImageWithLoading width={200} imgStyle="movie-poster-actor-list-movies poster-usual"
                                                           movie_id={movie.id}
                                                           type={movie.media_type}
                                                           makeLink={true}
