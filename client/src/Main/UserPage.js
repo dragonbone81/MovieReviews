@@ -9,7 +9,7 @@ import ReviewMovies from '../UserPages/ReviewMovies'
 import SavedMovies from '../UserPages/SavedMovies'
 
 class UserPage extends Component {
-    initStateSort = {created_at: "desc", rating: "desc"};
+    initStateSort = {updated_at: "desc", rating: "desc"};
     sortTypes = [{id: "movie", name: "Movies"}, {id: "tv", name: "Shows"}, {id: "season", name: "Seasons"}, {
         id: "all",
         name: "All"
@@ -18,7 +18,7 @@ class UserPage extends Component {
         page: "",
         readOnly: true,
         sort: {...this.initStateSort},
-        sortType: "created_at",
+        sortType: "updated_at",
         sortDirection: "desc",
         sortShown: false,
         typeSort: 3,
@@ -40,7 +40,7 @@ class UserPage extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.location.pathname.slice(0, -1) !== prevProps.location.pathname.slice(0, -1)) {
             this.setState({
-                sortType: "created_at",
+                sortType: "updated_at",
                 sortDirection: "desc",
                 // sortShown: false,
                 sort: {...this.initStateSort}

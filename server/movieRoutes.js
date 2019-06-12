@@ -86,13 +86,12 @@ router.get('/recent/reviews', async (req, res) => {
             table.whereNotNull("review");
             table.orWhereNotNull("rating");
         })
-        .orderBy("created_at", "desc")
+        .orderBy("updated_at", "desc")
         .limit(4);
     res.json({movie});
 });
 router.post('/add_poster', async (req, res) => {
     const {poster_path, movie_id, season, type, release_date, title} = req.body;
-    console.log(req.body)
     const r = await MovieInteraction.query()
         .patch({poster_path, release_date, title})
         .where({movie_id, season, type});
@@ -149,7 +148,7 @@ router.post('/user/movie/update', jwtCheck.jwtCheck, async (req, res) => {
 router.get('/user/movies/watched/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
-    const sort_type = req.query.sort_type || "created_at";
+    const sort_type = req.query.sort_type || "updated_at";
     const sort_direction = req.query.sort_direction || "desc";
     let type = req.query.type || "all";
     if (type === "all") {
@@ -167,13 +166,13 @@ router.get('/user/movies/watched/:username', async (req, res) => {
             table.orWhereNotNull("rating");
         })
         .page(page, 20)
-        .orderBy(sort_type || "created_at", sort_direction || "desc");
+        .orderBy(sort_type || "updated_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/saved/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
-    const sort_type = req.query.sort_type || "created_at";
+    const sort_type = req.query.sort_type || "updated_at";
     const sort_direction = req.query.sort_direction || "desc";
     let type = req.query.type || "all";
     if (type === "all") {
@@ -185,15 +184,15 @@ router.get('/user/movies/saved/:username', async (req, res) => {
         .where({username, saved: true})
         .whereIn("type", type)
         .page(page, 20)
-        .orderBy(sort_type || "created_at", sort_direction || "desc");
+        .orderBy(sort_type || "updated_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/history/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
-    let sort_type = req.query.sort_type || "created_at";
+    let sort_type = req.query.sort_type || "updated_at";
     let sort_direction = req.query.sort_direction || "desc";
-    if (sort_type === "created_at") {
+    if (sort_type === "updated_at") {
         sort_type = "date_watched";
     }
     let type = req.query.type || "all";
@@ -213,7 +212,7 @@ router.get('/user/movies/history/:username', async (req, res) => {
 router.get('/user/movies/reviews/:username', async (req, res) => {
     const {username} = req.params;
     const page = req.query.page || 0;
-    const sort_type = req.query.sort_type || "created_at";
+    const sort_type = req.query.sort_type || "updated_at";
     const sort_direction = req.query.sort_direction || "desc";
     let type = req.query.type || "all";
     if (type === "all") {
@@ -229,7 +228,7 @@ router.get('/user/movies/reviews/:username', async (req, res) => {
             table.orWhereNotNull("rating");
         })
         .page(page, 20)
-        .orderBy(sort_type || "created_at", sort_direction || "desc");
+        .orderBy(sort_type || "updated_at", sort_direction || "desc");
     res.json({success: true, movies})
 });
 router.get('/user/movies/ratings/:username', async (req, res) => {
@@ -239,7 +238,7 @@ router.get('/user/movies/ratings/:username', async (req, res) => {
         .where({username, type: "movie"})
         .whereNotNull("review")
         .page(page, 20)
-        .orderBy("created_at", "desc");
+        .orderBy("updated_at", "desc");
     res.json({success: true, movies})
 });
 module.exports = router;
