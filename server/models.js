@@ -32,6 +32,10 @@ class User extends Model {
             }
         };
     }
+
+    $beforeUpdate() {
+        this.updated_at = new Date().toISOString();
+    }
 }
 
 class V_Rating extends Model {
@@ -41,6 +45,10 @@ class V_Rating extends Model {
 
     static get idColumn() {
         return ['movie_id', 'type', 'season'];
+    }
+
+    $beforeUpdate() {
+        this.updated_at = new Date().toISOString();
     }
 }
 
@@ -64,6 +72,10 @@ class MovieInteraction extends Model {
                 }
             }
         };
+    }
+
+    $beforeUpdate() {
+        this.updated_at = new Date().toISOString();
     }
 }
 
