@@ -4,6 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import SignUp from './Auth/SignUp';
 import Login from './Auth/Login';
 import NavBar from './Nav/NavBar';
+import Footer from './Nav/Footer';
 import Home from './Main/Home';
 import MovieSearchResultPage from './Main/MovieSearchResultPage';
 import MovieEntityPage from './Main/MovieEntityPage';
@@ -26,7 +27,6 @@ class App extends Component {
                 <ToastContainer/>
                 <NavBar/>
                 <Switch>
-                    {/*<Route exact path="/login" component={Login}/>*/}
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/signup" component={SignUp}/>
                     <Route exact path="/login" component={Login}/>
@@ -38,6 +38,7 @@ class App extends Component {
                     <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
+                <Footer/>
             </div>
         );
     }

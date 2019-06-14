@@ -42,16 +42,10 @@
 }
 
 .v-rated-movie-v-rating {
-    position: absolute;
     font-size: 25px;
     text-align: center;
-    top: 30%;
     max-width: 200px;
-    text-shadow: -1px -1px 0 #364556,
-    1px -1px 0 #364556,
-    -1px 1px 0 #364556,
-    1px 1px 0 #364556;
-    color: white;
+    color: #cbe2f4;
     font-family: 'Rubik', sans-serif;
 }
 
@@ -496,6 +490,13 @@
     color: #3c516f;
 }
 
+.footer {
+    color: #cbe2f4;
+    font-size: 25px;
+    padding: 15px;
+    background-color: #43566a;
+}
+
 .over-nav {
     margin-right: 10px;
     margin-left: 10px;
@@ -635,7 +636,7 @@
     max-width: max-content;
     margin: auto;
     z-index: 20;
-    padding: 400px 5px 5px;
+    padding: 400px 5px 30px 5px;
 }
 
 .track-signup {
@@ -772,6 +773,7 @@
 }
 
 .loading-spinner {
+    min-height: 100vh;
     font-size: 100px;
     color: whitesmoke;
     margin-top: 10%;
