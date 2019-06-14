@@ -23,6 +23,7 @@ class ShowMoviePage extends Component {
     }
 
     componentDidMount() {
+        document.title = "V-Ratings";
         this.updateData();
     }
 
@@ -73,7 +74,7 @@ class ShowMoviePage extends Component {
                     <div className="d-flex flex-row">
                         {this.state.recentReviewsMovies.map(review => {
                                 return (
-                                    <div key={review.id}
+                                    <div key={review.movie_id}
                                          className="d-flex flex-column justify-content-center align-items-center movie-ratings-history">
                                         <ImageWithLoading type={"movie"} width={100}
                                                           imgStyle={"poster-home-page"}
@@ -96,7 +97,7 @@ class ShowMoviePage extends Component {
                     <div className="d-flex flex-row">
                         {this.state.recentReviewsShows.map(review => {
                                 return (
-                                    <div key={review.id}
+                                    <div key={`${review.movie_id} ${review.type}`}
                                          className="d-flex flex-column justify-content-center align-items-center movie-ratings-history">
                                         <ImageWithLoading type={"tv"} width={100}
                                                           imgStyle={"poster-home-page"}

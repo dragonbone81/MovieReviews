@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwtCheck = require('./middleware/checkJWT');
 const {MovieInteraction, V_Rating} = require('./models');
+// const knex = require('knex');
 
 router.get('/user/movie/:id', jwtCheck.jwtCheckWithNoToken, async (req, res) => {
     const {id} = req.params;
@@ -183,6 +184,30 @@ router.get('/user/movies/saved/:username', async (req, res) => {
     const movies = await MovieInteraction.query()
         .where({username, saved: true})
         .whereIn("type", type)
+        .page(page, 20)
+        .orderBy(sort_type || "updated_at", sort_direction || "desc");
+    res.json({success: true, movies})
+});
+router.get('/vrated', async (req, res) => {
+    const page = req.query.page || 0;
+    const sort_type = req.query.sort_type || "updated_at";
+    const sort_direction = req.query.sort_direction || "desc";
+    let type = req.query.type || "all";
+    if (type === "all") {
+        type = ["movie", "tv", "season"];
+    } else {
+        type = [type];
+    }
+    const movies = await V_Rating.query()
+        .whereIn("v_rating.type", type)
+        .andWhere({"movie_interaction.username": "dragonbone81"})
+        .join('movie_interaction', (table) => {
+            table
+                .on('movie_interaction.movie_id', 'v_rating.movie_id')
+                .on('movie_interaction.type', 'v_rating.type')
+                .on('movie_interaction.season', 'v_rating.season')
+        })
+        .select(["v_rating.updated_at", "poster_path", "release_date", "title", "v_rating.rating", "v_rating.movie_id", "v_rating.type", "v_rating.season"])
         .page(page, 20)
         .orderBy(sort_type || "updated_at", sort_direction || "desc");
     res.json({success: true, movies})

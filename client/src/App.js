@@ -9,6 +9,7 @@ import MovieSearchResultPage from './Main/MovieSearchResultPage';
 import MovieEntityPage from './Main/MovieEntityPage';
 import ShowMoviePage from './Main/ShowMoviePage';
 import UserPage from './Main/UserPage';
+import VRated from './Main/VRated';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,6 +30,7 @@ class App extends Component {
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/signup" component={SignUp}/>
                     <Route exact path="/login" component={Login}/>
+                    <Route path="/vrated/:page?" component={VRated}/>
                     <Route exact path="/movie/:entity_id" component={ShowMoviePage}/>
                     <Route exact path="/show/:entity_id/:season?" component={ShowMoviePage}/>
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
