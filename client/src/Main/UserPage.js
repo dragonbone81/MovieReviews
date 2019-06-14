@@ -25,7 +25,6 @@ class UserPage extends Component {
     };
 
     componentDidMount() {
-        console.log("he")
         this.updatePage();
     }
 

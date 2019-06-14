@@ -5,7 +5,7 @@
 
 .user-page {
     background-image: linear-gradient(#2a3640, #13181c 80%);
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 125px);
     padding: 20px;
 }
 

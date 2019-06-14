@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from 'mobx-react';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import Pagination from "../Misc/Pagination";
 import Loader from "../Misc/Loader";
 import ImageWithLoading from '../Misc/ImageWithLoading';
@@ -84,21 +84,17 @@ class SavedMovies extends Component {
                         <div
                             className="watched-movies-page d-flex flex-row flex-wrap align-content-stretch justify-content-center align-items-center">
                             {this.state.movies.map(movie => {
-                                const name = (movie.title || movie.name);
                                 return (
                                     <div key={`${movie.movie_id} ${movie.type} ${movie.season}`}
-                                         className="watched-movie v-rated-movie-div d-flex flex-column justify-content-center align-items-center border-bottom pt-3">
-                                        <span
-                                            className="v-rated-movie-v-rating">{this.props.store.vernikoff_ratings[movie.rating]}</span>
+                                         className="watched-movie v-rated-movie-div d-flex flex-column justify-content-center align-items-center pt-3">
                                         <ImageWithLoading type={movie.type} width={200}
                                                           imgStyle="img-watched poster-usual"
                                                           season_number={movie.season}
                                                           makeLink={true} movie_id={movie.movie_id}
+                                                          review={{username: "dragonbone81", season: movie.season}}
                                                           src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
-                                        <Link
-                                            style={{color: 'white'}}
-                                            to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`) || (movie.type === "season" && `/show/${movie.movie_id}/${movie.season}`)}
-                                            className="saved-movie-title pb-3">{name.length > 15 ? `${name.slice(0, 16)}...` : name}</Link>
+                                        <span
+                                            className="v-rated-movie-v-rating">{this.props.store.vernikoff_ratings[movie.rating]}</span>
                                     </div>
                                 )
                             })}
