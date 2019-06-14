@@ -41,8 +41,7 @@ class ShowMoviePage extends Component {
         }
         if (this.props.location.pathname.includes("movie")) {
             return "movie";
-        }
-        else
+        } else
             return console.log("ERROR")
     }
 
@@ -116,6 +115,7 @@ class ShowMoviePage extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.match.params.entity_id !== this.props.match.params.entity_id || prevProps.match.params.season !== this.props.match.params.season) {
+            window.scroll(0, 0);
             this.updateWithNewEntity();
         }
     }
