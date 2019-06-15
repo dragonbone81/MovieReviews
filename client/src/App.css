@@ -9,6 +9,11 @@
     padding: 20px;
 }
 
+.v-rated-content {
+    max-width: 1050px;
+    margin: auto;
+}
+
 .user-page-content {
     min-width: 670px;
     max-width: 1050px;
@@ -476,10 +481,6 @@
     color: rgba(255, 255, 255, 1) !important;
 }
 
-.nav-bar-content {
-    width: 100%;
-}
-
 .username {
     cursor: pointer;
     margin-right: 10px;
@@ -502,6 +503,36 @@
     margin-left: 10px;
 }
 
+.trans-nav {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 10px;
+    color: whitesmoke;
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
+}
+
+.nav-bar-content {
+    width: 100%;
+}
+
+@media only screen and (max-width: 660px) {
+    .footer {
+        font-size: 18px;
+        padding: 10px;
+    }
+    .trans-nav {
+        font-weight: bold;
+        font-size: 18px;
+        padding: 8px;
+    }
+    .over-nav {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+}
+
 .saved-movie-title {
     color: white;
     font-family: 'Rubik', sans-serif;
@@ -521,16 +552,6 @@
     font-weight: bold;
     font-size: 25px;
     color: #33404f;
-}
-
-.trans-nav {
-    font-weight: bold;
-    font-size: 25px;
-    padding: 10px;
-    color: whitesmoke;
-    max-width: 1200px;
-    margin: auto;
-    width: 100%;
 }
 
 .trans {

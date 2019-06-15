@@ -54,7 +54,7 @@ class ShowMoviePage extends Component {
         return (
             <div className="movie-page-full">
                 <div
-                    style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.popularMovies[0].backdrop_path || this.state.popularMovies[0].poster_path)})`}}
+                    style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.popularMovies.filter(m => m.original_language === "en")[0].backdrop_path || this.state.popularMovies[0].poster_path)})`}}
                     className="movie-backdrop-home-page"/>
                 <div
                     className="movie-content-home d-flex flex-column justify-content-center align-items-center">

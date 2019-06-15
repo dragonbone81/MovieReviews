@@ -76,7 +76,7 @@ class SavedMovies extends Component {
         }
         return (
             <div className="user-page">
-                <div className="user-page-content">
+                <div className="v-rated-content">
                     <div className="d-flex flex-column align-items-center ttt">
                         {this.state.movies.length === 0 && (
                             <NoContent/>
