@@ -149,6 +149,7 @@ class UserPage extends Component {
                                                                      typeSort={this.sortTypes[this.state.typeSort].id}
                                                                      sortDirection={this.state.sort[this.state.sortType]}
                                                                      sortType={this.state.sortType}
+                                                                     smallWindow={this.state.smallWindow}
                                                                      readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/saved/:username/:page?"
                                    render={(props) => <SavedMovies {...props}

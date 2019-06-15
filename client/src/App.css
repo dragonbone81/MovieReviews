@@ -553,9 +553,33 @@
         margin-left: 0;
     }
     .user-page-nav-username {
-        /*font-size: 15px;*/
         vertical-align: center;
         padding: 8px 5px 8px 10px;
+    }
+    .calendar {
+        font-size: 80px;
+        margin-left: 10px;
+        padding-right: 10px;
+    }
+    .cal-month {
+        font-size: 18px;
+    }
+
+    .cal-day {
+        margin-left: 5px;
+        font-size: 18px;
+    }
+    .cal-year {
+        top: 65px;
+        left: 15px;
+        font-size: 18px;
+    }
+    .cal-month-day {
+        top: 42px;
+    }
+    .sorting-div-nib {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
 @media only screen and (max-width: 450px) {
