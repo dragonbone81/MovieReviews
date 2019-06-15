@@ -59,6 +59,7 @@ class UserPage extends Component {
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        window.scrollTo(0, 0);
         if (this.props.location.pathname.slice(0, -1) !== prevProps.location.pathname.slice(0, -1)) {
             this.setState({
                 sortType: "updated_at",
