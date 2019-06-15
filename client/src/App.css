@@ -517,7 +517,8 @@
     width: 100%;
     white-space: nowrap;
 }
-.user-page-nav-username-super-small{
+
+.user-page-nav-username-super-small {
     margin-top: -15px;
     padding-bottom: 5px;
     text-align: center;
@@ -526,6 +527,7 @@
     font-family: 'Rubik', sans-serif;
 
 }
+
 @media only screen and (max-width: 660px) {
     .footer {
         font-size: 18px;
@@ -543,24 +545,29 @@
         margin-right: 5px;
         margin-left: 5px;
     }
+
     .user-page-nav {
         margin-left: 0;
         margin-right: 0;
         padding-left: 5px;
         padding-right: 5px;
     }
-    .sorting-div{
+
+    .sorting-div {
         margin-left: 0;
     }
+
     .user-page-nav-username {
         vertical-align: center;
         padding: 8px 5px 8px 10px;
     }
+
     .calendar {
         font-size: 80px;
         margin-left: 10px;
         padding-right: 10px;
     }
+
     .cal-month {
         font-size: 18px;
     }
@@ -569,23 +576,28 @@
         margin-left: 5px;
         font-size: 18px;
     }
+
     .cal-year {
         top: 65px;
         left: 15px;
         font-size: 18px;
     }
+
     .cal-month-day {
         top: 42px;
     }
+
     .sorting-div-nib {
         padding-left: 10px;
         padding-right: 10px;
     }
 }
+
 @media only screen and (max-width: 450px) {
     .trans-nav {
         font-size: 16px;
     }
+
     .footer {
         font-size: 16px;
     }
@@ -1238,6 +1250,10 @@ body {
     z-index: 600;
 }
 
+.smallerrr {
+    font-size: 18px;
+}
+
 @-webkit-keyframes scale-up-center {
     0% {
         -webkit-transform: scale(.5);
@@ -1303,7 +1319,9 @@ body {
     input[type="datetime"], input[type="datetime-local"],
     input[type="date"], input[type="month"], input[type="time"],
     input[type="week"], input[type="number"], input[type="email"],
-    input[type="url"]{ font-size: 16px; }
+    input[type="url"] {
+        font-size: 16px;
+    }
 }
 
 /* Fix Input Zoom on iPhone 5, 5C, 5S, iPod Touch 5g */
@@ -1312,7 +1330,9 @@ body {
     input[type="datetime"], input[type="datetime-local"],
     input[type="date"], input[type="month"], input[type="time"],
     input[type="week"], input[type="number"], input[type="email"],
-    input[type="url"]{ font-size: 16px; }
+    input[type="url"] {
+        font-size: 16px;
+    }
 }
 
 /* Fix Input Zoom on iPhone 6, iPhone 6s, iPhone 7  */
@@ -1321,7 +1341,9 @@ body {
     input[type="datetime"], input[type="datetime-local"],
     input[type="date"], input[type="month"], input[type="time"],
     input[type="week"], input[type="number"], input[type="email"],
-    input[type="url"]{ font-size: 16px; }
+    input[type="url"] {
+        font-size: 16px;
+    }
 }
 
 /* Fix Input Zoom on iPhone 6 Plus, iPhone 6s Plus, iPhone 7 Plus, iPhone 8, iPhone X, XS, XS Max  */
@@ -1330,5 +1352,7 @@ body {
     input[type="datetime"], input[type="datetime-local"],
     input[type="date"], input[type="month"], input[type="time"],
     input[type="week"], input[type="number"], input[type="email"],
-    input[type="url"]{ font-size: 16px; }
+    input[type="url"] {
+        font-size: 16px;
+    }
 }

@@ -107,7 +107,7 @@ class HistoryMovies extends Component {
                                 </div>
                                 {this.props.smallWindow && (
                                     <div className="d-flex flex-column">
-                                        <div className="movie-title smaller">
+                                        <div className="movie-title smallerrr">
                                             <Link style={{color: 'inherit'}}
                                                   to={(movie.type === "movie" && `/movie/${movie.movie_id}`) || (movie.type === "tv" && `/show/${movie.movie_id}`) || (movie.type === "season" && `/show/${movie.movie_id}/${movie.season}`)}>{movie.type === "movie" ? movie.title : movie.name}</Link>
                                         </div>
