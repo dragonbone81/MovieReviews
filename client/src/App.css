@@ -777,7 +777,8 @@
     font-family: 'Bree Serif', serif;
     font-size: 25px;
     color: #ebedfa;
-    margin-right: 20px;
+    margin-right: auto;
+    padding-right: 15px;
 }
 
 .movie-list-title-link:hover {
