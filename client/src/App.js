@@ -23,7 +23,7 @@ const RedirectHome = () => {
 class App extends Component {
     render() {
         return (
-            <div>
+            <>
                 <ToastContainer/>
                 <NavBar/>
                 <Switch>
@@ -39,7 +39,7 @@ class App extends Component {
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
                 <Footer/>
-            </div>
+            </>
         );
     }
 }

@@ -10,7 +10,7 @@ const Pagination = ({totalPages, page, url, link = true, callback = null, histor
     return (
         <div className="pagination">
             {totalPages > 0 && (
-                <div className="d-flex flex-row pagination justify-content-between">
+                <div className="d-flex flex-row justify-content-between">
                     <button
                         disabled={page === 1}
                         onClick={() => link ? history.push(`${url}/${page !== 1 && page - 1}`) : callback(page !== 1 && page - 1)}
