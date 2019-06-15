@@ -125,18 +125,22 @@ class UserPage extends Component {
                             className={`user-page-nav-nib  mr-auto ${this.state.page === "saved" ? "active" : ""}`}>
                             {this.state.smallWindow ? "💾" : "Saved"}
                         </Link>
-                        <div
-                            onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
-                            className="user-page-nav-nib border-left">
-                            <i className="fas fa-filter"/>
-                        </div>
+                        {!this.props.location.pathname.startsWith("/user/review/") && (
+                            <div
+                                onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
+                                className="user-page-nav-nib border-left">
+                                <i className="fas fa-filter"/>
+                            </div>
+                        )}
                     </div>
                     <div className="">
-                        <SortingComponent typeName={this.sortTypes[this.state.typeSort].name}
-                                          changeTypeSort={this.changeTypeSort} sortType={this.state.sortType}
-                                          changeSortDirection={this.changeSortDirection}
-                                          sort={this.state.sort}
-                                          changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
+                        {!this.props.location.pathname.startsWith("/user/review/") && (
+                            <SortingComponent typeName={this.sortTypes[this.state.typeSort].name}
+                                              changeTypeSort={this.changeTypeSort} sortType={this.state.sortType}
+                                              changeSortDirection={this.changeSortDirection}
+                                              sort={this.state.sort}
+                                              changeSortType={this.changeSortType} sortShown={this.state.sortShown}/>
+                        )}
                         <Switch>
                             <Route exact path="/user/movies/:username/:page?"
                                    render={(props) => <WatchedMovies {...props}
@@ -159,6 +163,7 @@ class UserPage extends Component {
                                                                    readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/review/:username/:entity_type/:movie_id/:season?"
                                    render={(props) => <MovieReviewPage {...props}
+                                                                       smallWindow={this.state.smallWindow}
                                                                        readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/reviews/:username/:page?"
                                    render={(props) => <ReviewMovies {...props}
