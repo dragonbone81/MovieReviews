@@ -12,7 +12,7 @@ class NavBar extends Component {
                     <div
                         className="ml-auto mr-auto d-flex flex-row align-items-center nav-bar-content justify-content-between">
                         <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>
-                            <span role="img" aria-label="Title">V-Ratings 🎥</span>
+                            <span role="img" aria-label="Title" className="pr-1">V-Ratings 🎥</span>
                         </Link>
                         <div className="d-flex flex-row ml-auto align-items-center">
                             {this.props.store.userLoggedIn && (

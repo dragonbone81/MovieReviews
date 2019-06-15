@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ImageWithLoading = ({sortType, sortShown, changeSortType, sort, changeSortDirection, changeTypeSort, typeName}) => {
+const SortingComponent = ({sortType, sortShown, changeSortType, sort, changeSortDirection, changeTypeSort, typeName}) => {
     return (
         <div
             className={`d-flex flex-row align-items-center justify-content-center sorting-div box ${sortShown ? "" : "hidden"}`}>
@@ -32,4 +32,4 @@ const RatingDiv = ({name, sort, type, sortType, changeSortType, changeSortDirect
         </div>
     )
 };
-export default ImageWithLoading;
+export default SortingComponent;

@@ -22,12 +22,33 @@ class UserPage extends Component {
         sortDirection: "desc",
         sortShown: false,
         typeSort: 3,
+        smallWindow: window.innerWidth < 575,
+        superSmallWindow: window.innerWidth < 400,
     };
 
     componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
         this.updatePage();
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize = () => {
+        if (window.innerWidth < 575 && !this.state.smallWindow) {
+            this.setState({smallWindow: true});
+        }
+        if (window.innerWidth >= 575 && this.state.smallWindow) {
+            this.setState({smallWindow: false});
+        }
+        if (window.innerWidth < 400 && !this.state.superSmallWindow) {
+            this.setState({superSmallWindow: true});
+        }
+        if (window.innerWidth >= 400 && this.state.superSmallWindow) {
+            this.setState({superSmallWindow: false});
+        }
+    };
     updatePage = () => {
         const page = this.props.location.pathname.split("/").slice(2)[0];
         let readOnly = true;
@@ -75,27 +96,34 @@ class UserPage extends Component {
         return (
             <div className="user-page">
                 <div className="user-page-content">
+                    {this.state.superSmallWindow &&
+                    <div className="user-page-nav-username-super-small">{this.props.match.params.username}</div>}
                     <div className="d-flex flex-row user-page-nav">
-                        <div className="user-page-nav-username">{this.props.match.params.username}</div>
+                        {!this.state.superSmallWindow &&
+                        <div className="user-page-nav-username">{this.props.match.params.username}</div>}
                         <Link
                             to={`/user/movies/${this.props.match.params.username}`}
                             style={{textDecoration: 'none', color: '#9badbb'}}
-                            className={`user-page-nav-nib border-right ${this.state.page === "movies" ? "active" : ""}`}>Watched
+                            className={`user-page-nav-nib border-right ${this.state.page === "movies" ? "active" : ""}`}>
+                            {this.state.smallWindow ? "🍿" : "Watched"}
                         </Link>
                         <Link
                             to={`/user/history/${this.props.match.params.username}`}
                             style={{textDecoration: 'none', color: '#9badbb'}}
-                            className={`user-page-nav-nib border-right ${this.state.page === "history" ? "active" : ""}`}>History
+                            className={`user-page-nav-nib border-right ${this.state.page === "history" ? "active" : ""}`}>
+                            {this.state.smallWindow ? "📆" : "History"}
                         </Link>
                         <Link
                             to={`/user/reviews/${this.props.match.params.username}`}
                             style={{textDecoration: 'none', color: '#9badbb'}}
-                            className={`user-page-nav-nib border-right ${this.state.page === "reviews" ? "active" : ""}`}>Reviews
+                            className={`user-page-nav-nib border-right ${this.state.page === "reviews" ? "active" : ""}`}>
+                            {this.state.smallWindow ? "💯" : "Reviews"}
                         </Link>
                         <Link
                             to={`/user/saved/${this.props.match.params.username}`}
                             style={{textDecoration: 'none', color: '#9badbb'}}
-                            className={`user-page-nav-nib  mr-auto ${this.state.page === "saved" ? "active" : ""}`}>Saved
+                            className={`user-page-nav-nib  mr-auto ${this.state.page === "saved" ? "active" : ""}`}>
+                            {this.state.smallWindow ? "💾" : "Saved"}
                         </Link>
                         <div
                             onClick={() => this.setState(prevState => ({sortShown: !prevState.sortShown}))}
@@ -124,10 +152,10 @@ class UserPage extends Component {
                                                                      readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/saved/:username/:page?"
                                    render={(props) => <SavedMovies {...props}
-                                                                     typeSort={this.sortTypes[this.state.typeSort].id}
-                                                                     sortDirection={this.state.sort[this.state.sortType]}
-                                                                     sortType={this.state.sortType}
-                                                                     readOnly={this.state.readOnly}/>}/>
+                                                                   typeSort={this.sortTypes[this.state.typeSort].id}
+                                                                   sortDirection={this.state.sort[this.state.sortType]}
+                                                                   sortType={this.state.sortType}
+                                                                   readOnly={this.state.readOnly}/>}/>
                             <Route exact path="/user/review/:username/:entity_type/:movie_id/:season?"
                                    render={(props) => <MovieReviewPage {...props}
                                                                        readOnly={this.state.readOnly}/>}/>
