@@ -44,11 +44,15 @@ const PersonCast = ({credits, getImageURL, size}) => {
                     <CrewSection title={"Writers"}
                                  getImageURL={getImageURL}
                                  size={size}
-                                 items={credits.crew.filter(crew => crew.job === "Writer" || crew.job === "Story")}/>
+                                 items={credits.crew.filter(crew => crew.job === "Writer" || crew.job === "Story" || crew.job === "Screenplay").filter((thing, index, self) =>
+                                     index === self.findIndex((t) => (
+                                         t.id === thing.id
+                                     ))
+                                 )}/>
                     <CrewSection title={"Score"}
                                  getImageURL={getImageURL}
                                  size={size}
-                                 items={credits.crew.filter(crew => crew.job === "Original Music Composer")}/>
+                                 items={credits.crew.filter(crew => crew.job === "Original Music Composer" || crew.job === "Music")}/>
                 </div>
             )}
         </div>
