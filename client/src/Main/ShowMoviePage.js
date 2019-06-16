@@ -416,7 +416,7 @@ class ShowMoviePage extends Component {
                                                                           movie_id={this.state.data.id}
                                                                           key={season.id}
                                                                           season_number={season.season_number}
-                                                                          src={this.props.store.getImageURL(season.poster_path, this.props.store.poster_sizes[3])}/>
+                                                                          src={this.props.store.getImageURL(season.poster_path, this.props.store.poster_sizes[2])}/>
                                                     )
                                                 })}
                                             </div>
@@ -433,7 +433,7 @@ class ShowMoviePage extends Component {
                                                                       imgStyle="related-movie poster-usual"
                                                                       makeLink={true}
                                                                       movie_id={similar.id}
-                                                                      src={this.props.store.getImageURL(similar.poster_path, this.props.store.poster_sizes[3])}/>
+                                                                      src={this.props.store.getImageURL(similar.poster_path, this.props.store.poster_sizes[2])}/>
                                                 )}
                                             </div>
                                         </>
