@@ -25,8 +25,10 @@ const PersonCast = ({credits, getImageURL, size, created_by}) => {
                                             character={person.character} actor={person.name}/>
                         )
                     })}
-                    <div onClick={() => setExpandedCast(!expandedCast)} className="person-cast-pill-div"><span
-                        className="person-cast-pill">{expandedCast ? "Less..." : "More..."}</span></div>
+                    {credits.cast.length > 20 && (
+                        <div onClick={() => setExpandedCast(!expandedCast)} className="person-cast-pill-div"><span
+                            className="person-cast-pill">{expandedCast ? "Less..." : "More..."}</span></div>
+                    )}
                 </div>
             )}
             {selectedPill === "crew" && (
@@ -53,8 +55,10 @@ const PersonCast = ({credits, getImageURL, size, created_by}) => {
                             )
                         })
                     }
-                    <div onClick={() => setExpandedCrew(!expandedCrew)} className="person-cast-pill-div"><span
-                        className="person-cast-pill">{expandedCrew ? "Less..." : "More..."}</span></div>
+                    {credits.crew.length > 20 && (
+                        <div onClick={() => setExpandedCrew(!expandedCrew)} className="person-cast-pill-div"><span
+                            className="person-cast-pill">{expandedCrew ? "Less..." : "More..."}</span></div>
+                    )}
                 </div>
             )}
         </div>

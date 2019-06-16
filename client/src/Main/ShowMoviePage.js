@@ -21,6 +21,7 @@ class ShowMoviePage extends Component {
         reviewModalOpen: false,
         entityType: "null",
         smallWindow: window.innerWidth < 830,
+        kindaSmallWindow: window.innerWidth < 1111,
     };
     normalizeRatings = (ratings) => {
         const ratingGroups = ratings.map(rating => ({rating: parseInt(rating.rating), count: parseInt(rating.count)}));
@@ -188,6 +189,12 @@ class ShowMoviePage extends Component {
         if (window.innerWidth >= 830 && this.state.smallWindow) {
             this.setState({smallWindow: false});
         }
+        if (window.innerWidth < 1111 && !this.state.kindaSmallWindow) {
+            this.setState({kindaSmallWindow: true});
+        }
+        if (window.innerWidth >= 1111 && this.state.kindaSmallWindow) {
+            this.setState({kindaSmallWindow: false});
+        }
     };
 
     render() {
@@ -275,7 +282,7 @@ class ShowMoviePage extends Component {
                                     <div className="tag-line">{this.state.data.tagline}</div>
                                     <div className="move-description-detail">{this.state.data.overview}</div>
 
-                                    {this.state.entityType === "tv" && (
+                                    {!this.state.kindaSmallWindow && this.state.entityType === "tv" && (
                                         <div className="seasons-slider-div">
                                             <SeasonsScroller seasons={this.state.data.seasons}
                                                              show_id={this.state.data.id}
@@ -362,7 +369,7 @@ class ShowMoviePage extends Component {
                                                 </div>
                                             }
                                             {parseInt(this.state.userData.total_ratings) > 0 ? (
-                                                    <div className="ratings-chart">
+                                                    <div className="ratings-chart small-actions">
                                                         <div
                                                             className="ratings-label d-flex flex-row justify-content-between align-items-end">
                                                             <span className="ratings-rating-text">Ratings</span>
@@ -391,6 +398,25 @@ class ShowMoviePage extends Component {
                                                 created_by={this.state.data.created_by}
                                                 size={this.props.store.poster_sizes[3]}
                                                 getImageURL={this.props.store.getImageURL}/>
+                                    {this.state.kindaSmallWindow && this.state.entityType === "tv" && (
+                                        <>
+                                            <span className="related-movie-text border-bottom">Seasons</span>
+                                            <div
+                                                className="related-movie-entitites d-flex flex-row flex-wrap justify-content-center">
+                                                {this.state.data.seasons.filter(season => season.season_number > 0 && season.air_date !== null).map(season => {
+                                                    return (
+                                                        <ImageWithLoading type={"season"} width={85}
+                                                                          imgStyle="seasons-slider-movie poster-usual"
+                                                                          makeLink={true}
+                                                                          movie_id={this.state.data.id}
+                                                                          key={season.id}
+                                                                          season_number={season.season_number}
+                                                                          src={this.props.store.getImageURL(season.poster_path, this.props.store.poster_sizes[3])}/>
+                                                    )
+                                                })}
+                                            </div>
+                                        </>
+                                    )}
                                     {(this.state.entityType === "movie" || this.state.entityType === "tv") && (
                                         <>
                                             <span className="related-movie-text border-bottom">Related</span>

@@ -19,7 +19,7 @@ const SeasonsScroller = ({seasons, getImageURL, size, show_id, episode}) => {
                 {actualSeasons.map(season => {
                     return (
                         <ImageWithLoading type={"season"} width={158}
-                                          imgStyle="seasons-slider-movie"
+                                          imgStyle="seasons-slider-movie poster-usual"
                                           makeLink={true}
                                           movie_id={show_id}
                                           key={season.id}
