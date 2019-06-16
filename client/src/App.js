@@ -25,7 +25,7 @@ class App extends Component {
         return (
             <>
                 <ToastContainer/>
-                {/*<NavBar/>*/}
+                <NavBar/>
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route exact path="/signup" component={SignUp}/>
@@ -38,7 +38,7 @@ class App extends Component {
                     <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
-                {/*<Footer/>*/}
+                <Footer/>
             </>
         );
     }
