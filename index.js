@@ -19,11 +19,12 @@ app.use(movieRoutes);
 
 
 app.get('/', async (req, res) => {
-    const x = await MovieInteraction.query()
-    // .findById(["abc", 63247, 'tv'])
-        .where({username: "abc"})
-        // .delete();
-    console.log(x);
+    // const x = await MovieInteraction.query()
+    // // .findById(["abc", 63247, 'tv'])
+    //     .where({username: "abc"})
+    // .delete();
+    // const x = await User.query();
+    // console.log(x);
     // await V_Rating.query().insert({movie_id: 299534, rating: 3});
     // await User.query().insert({username: "dragonbone81", email: "test", password: "test"})
     // const user = await User.query()

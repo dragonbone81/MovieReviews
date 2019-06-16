@@ -44,7 +44,6 @@ class MovieEntityPage extends Component {
             });
             document.title = actorData.name;
         } else {
-            window.scrollTo(0, 0);
             this.setState({
                 loadingData: false,
                 page,
@@ -54,7 +53,7 @@ class MovieEntityPage extends Component {
 
     componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
-        this.updatePage();
+        this.updatePage().then(()=>window.scrollTo(0, 0));
     }
 
     onWindowResize = () => {
