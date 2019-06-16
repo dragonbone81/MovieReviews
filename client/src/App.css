@@ -1177,6 +1177,7 @@
 }
 
 .movie-page {
+    min-height: calc(100vh - 124px);
     padding-right: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
@@ -1197,6 +1198,32 @@ body {
 /*min-width: 500px;*/
 /*max-width: 300px;*/
 /*}*/
+.crew-pad-top{
+    padding-top: 10px;
+}
+.crew-section{
+    max-width: 300px;
+    margin-right: 10px;
+}
+.cast-titles{
+    max-height: min-content;
+    color: #aec2d2;
+    font-size: 20px;
+    /*padding-right: 10px;*/
+    margin-right: auto;
+}
+.crew-div{
+    padding-top: 10px;
+}
+.movie-person-movie{
+    padding: 10px 10px 0 10px;
+    font-size: 20px;
+}
+.crew-div-inner{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(190, 212, 229, 0.4);
+}
 .modal-made-trans {
     position: absolute;
     left: 0;

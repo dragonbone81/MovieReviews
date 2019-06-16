@@ -82,15 +82,15 @@ class MovieEntityPage extends Component {
                     <div className="actor-movie-results d-flex flex-row flex-wrap">
                         {this.state.movieData.slice((this.state.page - 1) * 50, (this.state.page) * 50).map(movie => {
                             return (
-                                <div key={movie.id} className="">
-                                    <div style={{padding: 10}}>
-                                        <ImageWithLoading width={200}
-                                                          imgStyle="movie-poster-actor-list-movies poster-usual"
-                                                          movie_id={movie.id}
-                                                          type={movie.media_type}
-                                                          makeLink={true}
-                                                          src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
-                                    </div>
+                                <div key={movie.id}
+                                     className="d-flex flex-column align-items-center movie-person-movie">
+                                    <ImageWithLoading width={200}
+                                                      imgStyle="movie-poster-actor-list-movies poster-usual"
+                                                      movie_id={movie.id}
+                                                      type={movie.media_type}
+                                                      makeLink={true}
+                                                      src={this.props.store.getImageURL(movie.poster_path, this.props.store.poster_sizes[3])}/>
+                                    <span>{movie.job || movie.character}</span>
                                 </div>
                             )
                         })}
