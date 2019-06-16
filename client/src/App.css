@@ -209,6 +209,7 @@
     max-width: 450px;
     margin: 50px auto auto;
     border-radius: 10px;
+    margin-bottom: calc(100vh - 429px);
 }
 
 .watched-movies-page {
