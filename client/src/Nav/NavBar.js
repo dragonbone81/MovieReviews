@@ -4,6 +4,27 @@ import {observer, inject} from 'mobx-react';
 import MovieSearch from './MovieSearch';
 
 class NavBar extends Component {
+    state = {
+        smallWindow: window.innerWidth < 480,
+    };
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize = () => {
+        if (window.innerWidth < 480 && !this.state.smallWindow) {
+            this.setState({smallWindow: true});
+        }
+        if (window.innerWidth >= 480 && this.state.smallWindow) {
+            this.setState({smallWindow: false});
+        }
+    };
+
     render() {
         return (
             <div className="over-nav">
@@ -12,7 +33,8 @@ class NavBar extends Component {
                     <div
                         className="ml-auto mr-auto d-flex flex-row align-items-center nav-bar-content justify-content-between">
                         <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>
-                            <span role="img" aria-label="Title" className="pr-1">V-Ratings 🎥</span>
+                            <span role="img" aria-label="Title"
+                                  className="pr-1">{this.state.smallWindow ? "🎥" : "V-Ratings 🎥"}</span>
                         </Link>
                         <div className="d-flex flex-row ml-auto align-items-center">
                             {this.props.store.userLoggedIn && (

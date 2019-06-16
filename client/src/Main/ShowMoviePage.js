@@ -20,6 +20,7 @@ class ShowMoviePage extends Component {
         loadingData: false,
         reviewModalOpen: false,
         entityType: "null",
+        smallWindow: window.innerWidth < 830,
     };
     normalizeRatings = (ratings) => {
         const ratingGroups = ratings.map(rating => ({rating: parseInt(rating.rating), count: parseInt(rating.count)}));
@@ -121,6 +122,7 @@ class ShowMoviePage extends Component {
     }
 
     componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
         this.updateWithNewEntity();
     }
 
@@ -175,6 +177,19 @@ class ShowMoviePage extends Component {
         }
     };
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    }
+
+    onWindowResize = () => {
+        if (window.innerWidth < 830 && !this.state.smallWindow) {
+            this.setState({smallWindow: true});
+        }
+        if (window.innerWidth >= 830 && this.state.smallWindow) {
+            this.setState({smallWindow: false});
+        }
+    };
+
     render() {
         if (this.state.loadingData) {
             return (
@@ -194,8 +209,10 @@ class ShowMoviePage extends Component {
                     <div
                         style={{backgroundImage: `url(${this.props.store.getImageURL(this.state.data.backdrop_path || this.state.data.poster_path)})`}}
                         className="movie-backdrop"/>
-                    <div className="mr-1 ml-1 movie-content d-flex flex-row justify-content-center">
-                        <div className="movie-poster d-flex flex-column mr-2">
+                    <div
+                        className={`mr-1 ml-1 movie-content d-flex ${this.state.smallWindow ? "flex-column" : "flex-row"} justify-content-center`}>
+                        <div
+                            className={`movie-poster d-flex flex-column mr-2 ${this.state.smallWindow && "align-items-center"}`}>
                             <ImageWithLoading type={this.state.entityType} width={250}
                                               imgStyle="movie-page-poster"
                                               src={this.props.store.getImageURL(this.state.data.poster_path, this.props.store.poster_sizes[3])}/>
@@ -223,7 +240,8 @@ class ShowMoviePage extends Component {
                             )}
                         </div>
                         <div className="movie-info d-flex flex-column">
-                            <div className="d-flex flex-row align-items-center movie-title-d-y">
+                            <div
+                                className={`d-flex ${this.state.smallWindow ? "flex-column" : "flex-row"} align-items-center movie-title-d-y`}>
                                 <div
                                     className="movie-title">{this.state.entityType === "movie" ? this.state.data.title : this.state.data.name}</div>
                                 {this.state.entityType === "movie" &&
@@ -250,8 +268,10 @@ class ShowMoviePage extends Component {
                                     <span>{this.state.data.air_date.substring(0, 4)}</span>
                                 </div>)}
                             </div>
+
                             <div className="d-flex flex-row">
-                                <div className="d-flex flex-column align-items-start">
+                                <div
+                                    className={`d-flex flex-column ${this.state.smallWindow ? "align-items-center" : "align-items-start"}`}>
                                     <div className="tag-line">{this.state.data.tagline}</div>
                                     <div className="move-description-detail">{this.state.data.overview}</div>
 
@@ -263,6 +283,110 @@ class ShowMoviePage extends Component {
                                                              getImageURL={this.props.store.getImageURL}/>
                                         </div>
                                     )}
+                                    {this.state.smallWindow && (
+                                        <div className="d-flex flex-column">
+                                            {this.props.store.user.token ?
+                                                <div style={{
+                                                    minHeight: this.state.userData.v_rating ? 400 : 300,
+                                                    maxHeight: this.state.userData.v_rating ? 400 : 300
+                                                }} className="movie-actions small-actions d-flex flex-column">
+                                                    <div
+                                                        className="d-flex flex-row movie-actions-icons justify-content-between">
+                                                        <div
+                                                            className="d-flex flex-column align-items-center movie-actions-icon"
+                                                            onClick={() => {
+                                                                if (this.state.userData.review || this.state.userData.date_watched) {
+                                                                    this.setState({reviewModalOpen: true})
+                                                                } else {
+                                                                    this.updateMovieUserData("viewed", !this.state.userData["viewed"])
+                                                                }
+                                                            }}>
+                                                            {this.props.store.viewedOrReviewed(this.state.userData) ?
+                                                                <i className="fas fa-eye icon-blue"/> :
+                                                                <i className="far fa-eye"/>}
+                                                            <span
+                                                                className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userData) ? this.state.userData.review ? "Reviewed" : "Viewed" : "View"}</span>
+                                                        </div>
+                                                        <div
+                                                            className="d-flex flex-column align-items-center movie-actions-icon"
+                                                            onClick={() => this.updateMovieUserData("liked", !this.state.userData["liked"])}>
+                                                            {this.state.userData.liked ?
+                                                                <i className="fas fa-laugh-beam icon-yellow"/> :
+                                                                <i className="far fa-laugh-beam"/>}
+                                                            <span
+                                                                className="action-icon-text">{this.state.userData.liked ? "Liked" : "Like"}</span>
+                                                        </div>
+                                                        <div
+                                                            className="d-flex flex-column align-items-center movie-actions-icon"
+                                                            onClick={() => this.updateMovieUserData("saved", !this.state.userData["saved"])}>
+                                                            {this.state.userData.saved ?
+                                                                <i className="fas fa-save icon-green"/> :
+                                                                <i className="far fa-save"/>}
+                                                            <span
+                                                                className="action-icon-text">{this.state.userData.saved ? "Saved" : "Save"}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        className="d-flex flex-column align-items-center justify-content-center action-rating">
+                                                        <span className="rating-text">Your Rating</span>
+                                                        <RatingComponent initialRating={this.state.userData.rating}
+                                                                         onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                    </div>
+                                                    {this.state.userData.v_rating && (
+                                                        <div
+                                                            className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                            <span className="rating-text">Vernikoff Rating</span>
+                                                            <span
+                                                                className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="d-flex flex-column align-items-center review"
+                                                         onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
+                                                        <span>{(this.state.userData.date_watched || this.state.userData.review) ? "Edit Review..." : "Review..."}</span>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div
+                                                    className="movie-actions-not-logged-in d-flex flex-column justify-content-center align-items-center">
+                                                    {this.state.userData.v_rating && (
+                                                        <div
+                                                            className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                            <span className="rating-text">Vernikoff Rating</span>
+                                                            <span
+                                                                className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                                        </div>
+                                                    )}
+                                                    <span><Link to='/login'
+                                                                style={{color: 'inherit'}}>Please login to review...</Link></span>
+                                                </div>
+                                            }
+                                            {parseInt(this.state.userData.total_ratings) > 0 ? (
+                                                    <div className="ratings-chart">
+                                                        <div
+                                                            className="ratings-label d-flex flex-row justify-content-between align-items-end">
+                                                            <span className="ratings-rating-text">Ratings</span>
+                                                            <span
+                                                                className="ratings-rating-total">Total: {this.state.userData.total_ratings}</span>
+                                                        </div>
+                                                        <div className="average-rating">
+                                                            {Number.parseFloat(this.state.userData.average_rating).toFixed(1)}
+                                                        </div>
+                                                        <BarChart width={250} height={100}
+                                                                  data={this.state.userData.rating_groups}>
+                                                            <YAxis hide={true} axisLine={false} type="number"
+                                                                   domain={[0, this.state.userData.max_one_rating]}/>
+                                                            <Bar dataKey="count" fill="#8884d8"/>
+                                                        </BarChart>
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <span className="no-ratings-yet">No Ratings...</span>
+                                                )
+                                            }
+                                        </div>
+                                    )}
                                     <PersonCast credits={this.state.data.credits}
                                                 created_by={this.state.data.created_by}
                                                 size={this.props.store.poster_sizes[3]}
@@ -270,7 +394,8 @@ class ShowMoviePage extends Component {
                                     {(this.state.entityType === "movie" || this.state.entityType === "tv") && (
                                         <>
                                             <span className="related-movie-text border-bottom">Related</span>
-                                            <div className="related-movie-entitites d-flex flex-row flex-wrap">
+                                            <div
+                                                className="related-movie-entitites d-flex flex-row flex-wrap justify-content-center">
                                                 {this.state.data.similar.results.map(similar =>
                                                     <ImageWithLoading type={this.state.entityType} width={100}
                                                                       key={similar.id}
@@ -283,108 +408,110 @@ class ShowMoviePage extends Component {
                                         </>
                                     )}
                                 </div>
-                                <div className="d-flex flex-column">
-                                    {this.props.store.user.token ?
-                                        <div style={{
-                                            minHeight: this.state.userData.v_rating ? 400 : 300,
-                                            maxHeight: this.state.userData.v_rating ? 400 : 300
-                                        }} className="movie-actions d-flex flex-column">
-                                            <div
-                                                className="d-flex flex-row movie-actions-icons justify-content-between">
+                                {!this.state.smallWindow && (
+                                    <div className="d-flex flex-column">
+                                        {this.props.store.user.token ?
+                                            <div style={{
+                                                minHeight: this.state.userData.v_rating ? 400 : 300,
+                                                maxHeight: this.state.userData.v_rating ? 400 : 300
+                                            }} className="movie-actions d-flex flex-column">
                                                 <div
-                                                    className="d-flex flex-column align-items-center movie-actions-icon"
-                                                    onClick={() => {
-                                                        if (this.state.userData.review || this.state.userData.date_watched) {
-                                                            this.setState({reviewModalOpen: true})
-                                                        } else {
-                                                            this.updateMovieUserData("viewed", !this.state.userData["viewed"])
-                                                        }
-                                                    }}>
-                                                    {this.props.store.viewedOrReviewed(this.state.userData) ?
-                                                        <i className="fas fa-eye icon-blue"/> :
-                                                        <i className="far fa-eye"/>}
-                                                    <span
-                                                        className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userData) ? this.state.userData.review ? "Reviewed" : "Viewed" : "View"}</span>
+                                                    className="d-flex flex-row movie-actions-icons justify-content-between">
+                                                    <div
+                                                        className="d-flex flex-column align-items-center movie-actions-icon"
+                                                        onClick={() => {
+                                                            if (this.state.userData.review || this.state.userData.date_watched) {
+                                                                this.setState({reviewModalOpen: true})
+                                                            } else {
+                                                                this.updateMovieUserData("viewed", !this.state.userData["viewed"])
+                                                            }
+                                                        }}>
+                                                        {this.props.store.viewedOrReviewed(this.state.userData) ?
+                                                            <i className="fas fa-eye icon-blue"/> :
+                                                            <i className="far fa-eye"/>}
+                                                        <span
+                                                            className="action-icon-text">{this.props.store.viewedOrReviewed(this.state.userData) ? this.state.userData.review ? "Reviewed" : "Viewed" : "View"}</span>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex flex-column align-items-center movie-actions-icon"
+                                                        onClick={() => this.updateMovieUserData("liked", !this.state.userData["liked"])}>
+                                                        {this.state.userData.liked ?
+                                                            <i className="fas fa-laugh-beam icon-yellow"/> :
+                                                            <i className="far fa-laugh-beam"/>}
+                                                        <span
+                                                            className="action-icon-text">{this.state.userData.liked ? "Liked" : "Like"}</span>
+                                                    </div>
+                                                    <div
+                                                        className="d-flex flex-column align-items-center movie-actions-icon"
+                                                        onClick={() => this.updateMovieUserData("saved", !this.state.userData["saved"])}>
+                                                        {this.state.userData.saved ?
+                                                            <i className="fas fa-save icon-green"/> :
+                                                            <i className="far fa-save"/>}
+                                                        <span
+                                                            className="action-icon-text">{this.state.userData.saved ? "Saved" : "Save"}</span>
+                                                    </div>
                                                 </div>
-                                                <div
-                                                    className="d-flex flex-column align-items-center movie-actions-icon"
-                                                    onClick={() => this.updateMovieUserData("liked", !this.state.userData["liked"])}>
-                                                    {this.state.userData.liked ?
-                                                        <i className="fas fa-laugh-beam icon-yellow"/> :
-                                                        <i className="far fa-laugh-beam"/>}
-                                                    <span
-                                                        className="action-icon-text">{this.state.userData.liked ? "Liked" : "Like"}</span>
-                                                </div>
-                                                <div
-                                                    className="d-flex flex-column align-items-center movie-actions-icon"
-                                                    onClick={() => this.updateMovieUserData("saved", !this.state.userData["saved"])}>
-                                                    {this.state.userData.saved ?
-                                                        <i className="fas fa-save icon-green"/> :
-                                                        <i className="far fa-save"/>}
-                                                    <span
-                                                        className="action-icon-text">{this.state.userData.saved ? "Saved" : "Save"}</span>
-                                                </div>
-                                            </div>
 
+                                                <div
+                                                    className="d-flex flex-column align-items-center justify-content-center action-rating">
+                                                    <span className="rating-text">Your Rating</span>
+                                                    <RatingComponent initialRating={this.state.userData.rating}
+                                                                     onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                </div>
+                                                {this.state.userData.v_rating && (
+                                                    <div
+                                                        className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                        <span className="rating-text">Vernikoff Rating</span>
+                                                        <span
+                                                            className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                                    </div>
+                                                )}
+                                                <div className="d-flex flex-column align-items-center review"
+                                                     onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
+                                                    <span>{(this.state.userData.date_watched || this.state.userData.review) ? "Edit Review..." : "Review..."}</span>
+                                                </div>
+                                            </div>
+                                            :
                                             <div
-                                                className="d-flex flex-column align-items-center justify-content-center action-rating">
-                                                <span className="rating-text">Your Rating</span>
-                                                <RatingComponent initialRating={this.state.userData.rating}
-                                                                 onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                className="movie-actions-not-logged-in d-flex flex-column justify-content-center align-items-center">
+                                                {this.state.userData.v_rating && (
+                                                    <div
+                                                        className="d-flex flex-column align-items-center justify-content-center v-rating">
+                                                        <span className="rating-text">Vernikoff Rating</span>
+                                                        <span
+                                                            className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                                    </div>
+                                                )}
+                                                <span><Link to='/login'
+                                                            style={{color: 'inherit'}}>Please login to review...</Link></span>
                                             </div>
-                                            {this.state.userData.v_rating && (
-                                                <div
-                                                    className="d-flex flex-column align-items-center justify-content-center v-rating">
-                                                    <span className="rating-text">Vernikoff Rating</span>
-                                                    <span
-                                                        className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
+                                        }
+                                        {parseInt(this.state.userData.total_ratings) > 0 ? (
+                                                <div className="ratings-chart">
+                                                    <div
+                                                        className="ratings-label d-flex flex-row justify-content-between align-items-end">
+                                                        <span className="ratings-rating-text">Ratings</span>
+                                                        <span
+                                                            className="ratings-rating-total">Total: {this.state.userData.total_ratings}</span>
+                                                    </div>
+                                                    <div className="average-rating">
+                                                        {Number.parseFloat(this.state.userData.average_rating).toFixed(1)}
+                                                    </div>
+                                                    <BarChart width={250} height={100}
+                                                              data={this.state.userData.rating_groups}>
+                                                        <YAxis hide={true} axisLine={false} type="number"
+                                                               domain={[0, this.state.userData.max_one_rating]}/>
+                                                        <Bar dataKey="count" fill="#8884d8"/>
+                                                    </BarChart>
                                                 </div>
-                                            )}
-                                            <div className="d-flex flex-column align-items-center review"
-                                                 onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
-                                                <span>{(this.state.userData.date_watched || this.state.userData.review) ? "Edit Review..." : "Review..."}</span>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div
-                                            className="movie-actions-not-logged-in d-flex flex-column justify-content-center align-items-center">
-                                            {this.state.userData.v_rating && (
-                                                <div
-                                                    className="d-flex flex-column align-items-center justify-content-center v-rating">
-                                                    <span className="rating-text">Vernikoff Rating</span>
-                                                    <span
-                                                        className="v-rating-text">{this.props.store.vernikoff_ratings[this.state.userData.v_rating.rating]}</span>
-                                                </div>
-                                            )}
-                                            <span><Link to='/login'
-                                                        style={{color: 'inherit'}}>Please login to review...</Link></span>
-                                        </div>
-                                    }
-                                    {parseInt(this.state.userData.total_ratings) > 0 ? (
-                                            <div className="ratings-chart">
-                                                <div
-                                                    className="ratings-label d-flex flex-row justify-content-between align-items-end">
-                                                    <span className="ratings-rating-text">Ratings</span>
-                                                    <span
-                                                        className="ratings-rating-total">Total: {this.state.userData.total_ratings}</span>
-                                                </div>
-                                                <div className="average-rating">
-                                                    {Number.parseFloat(this.state.userData.average_rating).toFixed(1)}
-                                                </div>
-                                                <BarChart width={250} height={100}
-                                                          data={this.state.userData.rating_groups}>
-                                                    <YAxis hide={true} axisLine={false} type="number"
-                                                           domain={[0, this.state.userData.max_one_rating]}/>
-                                                    <Bar dataKey="count" fill="#8884d8"/>
-                                                </BarChart>
-                                            </div>
-                                        )
-                                        :
-                                        (
-                                            <span className="no-ratings-yet">No Ratings...</span>
-                                        )
-                                    }
-                                </div>
+                                            )
+                                            :
+                                            (
+                                                <span className="no-ratings-yet">No Ratings...</span>
+                                            )
+                                        }
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
