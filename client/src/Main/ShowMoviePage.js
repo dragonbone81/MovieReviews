@@ -209,6 +209,7 @@ class ShowMoviePage extends Component {
                 <div className="movie-page-full">
                     <ReviewModal type={this.state.entityType} updateVReview={this.updateVReview}
                                  updateReviewDate={this.updateReviewDate}
+                                 smallWindow={this.state.smallWindow}
                                  userData={this.state.userData}
                                  movie={this.state.data}
                                  open={this.state.reviewModalOpen}
@@ -251,7 +252,7 @@ class ShowMoviePage extends Component {
                             <div
                                 className={`d-flex ${this.state.smallWindow ? "flex-column" : "flex-row"} align-items-center movie-title-d-y`}>
                                 <div
-                                    className="movie-title">{this.state.entityType === "movie" ? this.state.data.title : this.state.data.name}</div>
+                                    className="movie-title smaller-title-media">{this.state.entityType === "movie" ? this.state.data.title : this.state.data.name}</div>
                                 {this.state.entityType === "movie" &&
                                 (<div className="movie-director-year">
                                     Directed
@@ -350,7 +351,10 @@ class ShowMoviePage extends Component {
                                                         </div>
                                                     )}
                                                     <div className="d-flex flex-column align-items-center review"
-                                                         onClick={() => this.setState({reviewModalOpen: !this.state.reviewModalOpen})}>
+                                                         onClick={() => {
+                                                             window.scrollTo(0, 0);
+                                                             this.setState({reviewModalOpen: !this.state.reviewModalOpen})
+                                                         }}>
                                                         <span>{(this.state.userData.date_watched || this.state.userData.review) ? "Edit Review..." : "Review..."}</span>
                                                     </div>
                                                 </div>

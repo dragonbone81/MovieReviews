@@ -282,7 +282,13 @@
     margin-left: 20px;
     padding-right: 20px;
 }
-
+.movie-title {
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+}
 .sorting-nib-icon.desc {
     transform: rotate(180deg);
 }
@@ -476,6 +482,7 @@
 .seasons-slider-div {
     margin: auto;
 }
+
 .seasons-slider {
     overflow-x: hidden;
     max-width: 500px;
@@ -646,6 +653,9 @@
 
     .movie-content {
         padding: 170px 20px 20px;
+    }
+    .smaller-title-media{
+        font-size: 30px;
     }
 }
 
@@ -1143,14 +1153,6 @@
     padding-top: 7px;
 }
 
-.movie-title {
-    font-weight: bold;
-    font-family: 'Rubik', sans-serif;
-    text-align: center;
-    font-size: 40px;
-    color: white;
-}
-
 .tag-line {
     font-weight: bold;
     font-family: 'Rubik', sans-serif;
@@ -1201,7 +1203,7 @@ body {
     right: 0;
     top: 25%;
     margin: auto;
-    width: 700px;
+    max-width: 700px;
     /*background: linear-gradient(90deg, red, blue);*/
     background: linear-gradient(180deg, #7c8d9e, #3b4854);;
     /*background-color: #688396;*/
