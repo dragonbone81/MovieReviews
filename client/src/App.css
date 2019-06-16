@@ -526,7 +526,20 @@
     color: #aec2d2;
     font-size: 18px;
     font-family: 'Rubik', sans-serif;
+}
 
+.movie-release-year-list {
+    font-family: 'Bree Serif', serif;
+    font-size: 25px;
+    color: #8495a6;
+}
+
+.movie-title-list {
+    font-family: 'Bree Serif', serif;
+    font-size: 25px;
+    color: #ebedfa;
+    margin-right: auto;
+    padding-right: 15px;
 }
 
 @media only screen and (max-width: 660px) {
@@ -590,6 +603,15 @@
 
     .sorting-div-nib {
         padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .movie-release-year-list {
+        font-size: 18px;
+    }
+
+    .movie-title-list {
+        font-size: 18px;
         padding-right: 10px;
     }
 }
@@ -833,22 +855,8 @@
     color: #9badbb;
 }
 
-.movie-title-list {
-    font-family: 'Bree Serif', serif;
-    font-size: 25px;
-    color: #ebedfa;
-    margin-right: auto;
-    padding-right: 15px;
-}
-
 .movie-list-title-link:hover {
     color: #3b99cf;
-}
-
-.movie-release-year-list {
-    font-family: 'Bree Serif', serif;
-    font-size: 25px;
-    color: #8495a6;
 }
 
 .movie-poster {
