@@ -123,6 +123,7 @@ class ShowMoviePage extends Component {
     }
 
     componentDidMount() {
+        window.scroll(0, 0);
         window.addEventListener('resize', this.onWindowResize);
         this.updateWithNewEntity();
     }
