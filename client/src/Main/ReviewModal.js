@@ -112,14 +112,16 @@ class ReviewModal extends Component {
                                                 </div>
                                             )}
                                             <div>
-                                                <span className="modal-date-on">On:</span>
-                                                <DatePicker
-                                                    placeholderText="Click to select a date"
-                                                    className="date-choosing"
-                                                    selected={this.state.date}
-                                                    onChange={(date) => this.setState({date})}
-                                                    maxDate={new Date()}
-                                                />
+                                                <div className="d-flex flex-row align-items-center">
+                                                    <span className="modal-date-on">On:</span>
+                                                    <DatePicker
+                                                        placeholderText="Click to select a date"
+                                                        className="date-choosing"
+                                                        selected={this.state.date}
+                                                        onChange={(date) => this.setState({date})}
+                                                        maxDate={new Date()}
+                                                    />
+                                                </div>
                                                 {this.props.store.user.username === "dragonbone81" && (
                                                     <div className="form-group pt-2">
                                                         <label>Vernikoff Rating</label>
