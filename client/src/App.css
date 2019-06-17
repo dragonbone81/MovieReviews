@@ -1,3 +1,14 @@
+.remove-rating {
+    color: #cbe2f4;
+    cursor: pointer;
+    font-size: 25px;
+    padding-left: 10px;
+}
+
+.remove-rating:hover {
+    color: #e3efff;
+}
+
 .movie-backdrop-home-page {
     overflow: hidden;
     opacity: 0.9;
@@ -283,6 +294,7 @@
     margin-left: 20px;
     padding-right: 20px;
 }
+
 .movie-title {
     font-weight: bold;
     font-family: 'Rubik', sans-serif;
@@ -290,6 +302,7 @@
     font-size: 40px;
     color: white;
 }
+
 .sorting-nib-icon.desc {
     transform: rotate(180deg);
 }
@@ -655,7 +668,8 @@
     .movie-content {
         padding: 170px 20px 20px;
     }
-    .smaller-title-media{
+
+    .smaller-title-media {
         font-size: 30px;
     }
 }
@@ -1199,32 +1213,38 @@ body {
 /*min-width: 500px;*/
 /*max-width: 300px;*/
 /*}*/
-.crew-pad-top{
+.crew-pad-top {
     padding-top: 10px;
 }
-.crew-section{
+
+.crew-section {
     max-width: 300px;
     margin-right: 10px;
 }
-.cast-titles{
+
+.cast-titles {
     max-height: min-content;
     color: #aec2d2;
     font-size: 20px;
     /*padding-right: 10px;*/
     margin-right: auto;
 }
-.crew-div{
+
+.crew-div {
     padding-top: 10px;
 }
-.movie-person-movie{
+
+.movie-person-movie {
     padding: 10px 10px 0 10px;
     font-size: 20px;
 }
-.crew-div-inner{
+
+.crew-div-inner {
     padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(190, 212, 229, 0.4);
 }
+
 .modal-made-trans {
     position: absolute;
     left: 0;

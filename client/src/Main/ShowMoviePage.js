@@ -346,8 +346,14 @@ class ShowMoviePage extends Component {
                                                     <div
                                                         className="d-flex flex-column align-items-center justify-content-center action-rating">
                                                         <span className="rating-text">Your Rating</span>
-                                                        <RatingComponent initialRating={this.state.userData.rating}
-                                                                         onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                        <div className="d-flex flex-row align-items-center">
+                                                            <RatingComponent initialRating={this.state.userData.rating}
+                                                                             onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                            {this.state.userData.rating &&
+                                                            <i onClick={() => this.updateMovieUserData("rating", null)}
+                                                               className="remove-rating fas fa-times align-self-center"/>}
+                                                        </div>
+
                                                     </div>
                                                     {this.state.userData.v_rating && (
                                                         <div
@@ -502,8 +508,13 @@ class ShowMoviePage extends Component {
                                                 <div
                                                     className="d-flex flex-column align-items-center justify-content-center action-rating">
                                                     <span className="rating-text">Your Rating</span>
-                                                    <RatingComponent initialRating={this.state.userData.rating}
-                                                                     onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                    <div className="d-flex flex-row align-items-center">
+                                                        <RatingComponent initialRating={this.state.userData.rating}
+                                                                         onChange={(val) => this.updateMovieUserData("rating", val)}/>
+                                                        {this.state.userData.rating &&
+                                                        <i onClick={() => this.updateMovieUserData("rating", null)}
+                                                           className="remove-rating fas fa-times align-self-center"/>}
+                                                    </div>
                                                 </div>
                                                 {this.state.userData.v_rating && (
                                                     <div
