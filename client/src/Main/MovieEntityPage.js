@@ -49,22 +49,22 @@ class MovieEntityPage extends Component {
                 this.setState({
                     loadingData: false,
                     actorData: {},
-                    movieData: studioData.results.sort((a, b) => b.popularity - a.popularity),
+                    movieData: studioData.results,
                     page,
                     totalPages: studioData.total_pages
                 });
-                document.title = studioData.name;
+                document.title = "Studio";
             } else if (this.type === "network") {
                 window.scrollTo(0, 0);
                 const studioData = await this.props.store.getNetworkInfo(network_id, page);
                 this.setState({
                     loadingData: false,
                     actorData: {},
-                    movieData: studioData.results.sort((a, b) => b.popularity - a.popularity),
+                    movieData: studioData.results,
                     page,
                     totalPages: studioData.total_pages
                 });
-                document.title = studioData.name;
+                document.title = "Network";
             } else {
                 const actorData = await this.props.store.getActorInfo(actor_id);
                 const cast_crew = [...actorData.combined_credits.cast, ...actorData.combined_credits.crew].filter((thing, index, self) =>
