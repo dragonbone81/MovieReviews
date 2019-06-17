@@ -36,6 +36,8 @@ class App extends Component {
                     <Route exact path="/search/:term?/:page?" component={MovieSearchResultPage}/>
                     <Route path="/user/:term/:username" component={UserPage}/>
                     <Route path="/person/:actor_id/:page?" component={MovieEntityPage}/>
+                    <Route path="/studio/:studio_id/:page?" component={MovieEntityPage}/>
+                    <Route path="/network/:network_id/:page?" component={MovieEntityPage}/>
                     <Route path="/" component={RedirectHome}/>
                 </Switch>
                 <Footer/>

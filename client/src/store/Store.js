@@ -180,6 +180,34 @@ class Store {
                 return {};
             });
     };
+    getStudioInfo = (studio_id, page) => {
+        return fetch(`${THE_MOVIE_DB_URL}/discover/movie?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_companies=${studio_id}&page=${page || 1}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
+    getNetworkInfo = (network_id, page) => {
+        return fetch(`${THE_MOVIE_DB_URL}/discover/tv?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&with_networks=${network_id}&include_null_first_air_dates=false&page=${page || 1}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => response.json())
+            .then(response => response)
+            .catch(e => {
+                console.log(e);
+                return {};
+            });
+    };
     // throttled = (delay, fn) => {
     //     let lastCall = 0;
     //     return function (...args) {

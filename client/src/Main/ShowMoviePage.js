@@ -58,13 +58,8 @@ class ShowMoviePage extends Component {
             userMovieData.max_one_rating = Math.max.apply(Math, userMovieData.rating_groups.map(e => e.count));
         }
         document.title = movieData.title;
-        const OMDB_data = await this.props.store.getMovieInfoOMDB(movieData.imdb_id);
-        if (OMDB_data.Response === "False") {
-            movieData.ratings = [];
-        } else {
-            movieData.ratings = this.props.store.getRatings(OMDB_data);
-        }
-        return {data: movieData, userData: userMovieData}
+        const OMDB_data = this.props.store.getMovieInfoOMDB(movieData.imdb_id);
+        return {data: movieData, userData: userMovieData, omdb_data: OMDB_data}
     };
     getDataForShow = async (show_id) => {
         if (this.props.match.params.season) {
@@ -102,6 +97,7 @@ class ShowMoviePage extends Component {
             let datas;
             if (this.entityType === "movie") {
                 datas = await this.getDataForMovie(entity_id);
+                datas.data.ratings = {};
             }
             if (this.entityType === "tv" || this.entityType === "season") {
                 datas = await this.getDataForShow(entity_id);
@@ -111,6 +107,17 @@ class ShowMoviePage extends Component {
                 userData: datas.userData,
                 loadingData: false,
                 entityType: this.entityType
+            }, () => {
+                if (this.entityType === "movie") {
+                    datas.omdb_data.then(OMDB_data => {
+                        if (OMDB_data.Response === "False") {
+
+                        } else {
+                            const ratings = this.props.store.getRatings(OMDB_data);
+                            this.setState(state => ({data: {...state.data, ratings}}))
+                        }
+                    })
+                }
             });
         });
     };
@@ -401,6 +408,15 @@ class ShowMoviePage extends Component {
                                     )}
                                     <PersonCast credits={this.state.data.credits}
                                                 created_by={this.state.data.created_by}
+                                                doNotShowDetails={this.state.entityType === "season"}
+                                                production_companies={this.state.data.production_companies ? this.state.data.production_companies.map(i => ({
+                                                    ...i,
+                                                    type: "studio"
+                                                })) : []}
+                                                networks={this.state.data.networks ? this.state.data.networks.map(i => ({
+                                                    ...i,
+                                                    type: "network"
+                                                })) : []}
                                                 size={this.props.store.poster_sizes[3]}
                                                 getImageURL={this.props.store.getImageURL}/>
                                     {this.state.kindaSmallWindow && this.state.entityType === "tv" && (
