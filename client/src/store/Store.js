@@ -111,7 +111,7 @@ class Store {
             });
     };
     getPopularMovieInfo = () => {
-        return fetch(`${THE_MOVIE_DB_URL}/movie/popular?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&region=USA`, {
+        return fetch(`${THE_MOVIE_DB_URL}/movie/popular?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
