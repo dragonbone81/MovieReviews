@@ -1,7 +1,7 @@
 # MovieReviews
 ### Rate, review, and read other peoples reviews/ratings.
 
-https://stoic-neumann-1818e3.netlify.com
+https://vratings.tk
 
 ![Movie Page Home](https://i.imgur.com/0SSz24w.jpg)
 
