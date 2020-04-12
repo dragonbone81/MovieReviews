@@ -19,7 +19,8 @@ class Store {
         "Mehhh 😐",
         "Pretty good 🙂",
         "Amazing! 😄",
-        "Best movie ever made 😋"
+        "Best movie ever made 😋",
+        "Weird but amazing 🤔"
     ];
     poster_sizes = [
         "w92",
